@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0-*",
+  "description": "RGM.BalancedScorecard.Domain Class Library",
+  "authors": [ "Roberto" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "frameworks": {
+    "dotnet5.4": {
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.1-beta-23516",
+        "System.Collections": "4.0.11-beta-23516",
+        "System.Linq": "4.0.1-beta-23516"
+      }
+    }
+  },
+  "dependencies": {
+    "RGM.BalancedScorecard.SharedKernel": "1.0.0-*"
+  }
+}
