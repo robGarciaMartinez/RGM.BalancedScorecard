@@ -1,6 +1,6 @@
 {
   "version": "1.0.0-*",
-  "description": "RGM.BalancedScorecard.Domain Class Library",
+  "description": "RGM.BalancedScorecard.Infrastructure.Mongo Class Library",
   "authors": [ "Roberto" ],
   "tags": [ "" ],
   "projectUrl": "",
@@ -9,6 +9,6 @@
     "dnx451": { }
   },
   "dependencies": {
-    "RGM.BalancedScorecard.SharedKernel": "1.0.0-*"
+    "RGM.BalancedScorecard.Domain": "1.0.0-*"
   }
 }
