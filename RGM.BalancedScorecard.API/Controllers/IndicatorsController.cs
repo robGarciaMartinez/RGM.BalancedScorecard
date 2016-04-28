@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Mvc;
-
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace RGM.BalancedScorecard.API.Controllers
+﻿namespace RGM.BalancedScorecard.API.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Microsoft.AspNet.Mvc;
+
     using RGM.BalancedScorecard.Domain.Commands.Indicators;
     using RGM.BalancedScorecard.Domain.Repositories;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
@@ -26,22 +23,29 @@ namespace RGM.BalancedScorecard.API.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            this.commandBus.Submit(new CreateIndicatorCommand());
-
             return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetIndicator")]
         public string Get(int id)
         {
             return "value";
         }
-
+            
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]CreateIndicatorCommand command)
         {
+            if (command == null)
+            {
+                return this.HttpBadRequest();
+            }
+
+            command.Id = Guid.NewGuid();
+            this.commandBus.Submit(command);
+
+            return this.CreatedAtRoute("GetIndicator", new { id = command.Id }, command);
         }
 
         // PUT api/values/5

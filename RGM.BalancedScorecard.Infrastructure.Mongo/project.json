@@ -9,6 +9,7 @@
     "dnx451": { }
   },
   "dependencies": {
-    "RGM.BalancedScorecard.Domain": "1.0.0-*"
+    "RGM.BalancedScorecard.Domain": "1.0.0-*",
+    "MongoDB.Driver": "2.2.3"
   }
 }

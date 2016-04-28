@@ -1,0 +1,15 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "RGM.BalancedScorecard.Domain.Tests Class Library",
+  "authors": [ "Roberto" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "dependencies": {
+    "xunit": "2.1.0",
+    "RGM.BalancedScorecard.Domain": "1.0.0-*"
+  },
+  "frameworks": {
+    "dnx451": { }
+  }
+}

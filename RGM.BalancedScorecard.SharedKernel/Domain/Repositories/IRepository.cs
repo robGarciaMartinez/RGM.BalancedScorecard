@@ -40,7 +40,7 @@ namespace RGM.BalancedScorecard.SharedKernel.Domain.Repositories
         /// <returns>
         /// The <see cref="TKey"/>.
         /// </returns>
-        TKey Insert(TDomain domainEntity);
+        void Insert(TDomain domainEntity);
 
         /// <summary>
         /// The update.
