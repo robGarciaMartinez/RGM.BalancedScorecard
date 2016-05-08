@@ -1,7 +1,5 @@
 ﻿namespace RGM.BalancedScorecard.Infrastructure.Mongo.Read.Indicators
 {
-    using System;
-
     using MongoDB.Driver;
 
     using RGM.BalancedScorecard.Domain.Model.Indicators;
@@ -21,9 +19,9 @@
             this.mapper = mapper;
         }
 
-        public IndicatorViewModel GetById(Guid id)
+        public IndicatorViewModel GetByCode(string code)
         {
-            var indicator = this.collection.Find(i => i.Id == id).FirstOrDefault();
+            var indicator = this.collection.Find(i => i.Code == code).FirstOrDefault();
             return this.mapper.Map<IndicatorViewModel>(indicator);
         }
     }

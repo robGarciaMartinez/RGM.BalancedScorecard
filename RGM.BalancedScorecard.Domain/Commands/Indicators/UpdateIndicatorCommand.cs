@@ -1,6 +1,6 @@
 ﻿namespace RGM.BalancedScorecard.Domain.Commands.Indicators
 {
-    public class CreateIndicatorCommand : IndicatorCommand
-    {   
+    public class UpdateIndicatorCommand : IndicatorCommand
+    {
     }
 }

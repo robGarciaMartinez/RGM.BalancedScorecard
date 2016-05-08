@@ -15,6 +15,7 @@
 
     using RGM.BalancedScorecard.Infrastructure.Automapper;
     using RGM.BalancedScorecard.Infrastructure.Mongo;
+    using RGM.BalancedScorecard.Infrastructure.Mongo.Write;
 
     public class Startup
     {

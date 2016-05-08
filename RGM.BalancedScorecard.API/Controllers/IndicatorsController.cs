@@ -31,10 +31,10 @@
         }
 
         // GET api/values/5
-        [HttpGet("{id}", Name = "GetIndicator")]
-        public IndicatorViewModel Get(Guid id)
+        [HttpGet("{code}", Name = "GetIndicator")]
+        public IndicatorViewModel Get(string code)
         {
-            return this.reader.GetById(id);
+            return this.reader.GetByCode(code);
         }
             
         // POST api/values
@@ -49,13 +49,21 @@
             command.Id = Guid.NewGuid();
             this.commandBus.Submit(command);
 
-            return this.CreatedAtRoute("GetIndicator", new { id = command.Id }, command);
+            return this.CreatedAtRoute("GetIndicator", new { code = command.Code }, command);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]UpdateIndicatorCommand command)
         {
+            if (command == null)
+            {
+                return this.HttpBadRequest();
+            }
+
+            command.Id = Guid.NewGuid();
+            this.commandBus.Submit(command);
+            return this.Ok();
         }
 
         // DELETE api/values/5

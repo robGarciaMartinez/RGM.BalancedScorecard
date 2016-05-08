@@ -1,7 +1,5 @@
 ﻿namespace RGM.BalancedScorecard.IoC
 {
-    using AutoMapper;
-
     using MongoDB.Driver;
 
     using RGM.BalancedScorecard.Domain.Commands;
@@ -23,12 +21,13 @@
         {
             // General
             this.For<ICommandBus>().Use<CommandBus>();
-            this.For<Infrastructure.Automapper.IMapper>().Use<CustomMapper>();
+            this.For<IMapper>().Use<CustomMapper>();
             this.For<AutoMapper.IMapper>().Use(Mappings.Configuration.CreateMapper());
             this.For<IDomainDependencyService>().Use<DependencyService>();
 
             // Indicators
             this.For<ICommandHandler<CreateIndicatorCommand>>().Use<CreateIndicatorCommandHandler>();
+            this.For<ICommandHandler<UpdateIndicatorCommand>>().Use<UpdateIndicatorCommandHandler>();
             this.For<IIndicatorsRepository>().Use<IndicatorsRepository>();
             this.For<IIndicatorsReader>().Use<IndicatorsReader>();
 
