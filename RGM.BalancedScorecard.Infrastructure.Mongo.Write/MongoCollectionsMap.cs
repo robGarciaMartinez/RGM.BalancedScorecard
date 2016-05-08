@@ -10,7 +10,13 @@
     {
         public static void Register()
         {
+            SetBaseClassesNotMappedProperties();
+        }
+
+        public static void SetBaseClassesNotMappedProperties()
+        {
             BsonClassMap.RegisterClassMap<AggregateRoot<Guid>>(map => map.UnmapProperty(i => i.Events));
+            BsonClassMap.RegisterClassMap<AggregateDescendant<Guid>>(map => map.UnmapProperty(i => i.State));
         }
     }
 }

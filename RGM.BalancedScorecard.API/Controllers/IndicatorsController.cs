@@ -23,23 +23,20 @@
             this.reader = reader;
         }
 
-        // GET: api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<IndicatorViewModel> GetIndicators()
         {
-            return new string[] { "value1", "value2" };
+            return null;
         }
 
-        // GET api/values/5
         [HttpGet("{code}", Name = "GetIndicator")]
-        public IndicatorViewModel Get(string code)
+        public IndicatorViewModel GetIndicator(string code)
         {
             return this.reader.GetByCode(code);
         }
-            
-        // POST api/values
+
         [HttpPost]
-        public IActionResult Post([FromBody]CreateIndicatorCommand command)
+        public IActionResult CreateIndicator([FromBody] CreateIndicatorCommand command)
         {
             if (command == null)
             {
@@ -52,9 +49,8 @@
             return this.CreatedAtRoute("GetIndicator", new { code = command.Code }, command);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]UpdateIndicatorCommand command)
+        [HttpPut("{code}")]
+        public IActionResult UpdateIndicator(string code, [FromBody] UpdateIndicatorCommand command)
         {
             if (command == null)
             {
@@ -66,10 +62,34 @@
             return this.Ok();
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{code}")]
+        public IActionResult DeleteIndicator(string code)
         {
+            return null;
+        }
+
+        [HttpGet("{code}/measures")]
+        public IEnumerable<IndicatorMeasureViewModel> GetIndicatorMeasures(string code)
+        {
+            return new List<IndicatorMeasureViewModel>();
+        }
+
+        [HttpPost("{code}/measures")]
+        public IActionResult CreateIndicatorMeasure(string code, [FromBody] CreateIndicatorMeasureCommand command)
+        {
+            return null;
+        }
+
+        [HttpPut("{code}/measures/{measureId}")]
+        public IActionResult UpdateIndicatorMeasure(string code, [FromBody] UpdateIndicatorMeasureCommand command)
+        {
+            return null;
+        }
+
+        [HttpDelete("{code}/measures/{measureId}")]
+        public IActionResult DeleteIndicatorMeasure(string code, Guid measureId)
+        {
+            return null;
         }
     }
 }

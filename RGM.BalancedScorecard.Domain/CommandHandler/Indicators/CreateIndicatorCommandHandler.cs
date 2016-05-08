@@ -1,5 +1,6 @@
-﻿namespace RGM.BalancedScorecard.Domain.Commands.Indicators
+﻿namespace RGM.BalancedScorecard.Domain.CommandHandler.Indicators
 {
+    using RGM.BalancedScorecard.Domain.Commands.Indicators;
     using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.Domain.Repositories;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;

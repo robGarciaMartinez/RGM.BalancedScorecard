@@ -2,6 +2,7 @@
 {
     using MongoDB.Driver;
 
+    using RGM.BalancedScorecard.Domain.CommandHandler.Indicators;
     using RGM.BalancedScorecard.Domain.Commands;
     using RGM.BalancedScorecard.Domain.Commands.Indicators;
     using RGM.BalancedScorecard.Domain.Dependencies;
