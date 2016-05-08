@@ -1,11 +1,8 @@
-﻿namespace RGM.BalancedScorecard.Domain.Commands.Indicators
+﻿namespace RGM.BalancedScorecard.Query.Model.Indicators
 {
     using System;
 
-    using RGM.BalancedScorecard.Domain.Enums;
-    using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
-
-    public class CreateIndicatorCommand : ICommand
+    public class IndicatorViewModel
     {
         public Guid Id { get; set; }
 
@@ -19,11 +16,11 @@
 
         public string Unit { get; set; }
 
-        public IndicatorEnum.PeriodicityType Periodicity { get; set; }
+        public int Periodicity { get; set; }
 
-        public IndicatorEnum.ComparisonValueType ComparisonValue { get; set; }
+        public int ComparisonValue { get; set; }
 
-        public IndicatorEnum.ObjectValueType ObjectValue { get; set; }
+        public int ObjectValue { get; set; }
 
         public Guid IndicatorTypeId { get; set; }
 

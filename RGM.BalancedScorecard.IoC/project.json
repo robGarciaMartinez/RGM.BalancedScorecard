@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "RGM.BalancedScorecard.Domain": "1.0.0-*",
-    "RGM.BalancedScorecard.Infrastructure.Mongo": "1.0.0-*",
+    "RGM.BalancedScorecard.Infrastructure.Mongo.Read": "1.0.0-*",
+    "RGM.BalancedScorecard.Infrastructure.Mongo.Write": "1.0.0-*",
+    "RGM.BalancedScorecard.Query": "1.0.0-*",
     "StructureMap.Dnx": "0.5.1-rc1-final"
   }
 }

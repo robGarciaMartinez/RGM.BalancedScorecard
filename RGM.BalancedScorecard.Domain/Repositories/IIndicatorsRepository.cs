@@ -17,7 +17,7 @@ namespace RGM.BalancedScorecard.Domain.Repositories
     /// <summary>
     ///     The IndicatorsRepository interface.
     /// </summary>
-    public interface IIndicatorsRepository : IRepository<IndicatorSi, Guid>
+    public interface IIndicatorsRepository : IRepository<Indicator, Guid>
     {
     }
 }

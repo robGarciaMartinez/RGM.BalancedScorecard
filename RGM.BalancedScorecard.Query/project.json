@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0-*",
+  "description": "RGM.BalancedScorecard.Query Class Library",
+  "authors": [ "Roberto" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "frameworks": {
+    "dnx451": { }
+  },
+  "dependencies": {
+  }
+}

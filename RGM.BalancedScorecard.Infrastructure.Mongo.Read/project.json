@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0-*",
+  "description": "RGM.BalancedScorecard.Infrastructure.Mongo.Read Class Library",
+  "authors": [ "Roberto" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "frameworks": {
+    "dnx451": { }
+  },
+  "dependencies": {
+    "MongoDB.Driver": "2.2.3",
+    "RGM.BalancedScorecard.Domain": "1.0.0-*",
+    "RGM.BalancedScorecard.Infrastructure.Automapper": "1.0.0-*",
+    "RGM.BalancedScorecard.Query": "1.0.0-*"
+  }
+}

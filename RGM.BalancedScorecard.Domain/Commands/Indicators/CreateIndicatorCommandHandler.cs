@@ -15,7 +15,7 @@
 
         public void Execute(CreateIndicatorCommand command)
         {
-            var indicator = new IndicatorSi(
+            var indicator = new Indicator(
                 command.Name,
                 command.Description,
                 command.StartDate,

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0-*",
-  "description": "RGM.BalancedScorecard.Infrastructure.Mongo Class Library",
+  "description": "RGM.BalancedScorecard.Infrastructure.Automapper Class Library",
   "authors": [ "Roberto" ],
   "tags": [ "" ],
   "projectUrl": "",
@@ -9,7 +9,9 @@
     "dnx451": { }
   },
   "dependencies": {
+    "StructureMap.Dnx": "0.5.1-rc1-final",
+    "AutoMapper": "4.2.1",
     "RGM.BalancedScorecard.Domain": "1.0.0-*",
-    "MongoDB.Driver": "2.2.3"
+    "RGM.BalancedScorecard.Query": "1.0.0-*"
   }
 }

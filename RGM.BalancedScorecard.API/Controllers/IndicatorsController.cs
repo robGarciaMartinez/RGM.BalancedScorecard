@@ -6,7 +6,8 @@
     using Microsoft.AspNet.Mvc;
 
     using RGM.BalancedScorecard.Domain.Commands.Indicators;
-    using RGM.BalancedScorecard.Domain.Repositories;
+    using RGM.BalancedScorecard.Query.Model.Indicators;
+    using RGM.BalancedScorecard.Query.Readers;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
 
     [Route("api/[controller]")]
@@ -14,9 +15,12 @@
     {
         private readonly ICommandBus commandBus;
 
-        public IndicatorsController(ICommandBus commandBus)
+        private readonly IIndicatorsReader reader;
+
+        public IndicatorsController(ICommandBus commandBus, IIndicatorsReader reader)
         {
             this.commandBus = commandBus;
+            this.reader = reader;
         }
 
         // GET: api/values
@@ -28,9 +32,9 @@
 
         // GET api/values/5
         [HttpGet("{id}", Name = "GetIndicator")]
-        public string Get(int id)
+        public IndicatorViewModel Get(Guid id)
         {
-            return "value";
+            return this.reader.GetById(id);
         }
             
         // POST api/values

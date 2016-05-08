@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    using RGM.BalancedScorecard.Domain.Model.Indicators.Base;
+    using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.SharedKernel.Domain;
     using RGM.BalancedScorecard.SharedKernel.Domain.Model;
 
@@ -36,7 +36,7 @@
 
         public List<Objective> Objectives { get; set; }
 
-        public List<BaseIndicator> Indicators { get; set; }
+        public List<Indicator> Indicators { get; set; }
             
         protected override void Validate()
         {

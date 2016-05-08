@@ -7,22 +7,22 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace RGM.BalancedScorecard.Domain.Model.Indicators.Base
+namespace RGM.BalancedScorecard.Domain.Model.Indicators
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using RGM.BalancedScorecard.Domain.Enums;
-    using RGM.BalancedScorecard.Domain.Model.Indicators.Measures;
+    using RGM.BalancedScorecard.SharedKernel.Domain.Model;
 
     /// <summary>
     ///     The indicator.
     /// </summary>
-    public abstract class Indicator<TValue> : BaseIndicator
+    public class Indicator : AggregateRoot<Guid>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Indicator{TValue}" /> class.
+        ///     Initializes a new instance of the <see cref="Indicator" /> class.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="description">The description.</param>
@@ -37,7 +37,7 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators.Base
         /// <param name="fulfillmentRate">The fulfillment rate.</param>
         /// <param name="cumulative">The cumulative.</param>
         /// <param name="id">The id.</param>
-        protected Indicator(
+        public Indicator(
             string name,
             string description,
             DateTime startDate,
@@ -50,33 +50,91 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators.Base
             Guid responsibleId,
             int? fulfillmentRate,
             bool cumulative,
-            Guid id)
-            : base(
-                id,
-                name,
-                description,
-                startDate,
-                code,
-                unit,
-                periodicity,
-                comparisonValue,
-                objectValue,
-                indicatorTypeId,
-                responsibleId,
-                fulfillmentRate,
-                cumulative)
+            Guid id) : base(id)
         {
+            this.Name = name;
+            this.Description = description;
+            this.StartDate = startDate;
+            this.Code = code;
+            this.Unit = unit;
+            this.Periodicity = periodicity;
+            this.ComparisonValue = comparisonValue;
+            this.ObjectValue = objectValue;
+            this.IndicatorTypeId = indicatorTypeId;
+            this.ResponsibleId = responsibleId;
+            this.FulfillmentRate = fulfillmentRate;
+            this.Cumulative = cumulative;
         }
+
+        /// <summary>
+        ///     Gets the name.
+        /// </summary>
+        public string Name { get; private set; }
+
+        /// <summary>
+        ///     Gets the description.
+        /// </summary>
+        public string Description { get; private set; }
+
+        /// <summary>
+        ///     Gets the start date.
+        /// </summary>
+        public DateTime StartDate { get; private set; }
+
+        /// <summary>
+        ///     Gets the code.
+        /// </summary>
+        public string Code { get; private set; }
+
+        /// <summary>
+        ///     Gets the unit.
+        /// </summary>
+        public string Unit { get; private set; }
+
+        /// <summary>
+        ///     Gets the periodicity.
+        /// </summary>
+        public IndicatorEnum.PeriodicityType Periodicity { get; private set; }
+
+        /// <summary>
+        ///     Gets the comparison value.
+        /// </summary>
+        public IndicatorEnum.ComparisonValueType ComparisonValue { get; private set; }
+
+        /// <summary>
+        ///     Gets the object value.
+        /// </summary>
+        public IndicatorEnum.ObjectValueType ObjectValue { get; private set; }
+
+        /// <summary>
+        ///     Gets the indicator type id.
+        /// </summary>
+        public Guid IndicatorTypeId { get; private set; }
+
+        /// <summary>
+        ///     Gets the responsible id.
+        /// </summary>
+        public Guid ResponsibleId { get; private set; }
+
+        /// <summary>
+        ///     Gets the fulfillment rate.
+        /// </summary>
+        public int? FulfillmentRate { get; private set; }
+
+        /// <summary>
+        ///     Gets the cumulative.
+        /// </summary>
+        public bool Cumulative { get; private set; }
 
         /// <summary>
         ///     Gets the measures.
         /// </summary>
-        public List<IndicatorMeasure<TValue>> Measures { get; set; }
+        public List<IndicatorMeasure> Measures { get; set; }
 
         /// <summary>
         ///     Gets the last measure.
         /// </summary>
-        public IndicatorMeasure<TValue> LastMeasure => this.Measures.OrderByDescending(m => m.Date).FirstOrDefault();
+        public IndicatorMeasure LastMeasure => this.Measures.OrderByDescending(m => m.Date).FirstOrDefault();
 
         /// <summary>
         ///     Gets the state.
@@ -137,22 +195,6 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators.Base
             //        return IndicatorEnum.State.Grey;
             //}
             return IndicatorEnum.State.Grey;
-        }
-
-        public void Create()
-        {
-            this.Id = Guid.NewGuid();
-            this.Validate();
-        }
-
-        public void Update()
-        {
-            this.Validate();
-        }
-
-        public void Delete()
-        {
-                
         }
     }
 }

@@ -13,6 +13,9 @@
     using StructureMap.Graph;
     using System.Reflection;
 
+    using RGM.BalancedScorecard.Infrastructure.Automapper;
+    using RGM.BalancedScorecard.Infrastructure.Mongo;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -21,7 +24,10 @@
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            this.Configuration = builder.Build();
+
+            MongoCollectionsMap.Register();
+            Mappings.Register();
         }
 
         public IConfigurationRoot Configuration { get; set; }
@@ -50,7 +56,7 @@
         //// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseIISPlatformHandler();
