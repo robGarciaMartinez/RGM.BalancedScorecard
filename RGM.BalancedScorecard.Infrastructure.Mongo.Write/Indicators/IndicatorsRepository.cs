@@ -18,7 +18,7 @@
 
         public Indicator FindByKey(Guid id)
         {
-            return null;
+            return this.collection.Find(i => i.Id == id).FirstOrDefault();
         }
 
         public void Insert(Indicator domainEntity)
@@ -28,7 +28,7 @@
 
         public void Update(Indicator domainEntity)
         {
-            var filter = Builders<Indicator>.Filter.Eq(i => i.Code, domainEntity.Code);
+            var filter = Builders<Indicator>.Filter.Eq(i => i.Id, domainEntity.Id);
             var update =
                 Builders<Indicator>.Update.Set(i => i.Name, domainEntity.Name)
                     .Set(i => i.Description, domainEntity.Description)
@@ -48,7 +48,7 @@
 
         public void Delete(Guid id)
         {
-            
+            this.collection.DeleteOne(i => i.Id == id);
         }
     }
 }

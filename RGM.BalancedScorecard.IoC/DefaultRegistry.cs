@@ -29,6 +29,7 @@
             // Indicators
             this.For<ICommandHandler<CreateIndicatorCommand>>().Use<CreateIndicatorCommandHandler>();
             this.For<ICommandHandler<UpdateIndicatorCommand>>().Use<UpdateIndicatorCommandHandler>();
+            this.For<ICommandHandler<DeleteIndicatorCommand>>().Use<DeleteIndicatorCommandHandler>();
             this.For<IIndicatorsRepository>().Use<IndicatorsRepository>();
             this.For<IIndicatorsReader>().Use<IndicatorsReader>();
 
