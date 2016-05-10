@@ -1,4 +1,4 @@
-﻿namespace RGM.BalancedScorecard.Domain.Commands
+﻿namespace RGM.BalancedScorecard.Domain.CommandHandler
 {
     using RGM.BalancedScorecard.Domain.Dependencies;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;

@@ -129,12 +129,7 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
         /// <summary>
         ///     Gets the measures.
         /// </summary>
-        public List<IndicatorMeasure> Measures { get; set; }
-
-        /// <summary>
-        ///     Gets the last measure.
-        /// </summary>
-        public IndicatorMeasure LastMeasure => this.Measures.OrderByDescending(m => m.Date).FirstOrDefault();
+        public List<IndicatorMeasure> Measures { private get; private set; }
 
         /// <summary>
         ///     Gets the state.
@@ -196,5 +191,24 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
             //}
             return IndicatorEnum.State.Grey;
         }
+
+        #region Measure
+
+        public void AddMeasure(IndicatorMeasure measure)
+        {
+            
+        }
+
+        public void UpdateMeasure(IndicatorMeasure measure)
+        {
+            
+        }
+
+        public void DeleteMeasure(IndicatorMeasure measure)
+        {
+            
+        }
+
+        #endregion
     }
 }
