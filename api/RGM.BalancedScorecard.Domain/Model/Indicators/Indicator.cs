@@ -15,6 +15,7 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
 
     using RGM.BalancedScorecard.Domain.Enums;
     using RGM.BalancedScorecard.SharedKernel.Domain.Model;
+    using RGM.BalancedScorecard.SharedKernel.Infrastructure;
 
     /// <summary>
     ///     The indicator.
@@ -129,7 +130,7 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
         /// <summary>
         ///     Gets the measures.
         /// </summary>
-        public List<IndicatorMeasure> Measures { private get; private set; }
+        public List<IndicatorMeasure> Measures { get; private set; }
 
         /// <summary>
         ///     Gets the state.
@@ -194,19 +195,35 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
 
         #region Measure
 
+        public void SetMeasures(List<IndicatorMeasure> measures)
+        {
+            this.Measures = measures;
+        }
+
         public void AddMeasure(IndicatorMeasure measure)
         {
-            
+            this.Measures.Add(measure);
         }
 
         public void UpdateMeasure(IndicatorMeasure measure)
         {
-            
+            var measureIndex = this.Measures.FindIndex(m => m.Id == measure.Id);
+            if (measureIndex == -1)
+            {
+                throw new ItemNotFoundException("Cannot find a measure with the given id");
+            }
+
+            this.Measures[measureIndex] = measure;
         }
 
         public void DeleteMeasure(IndicatorMeasure measure)
         {
-            
+            var measureIndex = this.Measures.FindIndex(m => m.Id == measure.Id);
+            if (measureIndex == -1)
+            {
+                throw new ItemNotFoundException("Cannot find a measure with the given id");
+            }
+            this.Measures.RemoveAt(measureIndex);
         }
 
         #endregion
