@@ -2,6 +2,6 @@
 {
     public interface ICommandBus
     {
-        void Submit<TCommand>(TCommand command) where TCommand : ICommand;
+        CommandResponse Submit<TCommand>(TCommand command) where TCommand : ICommand;
     }
 }

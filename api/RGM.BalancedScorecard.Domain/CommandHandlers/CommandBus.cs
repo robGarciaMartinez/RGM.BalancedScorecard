@@ -2,20 +2,23 @@
 {
     using RGM.BalancedScorecard.SharedKernel.DependencyContainer;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
+    using RGM.BalancedScorecard.SharedKernel.Guard;
 
     public class CommandBus : ICommandBus
     {
-        private readonly IDependencyContainer service;
+        private readonly IDependencyContainer container;
 
-        public CommandBus(IDependencyContainer service)
+        public CommandBus(IDependencyContainer container)
         {
-            this.service = service;
+            this.container = container;
         }
 
-        public void Submit<TCommand>(TCommand command) where TCommand : ICommand
+        public CommandResponse Submit<TCommand>(TCommand command) where TCommand : ICommand
         {
-            var handler = this.service.GetCommandHandler<TCommand>();
-            handler.Execute(command);
+            var handler = this.container.GetCommandHandler<TCommand>();
+            Guard.AgainstNullReference(handler, "Cannot find command hander");
+
+            return handler.Execute(command);
         }
     }
 }

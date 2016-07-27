@@ -14,7 +14,7 @@
             this.repository = repository;
         }
 
-        public void Execute(UpdateIndicatorCommand command)
+        public CommandResponse Execute(UpdateIndicatorCommand command)
         {
             var indicator = new Indicator(
                 command.Name,
@@ -32,6 +32,8 @@
                 command.Id);
 
             this.repository.Update(indicator);
+
+            return new CommandResponse();
         }
     }
 }

@@ -19,5 +19,13 @@
                 throw new NullReferenceException(message);
             }    
         }
+
+        public static void AgainstInvalidOperation(object obj, string message)
+        {
+            if (obj == null)
+            {
+                throw new InvalidOperationException(message);
+            }
+        }
     }
 }

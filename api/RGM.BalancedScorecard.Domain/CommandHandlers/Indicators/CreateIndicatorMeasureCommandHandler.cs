@@ -13,11 +13,11 @@
             this.repository = repository;
         }
 
-        public void Execute(CreateIndicatorMeasureCommand command)
+        public CommandResponse Execute(CreateIndicatorMeasureCommand command)
         {
             var indicator = this.repository.FindByKey(command.IndicatorId);
 
-
+            return new CommandResponse();
         }
     }
 }

@@ -25,12 +25,14 @@
             this.stateCalculator = stateCalculator;
         }
 
-        public void Execute(CreateIndicatorCommand command)
+        public CommandResponse Execute(CreateIndicatorCommand command)
         {
             var indicator = this.factory.Create(command);
             indicator.Create(this.stateCalculator);
 
             this.repository.Insert(indicator);
+
+            return new CommandResponse();
         }
     }
 }
