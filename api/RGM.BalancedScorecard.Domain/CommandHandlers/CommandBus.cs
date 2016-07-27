@@ -1,13 +1,13 @@
-﻿namespace RGM.BalancedScorecard.Domain.CommandHandler
+﻿namespace RGM.BalancedScorecard.Domain.CommandHandlers
 {
-    using RGM.BalancedScorecard.Domain.Dependencies;
+    using RGM.BalancedScorecard.SharedKernel.DependencyContainer;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
 
     public class CommandBus : ICommandBus
     {
-        private readonly IDomainDependencyService service;
+        private readonly IDependencyContainer service;
 
-        public CommandBus(IDomainDependencyService service)
+        public CommandBus(IDependencyContainer service)
         {
             this.service = service;
         }

@@ -11,16 +11,17 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using RGM.BalancedScorecard.Domain.Enums;
+    using RGM.BalancedScorecard.Domain.Events.Indicators;
+    using RGM.BalancedScorecard.Domain.Services.Interfaces;
     using RGM.BalancedScorecard.SharedKernel.Domain.Model;
-    using RGM.BalancedScorecard.SharedKernel.Infrastructure;
+    using RGM.BalancedScorecard.SharedKernel.Exceptions;
 
     /// <summary>
     ///     The indicator.
     /// </summary>
-    public class Indicator : AggregateRoot<Guid>
+    public class Indicator : AggregateRoot<Guid>, IIndicator
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Indicator" /> class.
@@ -135,63 +136,7 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
         /// <summary>
         ///     Gets the state.
         /// </summary>
-        public IndicatorEnum.State State => this.CalculateState();
-
-        /// <summary>
-        ///     The validate.
-        /// </summary>
-        protected override void Validate()
-        {
-        }
-
-        /// <summary>
-        ///     The calculate state.
-        /// </summary>
-        /// <returns>
-        ///     The <see cref="State" />.
-        /// </returns>
-        private IndicatorEnum.State CalculateState()
-        {
-            //var lastMeasure = this.LastMeasure;
-
-            //if (lastMeasure?.RealValue == null)
-            //{
-            //    return IndicatorEnum.State.Grey;
-            //}
-
-            //if (lastMeasure.Date.AddMonths((int)this.Periodicity) < DateTime.Today)
-            //{
-            //    return IndicatorEnum.State.Grey;
-            //}
-
-            //var targetValueRate =
-            //    (double)(this.FulfillmentRate.HasValue ? decimal.Divide(this.FulfillmentRate.Value, 100) : 1);
-
-            //switch (this.ComparisonValue)
-            //{
-            //    case IndicatorEnum.ComparisonValueType.Equal:
-            //        return lastMeasure.RealValue.Value.Equals(lastMeasure.TargetValue)
-            //                   ? IndicatorEnum.State.Green
-            //                   : IndicatorEnum.State.Red;
-            //    case IndicatorEnum.ComparisonValueType.Greater:
-            //        return lastMeasure.RealValue.Value > lastMeasure.TargetValue
-            //                   ? IndicatorEnum.State.Green
-            //                   : (lastMeasure.RealValue.Value
-            //                      > lastMeasure.TargetValue - lastMeasure.TargetValue * targetValueRate
-            //                          ? IndicatorEnum.State.Yellow
-            //                          : IndicatorEnum.State.Red);
-            //    case IndicatorEnum.ComparisonValueType.Smaller:
-            //        return lastMeasure.RealValue.Value < lastMeasure.TargetValue
-            //                   ? IndicatorEnum.State.Green
-            //                   : (lastMeasure.RealValue.Value
-            //                      < lastMeasure.TargetValue + lastMeasure.TargetValue * targetValueRate
-            //                          ? IndicatorEnum.State.Yellow
-            //                          : IndicatorEnum.State.Red);
-            //    default:
-            //        return IndicatorEnum.State.Grey;
-            //}
-            return IndicatorEnum.State.Grey;
-        }
+        public IndicatorEnum.State State { get; private set; }
 
         #region Measure
 
@@ -227,5 +172,11 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
         }
 
         #endregion
+
+        public void Create(IIndicatorStateCalculator stateCalculator)
+        {
+            this.State = stateCalculator.Calculate(this);
+            this.Events.Add(new IndicatorCreatedEvent() { IndicatorId = this.Id });
+        }
     }
 }

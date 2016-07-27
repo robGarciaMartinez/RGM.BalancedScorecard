@@ -6,7 +6,7 @@
   "projectUrl": "",
   "licenseUrl": "",
   "frameworks": {
-    "dnx451": { }
+    "dnx46": { }
   },
   "dependencies": {
     "RGM.BalancedScorecard.Domain": "1.0.0-*",

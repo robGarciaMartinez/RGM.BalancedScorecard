@@ -37,10 +37,5 @@
         public List<Objective> Objectives { get; set; }
 
         public List<Indicator> Indicators { get; set; }
-            
-        protected override void Validate()
-        {
-            
-        }
     }
 }

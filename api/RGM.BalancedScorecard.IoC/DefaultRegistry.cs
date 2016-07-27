@@ -2,10 +2,9 @@
 {
     using MongoDB.Driver;
 
-    using RGM.BalancedScorecard.Domain.CommandHandler;
-    using RGM.BalancedScorecard.Domain.CommandHandler.Indicators;
+    using RGM.BalancedScorecard.Domain.CommandHandlers;
+    using RGM.BalancedScorecard.Domain.CommandHandlers.Indicators;
     using RGM.BalancedScorecard.Domain.Commands.Indicators;
-    using RGM.BalancedScorecard.Domain.Dependencies;
 
     using StructureMap;
 
@@ -14,6 +13,7 @@
     using RGM.BalancedScorecard.Infrastructure.Mongo.Read.Indicators;
     using RGM.BalancedScorecard.Infrastructure.Mongo.Write.Indicators;
     using RGM.BalancedScorecard.Query.Readers;
+    using RGM.BalancedScorecard.SharedKernel.DependencyContainer;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
 
     public class DefaultRegistry : Registry
@@ -24,7 +24,7 @@
             this.For<ICommandBus>().Use<CommandBus>();
             this.For<IMapper>().Use<CustomMapper>();
             this.For<AutoMapper.IMapper>().Use(Mappings.Configuration.CreateMapper());
-            this.For<IDomainDependencyService>().Use<DependencyService>();
+            this.For<IDependencyContainer>().Use<DependencyService>();
 
             // Indicators
             this.For<ICommandHandler<CreateIndicatorCommand>>().Use<CreateIndicatorCommandHandler>();

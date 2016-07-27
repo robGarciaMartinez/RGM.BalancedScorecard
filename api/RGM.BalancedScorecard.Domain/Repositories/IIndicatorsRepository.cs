@@ -1,23 +1,20 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IIndicatorsRepository.cs" company="RGM">
-//   RGM
-// </copyright>
-// <summary>
-//   Defines the IIndicatorsRepository type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace RGM.BalancedScorecard.Domain.Repositories
+﻿namespace RGM.BalancedScorecard.Domain.Repositories
 {
     using System;
 
     using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.SharedKernel.Domain.Repositories;
 
-    /// <summary>
-    ///     The IndicatorsRepository interface.
-    /// </summary>
-    public interface IIndicatorsRepository : IRepository<Indicator, Guid>
+    public interface IIndicatorsRepository 
     {
+        IIndicator FindByCode(string code);
+
+        IIndicator FindByKey(Guid id);
+
+        void Insert(IIndicator indicator);
+
+        void Update(IIndicator indicator);
+
+        void Delete(Guid id);
     }
 }

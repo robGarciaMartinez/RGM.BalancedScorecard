@@ -65,12 +65,5 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
         ///     Gets the notes.
         /// </summary>
         public string Notes { get; private set; }
-
-        /// <summary>
-        ///     The validate.
-        /// </summary>
-        protected override void Validate()
-        {
-        }
     }
 }

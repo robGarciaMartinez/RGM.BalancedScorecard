@@ -1,8 +1,8 @@
-﻿namespace RGM.BalancedScorecard.Domain.Dependencies
+﻿namespace RGM.BalancedScorecard.SharedKernel.DependencyContainer
 {
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
 
-    public interface IDomainDependencyService
+    public interface IDependencyContainer
     {
         ICommandHandler<TCommand> GetCommandHandler<TCommand>() where TCommand : ICommand;
     }

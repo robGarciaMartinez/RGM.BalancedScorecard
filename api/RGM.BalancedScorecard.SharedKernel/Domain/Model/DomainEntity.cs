@@ -42,34 +42,5 @@ namespace RGM.BalancedScorecard.SharedKernel.Domain.Model
         /// Gets or sets the id.
         /// </summary>
         public TKey Id { get; protected set; }
-
-        /// <summary>
-        /// The add broken rule.
-        /// </summary>
-        /// <param name="businessRule">
-        /// The business rule.
-        /// </param>
-        protected void AddBrokenRule(BusinessRule businessRule)
-        {
-            this.brokenRules.Add(businessRule);
-        }
-
-        /// <summary>
-        /// The get broken rules.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="List"/>.
-        /// </returns>
-        protected List<BusinessRule> GetBrokenRules()
-        {
-            this.brokenRules.Clear();
-            this.Validate();
-            return this.brokenRules;
-        }
-
-        /// <summary>
-        /// The validate.
-        /// </summary>
-        protected abstract void Validate();
     }
 }

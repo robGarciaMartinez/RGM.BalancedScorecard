@@ -1,20 +1,20 @@
-﻿namespace RGM.BalancedScorecard.Domain.CommandHandler.Indicators
+﻿namespace RGM.BalancedScorecard.Domain.CommandHandlers.Indicators
 {
     using RGM.BalancedScorecard.Domain.Commands.Indicators;
     using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.Domain.Repositories;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
 
-    public class CreateIndicatorCommandHandler : ICommandHandler<CreateIndicatorCommand>
+    public class UpdateIndicatorCommandHandler : ICommandHandler<UpdateIndicatorCommand>
     {
         private readonly IIndicatorsRepository repository;
 
-        public CreateIndicatorCommandHandler(IIndicatorsRepository repository)
+        public UpdateIndicatorCommandHandler(IIndicatorsRepository repository)
         {
             this.repository = repository;
         }
 
-        public void Execute(CreateIndicatorCommand command)
+        public void Execute(UpdateIndicatorCommand command)
         {
             var indicator = new Indicator(
                 command.Name,
@@ -31,7 +31,7 @@
                 command.Cumulative,
                 command.Id);
 
-            this.repository.Insert(indicator);
+            this.repository.Update(indicator);
         }
     }
 }

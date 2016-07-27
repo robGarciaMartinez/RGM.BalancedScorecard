@@ -44,10 +44,13 @@
                 return this.HttpBadRequest();
             }
 
-            command.Id = Guid.NewGuid();
-            this.commandBus.Submit(command);
+            if (!this.ModelState.IsValid)
+            {
+                return this.HttpBadRequest(this.ModelState);
+            }
 
-            return this.CreatedAtRoute("GetIndicator", new { code = command.Code }, command);
+            this.commandBus.Submit(command);
+            return this.CreatedAtRoute("GetIndicator", new { code = command.Code });
         }
 
         [HttpPut("{id}")]

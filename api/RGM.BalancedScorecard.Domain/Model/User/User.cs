@@ -29,12 +29,5 @@ namespace RGM.BalancedScorecard.Domain.Model.User
             : base(id)
         {
         }
-
-        /// <summary>
-        ///     The validate.
-        /// </summary>
-        protected override void Validate()
-        {
-        }
     }
 }

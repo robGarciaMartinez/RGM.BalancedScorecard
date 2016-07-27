@@ -1,4 +1,4 @@
-﻿namespace RGM.BalancedScorecard.SharedKernel.Infrastructure
+﻿namespace RGM.BalancedScorecard.SharedKernel.Exceptions
 {
     using System;
 

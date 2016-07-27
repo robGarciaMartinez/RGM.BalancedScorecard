@@ -1,11 +1,11 @@
 ﻿namespace RGM.BalancedScorecard.IoC
 {
-    using RGM.BalancedScorecard.Domain.Dependencies;
+    using RGM.BalancedScorecard.SharedKernel.DependencyContainer;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
 
     using StructureMap;
 
-    public class DependencyService : IDomainDependencyService
+    public class DependencyService : IDependencyContainer
     {
         private readonly IContainer container;
 

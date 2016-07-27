@@ -6,6 +6,7 @@
 
     using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.Domain.Repositories;
+    using RGM.BalancedScorecard.SharedKernel.Guard;
 
     public class IndicatorsRepository : IIndicatorsRepository
     {
@@ -16,34 +17,28 @@
             this.collection = database.GetCollection<Indicator>("Indicators");
         }
 
-        public Indicator FindByKey(Guid id)
+        public IIndicator FindByKey(Guid id)
         {
             return this.collection.Find(i => i.Id == id).FirstOrDefault();
         }
 
-        public void Insert(Indicator domainEntity)
+        public IIndicator FindByCode(string code)
         {
-            this.collection.InsertOne(domainEntity);
+            return this.collection.Find(i => i.Code == code).FirstOrDefault();
         }
 
-        public void Update(Indicator domainEntity)
+        public void Insert(IIndicator indicator)
         {
-            var filter = Builders<Indicator>.Filter.Eq(i => i.Id, domainEntity.Id);
-            var update =
-                Builders<Indicator>.Update.Set(i => i.Name, domainEntity.Name)
-                    .Set(i => i.Description, domainEntity.Description)
-                    .Set(i => i.Code, domainEntity.Code)
-                    .Set(i => i.StartDate, domainEntity.StartDate)
-                    .Set(i => i.Unit, domainEntity.Unit)
-                    .Set(i => i.IndicatorTypeId, domainEntity.IndicatorTypeId)
-                    .Set(i => i.ResponsibleId, domainEntity.ResponsibleId)
-                    .Set(i => i.Periodicity, domainEntity.Periodicity)
-                    .Set(i => i.ComparisonValue, domainEntity.ComparisonValue)
-                    .Set(i => i.ObjectValue, domainEntity.ObjectValue)
-                    .Set(i => i.FulfillmentRate, domainEntity.FulfillmentRate)
-                    .Set(i => i.Cumulative, domainEntity.Cumulative);
+            var imp = indicator as Indicator;
+            Guard.AgainstNullReference(imp, "Provided parameter is not of type Indicator");
+            this.collection.InsertOne(imp);
+        }
 
-            this.collection.UpdateOne(filter, update);
+        public void Update(IIndicator indicator)
+        {
+            var imp = indicator as Indicator;
+            Guard.AgainstNullReference(imp, "Provided parameter is not of type Indicator");
+            this.collection.FindOneAndReplace(i => i.Id == imp.Id, imp);
         }
 
         public void Delete(Guid id)
