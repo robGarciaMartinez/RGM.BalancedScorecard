@@ -1,17 +1,13 @@
 {
   "version": "1.0.0-*",
-  "description": "RGM.BalancedScorecard.Infrastructure.Automapper Class Library",
-  "authors": [ "Roberto" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
-  "frameworks": {
-    "dnx46": { }
-  },
+
   "dependencies": {
-    "StructureMap.Dnx": "0.5.1-rc1-final",
-    "AutoMapper": "4.2.1",
+    "AutoMapper": "5.0.2",
     "RGM.BalancedScorecard.Domain": "1.0.0-*",
     "RGM.BalancedScorecard.Query": "1.0.0-*"
+  },
+
+  "frameworks": {
+    "net461": {}
   }
 }

@@ -1,41 +1,33 @@
-﻿namespace RGM.BalancedScorecard.API
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using RGM.BalancedScorecard.IoC;
+using StructureMap;
+using StructureMap.Graph;
+using System.Reflection;
+
+namespace RGM.BalancedScorecard.API
 {
-    using System;
-
-    using IoC;
-    using Microsoft.AspNet.Builder;
-    using Microsoft.AspNet.Hosting;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
-
-    using StructureMap;
-    using StructureMap.Graph;
-    using System.Reflection;
-
-    using RGM.BalancedScorecard.Infrastructure.Automapper;
-    using RGM.BalancedScorecard.Infrastructure.Mongo;
-    using RGM.BalancedScorecard.Infrastructure.Mongo.Write;
-
     public class Startup
     {
         public Startup(IHostingEnvironment env)
         {
-            // Set up configuration sources.
             var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-            this.Configuration = builder.Build();
-
-            MongoCollectionsMap.Register();
-            Mappings.Register();
+            Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; set; }
+        public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
+            // Add framework services.
             services.AddMvc();
 
             var container = new Container(c => c.AddRegistry<DefaultRegistry>());
@@ -49,25 +41,15 @@
                 });
                 config.Populate(services);
             });
-            
-            //container.Populate(services);
-            return container.GetInstance<IServiceProvider>();
         }
 
-        //// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-            app.UseIISPlatformHandler();
-
-            app.UseStaticFiles();
 
             app.UseMvc();
         }
-
-        // Entry point for the application.
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }

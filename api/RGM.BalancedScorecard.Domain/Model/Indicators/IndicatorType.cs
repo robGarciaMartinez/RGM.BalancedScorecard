@@ -11,8 +11,6 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
 {
     using System;
 
-    using RGM.BalancedScorecard.Domain.Infrastructure;
-
     /// <summary>
     ///     The indicator type.
     /// </summary>

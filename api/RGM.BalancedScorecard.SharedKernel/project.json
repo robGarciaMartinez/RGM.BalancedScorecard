@@ -1,12 +1,10 @@
 ﻿{
   "version": "1.0.0-*",
-  "description": "RGM.BalancedScorecard.SharedKernel Class Library",
-  "authors": [ "Roberto" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
+
+  "dependencies": {
+  },
 
   "frameworks": {
-    "dnx46": {} 
+    "net461": {}
   }
 }

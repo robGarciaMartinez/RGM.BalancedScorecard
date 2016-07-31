@@ -1,26 +1,14 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="RGM">
-//   RGM
-// </copyright>
-// <summary>
-//   AssemblyInfo.cs
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using System.Reflection;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RGM.BalancedScorecard.SharedKernel")]
-[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("RGM.BalancedScorecard.SharedKernel")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
@@ -28,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("fc3ab4e9-5a5a-42b8-9019-cb317ca9adf1")]
+[assembly: Guid("295773c0-8bc3-4b78-8841-b4d06c6b59b1")]

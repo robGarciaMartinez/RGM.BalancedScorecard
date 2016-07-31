@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Net;
 
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNetCore.Mvc;
 
     using RGM.BalancedScorecard.Domain.Commands.Indicators;
     using RGM.BalancedScorecard.Query.Model.Indicators;
@@ -41,12 +41,12 @@
         {
             if (command == null)
             {
-                return this.HttpBadRequest();
+                return this.BadRequest();
             }
 
             if (!this.ModelState.IsValid)
             {
-                return this.HttpBadRequest(this.ModelState);
+                return this.BadRequest(this.ModelState);
             }
 
             this.commandBus.Submit(command);
@@ -58,7 +58,7 @@
         {
             if (command == null)
             {
-                return this.HttpBadRequest();
+                return this.BadRequest();
             }
 
             command.Id = id;
@@ -70,7 +70,7 @@
         public IActionResult DeleteIndicator(Guid id)
         {
             this.commandBus.Submit(new DeleteIndicatorCommand() { Id = id });
-            return new HttpStatusCodeResult((int)HttpStatusCode.NoContent);
+            return new StatusCodeResult((int)HttpStatusCode.NoContent);
         }
 
         [HttpGet("{id}/measures")]

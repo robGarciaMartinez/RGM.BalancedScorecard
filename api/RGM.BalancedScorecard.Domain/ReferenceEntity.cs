@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace RGM.BalancedScorecard.Domain.Infrastructure
+namespace RGM.BalancedScorecard.Domain
 {
     using System;
 

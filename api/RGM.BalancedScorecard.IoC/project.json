@@ -1,18 +1,16 @@
 {
   "version": "1.0.0-*",
-  "description": "RGM.BalancedScorecard.IoC Class Library",
-  "authors": [ "Roberto" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
-  "frameworks": {
-    "dnx46": { }
-  },
+
   "dependencies": {
     "RGM.BalancedScorecard.Domain": "1.0.0-*",
+    "RGM.BalancedScorecard.Infrastructure.Automapper": "1.0.0-*",
     "RGM.BalancedScorecard.Infrastructure.Mongo.Read": "1.0.0-*",
     "RGM.BalancedScorecard.Infrastructure.Mongo.Write": "1.0.0-*",
     "RGM.BalancedScorecard.Query": "1.0.0-*",
-    "StructureMap.Dnx": "0.5.1-rc1-final"
+    "StructureMap.Dnx": "1.0.0"
+  },
+
+  "frameworks": {
+    "net461": {}
   }
 }
