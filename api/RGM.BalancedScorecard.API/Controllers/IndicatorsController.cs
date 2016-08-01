@@ -50,7 +50,7 @@
             }
 
             this.commandBus.Submit(command);
-            return this.CreatedAtRoute("GetIndicator", new { code = command.Code });
+            return this.CreatedAtRoute("GetIndicator", new { code = command.Code }, null);
         }
 
         [HttpPut("{id}")]

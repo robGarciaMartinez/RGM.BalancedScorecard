@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class CommandResponse
+    public class CommandHandlerResponse
     {
-        public CommandResponse()
+        public CommandHandlerResponse()
         {
             this.Errors = new List<string>();
         }

@@ -52,7 +52,8 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
             Guid responsibleId,
             int? fulfillmentRate,
             bool cumulative,
-            Guid id) : base(id)
+            Guid id)
+            : base(id)
         {
             this.Name = name;
             this.Description = description;
@@ -138,6 +139,12 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
         /// </summary>
         public IndicatorEnum.State State { get; private set; }
 
+        public void Create(IIndicatorStateCalculator stateCalculator)
+        {
+            this.State = stateCalculator.Calculate(this);
+            this.AddEvent(new IndicatorCreatedEvent { IndicatorId = this.Id });
+        }
+
         #region Measure
 
         public void SetMeasures(List<IndicatorMeasure> measures)
@@ -172,11 +179,5 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
         }
 
         #endregion
-
-        public void Create(IIndicatorStateCalculator stateCalculator)
-        {
-            this.State = stateCalculator.Calculate(this);
-            this.Events.Add(new IndicatorCreatedEvent() { IndicatorId = this.Id });
-        }
     }
 }

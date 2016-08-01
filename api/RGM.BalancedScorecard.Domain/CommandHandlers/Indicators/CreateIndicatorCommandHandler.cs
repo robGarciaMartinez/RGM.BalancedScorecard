@@ -1,38 +1,45 @@
 ﻿namespace RGM.BalancedScorecard.Domain.CommandHandlers.Indicators
 {
     using RGM.BalancedScorecard.Domain.Commands.Indicators;
-    using RGM.BalancedScorecard.Domain.Factories;
     using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.Domain.Repositories;
-    using RGM.BalancedScorecard.Domain.Services.Interfaces;
+    using Services.Interfaces;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
 
     public class CreateIndicatorCommandHandler : ICommandHandler<CreateIndicatorCommand>
     {
         private readonly IIndicatorsRepository repository;
 
-        private readonly IDomainEntityFactory<IIndicator, CreateIndicatorCommand> factory;
-
         private readonly IIndicatorStateCalculator stateCalculator;
 
-        public CreateIndicatorCommandHandler(
-            IIndicatorsRepository repository,
-            IDomainEntityFactory<IIndicator, CreateIndicatorCommand> factory,
-            IIndicatorStateCalculator stateCalculator)
+        public CreateIndicatorCommandHandler(IIndicatorsRepository repository, IIndicatorStateCalculator stateCalculator)
         {
             this.repository = repository;
-            this.factory = factory;
             this.stateCalculator = stateCalculator;
         }
 
-        public CommandResponse Execute(CreateIndicatorCommand command)
+        public CommandHandlerResponse Execute(CreateIndicatorCommand command)
         {
-            var indicator = this.factory.Create(command);
+            var indicator = new Indicator(
+                command.Name,
+                command.Description,
+                command.StartDate,
+                command.Code,
+                command.Unit,
+                command.Periodicity,
+                command.ComparisonValue,
+                command.ObjectValue,
+                command.IndicatorTypeId,
+                command.ResponsibleId,
+                command.FulfillmentRate,
+                command.Cumulative,
+                command.Id);
+
             indicator.Create(this.stateCalculator);
 
             this.repository.Insert(indicator);
 
-            return new CommandResponse();
+            return new CommandHandlerResponse();
         }
     }
 }

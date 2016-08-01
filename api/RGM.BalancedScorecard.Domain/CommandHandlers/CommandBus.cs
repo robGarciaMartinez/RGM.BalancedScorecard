@@ -13,7 +13,7 @@
             this.container = container;
         }
 
-        public CommandResponse Submit<TCommand>(TCommand command) where TCommand : ICommand
+        public CommandHandlerResponse Submit<TCommand>(TCommand command) where TCommand : ICommand
         {
             var handler = this.container.GetCommandHandler<TCommand>();
             Guard.AgainstNullReference(handler, "Cannot find command hander");

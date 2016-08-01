@@ -1,6 +1,7 @@
 ﻿namespace RGM.BalancedScorecard.Domain.Services.Implementation
 {
     using System;
+    using System.Linq;
 
     using RGM.BalancedScorecard.Domain.Enums;
     using RGM.BalancedScorecard.Domain.Model.Indicators;
@@ -10,7 +11,7 @@
     {
         public IndicatorEnum.State Calculate(Indicator indicator)
         {
-            if (indicator.Measures.Count == 0)
+            if (indicator.Measures == null || !indicator.Measures.Any())
             {
                 return IndicatorEnum.State.Grey;
             }

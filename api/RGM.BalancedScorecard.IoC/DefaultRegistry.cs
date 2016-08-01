@@ -9,6 +9,8 @@
     using StructureMap;
 
     using RGM.BalancedScorecard.Domain.Repositories;
+    using RGM.BalancedScorecard.Domain.Services.Implementation;
+    using RGM.BalancedScorecard.Domain.Services.Interfaces;
     using RGM.BalancedScorecard.Infrastructure.Automapper;
     using RGM.BalancedScorecard.Infrastructure.Mongo.Read.Indicators;
     using RGM.BalancedScorecard.Infrastructure.Mongo.Write.Indicators;
@@ -30,6 +32,7 @@
             this.For<ICommandHandler<CreateIndicatorCommand>>().Use<CreateIndicatorCommandHandler>();
             this.For<ICommandHandler<UpdateIndicatorCommand>>().Use<UpdateIndicatorCommandHandler>();
             this.For<ICommandHandler<DeleteIndicatorCommand>>().Use<DeleteIndicatorCommandHandler>();
+            this.For<IIndicatorStateCalculator>().Use<IndicatorStateCalculator>();
             this.For<IIndicatorsRepository>().Use<IndicatorsRepository>();
             this.For<IIndicatorsReader>().Use<IndicatorsReader>();
 

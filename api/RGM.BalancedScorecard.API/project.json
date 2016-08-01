@@ -14,7 +14,7 @@
     "RGM.BalancedScorecard.Infrastructure.Mongo.Read": "1.0.0-*",
     "RGM.BalancedScorecard.IoC": "1.0.0-*",
     "RGM.BalancedScorecard.Query": "1.0.0-*",
-    "StructureMap.Dnx": "1.0.0",
+    "StructureMap.Microsoft.DependencyInjection": "1.0.0",
     "System.Interactive.Async": "3.0.0"
   },
 

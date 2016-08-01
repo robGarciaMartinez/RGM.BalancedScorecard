@@ -10,6 +10,8 @@ using System.Reflection;
 
 namespace RGM.BalancedScorecard.API
 {
+    using System;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -25,7 +27,7 @@ namespace RGM.BalancedScorecard.API
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
             services.AddMvc();
@@ -41,6 +43,8 @@ namespace RGM.BalancedScorecard.API
                 });
                 config.Populate(services);
             });
+
+            return container.GetInstance<IServiceProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

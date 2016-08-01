@@ -13,11 +13,11 @@
             this.repository = repository;
         }
 
-        public CommandResponse Execute(DeleteIndicatorCommand command)
+        public CommandHandlerResponse Execute(DeleteIndicatorCommand command)
         {
             this.repository.Delete(command.Id);
 
-            return new CommandResponse();
+            return new CommandHandlerResponse();
         }
     }
 }

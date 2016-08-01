@@ -7,15 +7,16 @@
 
     public static class Mappings
     {
-        public static MapperConfiguration Configuration { get; set; }
+        private static MapperConfiguration configuration;
 
-        public static void Register()
+        public static MapperConfiguration Configuration
         {
-            Configuration = new MapperConfiguration(
-                cfg =>
-                    {
-                        cfg.CreateMap<Indicator, IndicatorViewModel>(); 
-                    });
+            get
+            {
+                return configuration
+                       ?? (configuration =
+                           new MapperConfiguration(cfg => { cfg.CreateMap<Indicator, IndicatorViewModel>(); }));
+            }
         }
     }
 }

@@ -10,6 +10,7 @@
 namespace RGM.BalancedScorecard.SharedKernel.Domain.Model
 {
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
 
     using RGM.BalancedScorecard.SharedKernel.Domain.Events;
 
@@ -38,6 +39,16 @@ namespace RGM.BalancedScorecard.SharedKernel.Domain.Model
         /// <summary>
         /// Gets or sets the events.
         /// </summary>
-        public List<IDomainEvent> Events { get; protected set; } 
+        public List<IDomainEvent> Events { get; protected set; }
+        
+        protected void AddEvent(IDomainEvent domainEvent)
+        {
+            if (this.Events == null)
+            {
+                this.Events = new List<IDomainEvent>();
+            }
+
+            this.Events.Add(domainEvent);
+        } 
     }
 }
