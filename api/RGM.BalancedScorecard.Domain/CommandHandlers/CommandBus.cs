@@ -1,24 +1,25 @@
 ﻿namespace RGM.BalancedScorecard.Domain.CommandHandlers
 {
-    using RGM.BalancedScorecard.SharedKernel.DependencyContainer;
-    using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
-    using RGM.BalancedScorecard.SharedKernel.Guard;
+    using SharedKernel.DependencyContainer;
+    using SharedKernel.Domain.Commands;
 
     public class CommandBus : ICommandBus
     {
-        private readonly IDependencyContainer container;
+        private readonly IDependencyContainer dependencyContainer;
 
-        public CommandBus(IDependencyContainer container)
+        public CommandBus(IDependencyContainer dependencyContainer)
         {
-            this.container = container;
+            this.dependencyContainer = dependencyContainer;
         }
 
         public CommandHandlerResponse Submit<TCommand>(TCommand command) where TCommand : ICommand
         {
-            var handler = this.container.GetCommandHandler<TCommand>();
-            Guard.AgainstNullReference(handler, "Cannot find command hander");
+            var commandValidator = this.dependencyContainer.GetValidator<TCommand>();
+            var validationResult = commandValidator.Validate(command);
 
-            return handler.Execute(command);
+            return !validationResult.IsValid
+                       ? new CommandHandlerResponse(validationResult.ValidationMessages)
+                       : this.dependencyContainer.GetCommandHandler<TCommand>().Execute(command);
         }
     }
 }

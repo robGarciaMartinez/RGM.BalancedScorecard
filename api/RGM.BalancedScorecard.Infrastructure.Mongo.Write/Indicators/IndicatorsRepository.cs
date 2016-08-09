@@ -4,9 +4,8 @@
 
     using MongoDB.Driver;
 
-    using RGM.BalancedScorecard.Domain.Model.Indicators;
-    using RGM.BalancedScorecard.Domain.Repositories;
-    using RGM.BalancedScorecard.SharedKernel.Guard;
+    using Domain.Model.Indicators;
+    using Domain.Repositories;
 
     public class IndicatorsRepository : IIndicatorsRepository
     {
@@ -17,28 +16,24 @@
             this.collection = database.GetCollection<Indicator>("Indicators");
         }
 
-        public IIndicator FindByKey(Guid id)
+        public Indicator FindByKey(Guid id)
         {
             return this.collection.Find(i => i.Id == id).FirstOrDefault();
         }
 
-        public IIndicator FindByCode(string code)
+        public Indicator FindByCode(string code)
         {
             return this.collection.Find(i => i.Code == code).FirstOrDefault();
         }
 
-        public void Insert(IIndicator indicator)
+        public void Insert(Indicator indicator)
         {
-            var imp = indicator as Indicator;
-            Guard.AgainstNullReference(imp, "Provided parameter is not of type Indicator");
-            this.collection.InsertOne(imp);
+            this.collection.InsertOne(indicator);
         }
 
-        public void Update(IIndicator indicator)
+        public void Update(Indicator indicator)
         {
-            var imp = indicator as Indicator;
-            Guard.AgainstNullReference(imp, "Provided parameter is not of type Indicator");
-            this.collection.FindOneAndReplace(i => i.Id == imp.Id, imp);
+            this.collection.FindOneAndReplace(i => i.Id == indicator.Id, indicator);
         }
 
         public void Delete(Guid id)

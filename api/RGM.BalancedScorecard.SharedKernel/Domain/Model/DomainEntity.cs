@@ -19,11 +19,6 @@ namespace RGM.BalancedScorecard.SharedKernel.Domain.Model
     public abstract class DomainEntity<TKey>
     {
         /// <summary>
-        /// The _broken rules.
-        /// </summary>
-        private readonly List<BusinessRule> brokenRules = new List<BusinessRule>();
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="DomainEntity{TKey}"/> class.
         /// </summary>
         /// <param name="id">

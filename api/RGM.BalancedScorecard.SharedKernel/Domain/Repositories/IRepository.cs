@@ -9,8 +9,6 @@
 
 namespace RGM.BalancedScorecard.SharedKernel.Domain.Repositories
 {
-    using RGM.BalancedScorecard.SharedKernel.Domain.Model;
-
     /// <summary>
     /// The Repository interface.
     /// </summary>
@@ -18,7 +16,7 @@ namespace RGM.BalancedScorecard.SharedKernel.Domain.Repositories
     /// </typeparam>
     /// <typeparam name="TKey">Type of the aggregate key
     /// </typeparam>
-    public interface IRepository<TDomain, in TKey> where TDomain : IAggregateRoot
+    public interface IRepository<TDomain, in TKey>
     {
         /// <summary>
         /// The find by key.

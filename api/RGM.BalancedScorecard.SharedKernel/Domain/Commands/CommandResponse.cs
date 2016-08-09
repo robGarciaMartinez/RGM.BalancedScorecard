@@ -7,11 +7,16 @@
     {
         public CommandHandlerResponse()
         {
-            this.Errors = new List<string>();
+            
         }
 
-        public List<string> Errors { get; set; }
+        public CommandHandlerResponse(List<string> errors)
+        {
+            this.Errors = errors;
+        }
 
-        public bool Successful => this.Errors.Any();
+        public List<string> Errors { get; }
+
+        public bool Successful => this.Errors == null || !this.Errors.Any();
     }
 }

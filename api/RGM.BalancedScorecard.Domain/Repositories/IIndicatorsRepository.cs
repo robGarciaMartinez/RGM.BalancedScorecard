@@ -3,17 +3,16 @@
     using System;
 
     using RGM.BalancedScorecard.Domain.Model.Indicators;
-    using RGM.BalancedScorecard.SharedKernel.Domain.Repositories;
 
     public interface IIndicatorsRepository 
     {
-        IIndicator FindByCode(string code);
+        Indicator FindByCode(string code);
 
-        IIndicator FindByKey(Guid id);
+        Indicator FindByKey(Guid id);
 
-        void Insert(IIndicator indicator);
+        void Insert(Indicator indicator);
 
-        void Update(IIndicator indicator);
+        void Update(Indicator indicator);
 
         void Delete(Guid id);
     }

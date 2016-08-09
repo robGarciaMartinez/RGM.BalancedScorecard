@@ -6,10 +6,13 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    using RGM.BalancedScorecard.Domain.Commands.Indicators;
-    using RGM.BalancedScorecard.Query.Model.Indicators;
-    using RGM.BalancedScorecard.Query.Readers;
-    using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
+    using Domain.Commands.Indicators;
+    using Query.Model.Indicators;
+    using Query.Readers;
+
+    using RGM.BalancedScorecard.API.Filters;
+
+    using SharedKernel.Domain.Commands;
 
     [Route("api/[controller]")]
     public class IndicatorsController : Controller
@@ -37,20 +40,18 @@
         }
 
         [HttpPost]
+        [ValidateModelStateFilter]
         public IActionResult CreateIndicator([FromBody] CreateIndicatorCommand command)
         {
-            if (command == null)
+            var commandHandlerResponse = this.commandBus.Submit(command);
+            if (commandHandlerResponse.Successful)
             {
-                return this.BadRequest();
+                return this.CreatedAtRoute("GetIndicator", new { code = command.Code }, null);
             }
-
-            if (!this.ModelState.IsValid)
+            else
             {
-                return this.BadRequest(this.ModelState);
+                return this.BadRequest(commandHandlerResponse.Errors);
             }
-
-            this.commandBus.Submit(command);
-            return this.CreatedAtRoute("GetIndicator", new { code = command.Code }, null);
         }
 
         [HttpPut("{id}")]

@@ -21,7 +21,7 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
     /// <summary>
     ///     The indicator.
     /// </summary>
-    public class Indicator : AggregateRoot<Guid>, IIndicator
+    public class Indicator : AggregateRoot<Guid>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Indicator" /> class.
@@ -175,6 +175,7 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
             {
                 throw new ItemNotFoundException("Cannot find a measure with the given id");
             }
+
             this.Measures.RemoveAt(measureIndex);
         }
 

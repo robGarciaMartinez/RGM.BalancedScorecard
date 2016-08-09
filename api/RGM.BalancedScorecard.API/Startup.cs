@@ -12,6 +12,8 @@ namespace RGM.BalancedScorecard.API
 {
     using System;
 
+    using RGM.BalancedScorecard.Infrastructure.Mongo.Write;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -22,6 +24,8 @@ namespace RGM.BalancedScorecard.API
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            MongoCollectionsMap.Register();
         }
 
         public IConfigurationRoot Configuration { get; }
