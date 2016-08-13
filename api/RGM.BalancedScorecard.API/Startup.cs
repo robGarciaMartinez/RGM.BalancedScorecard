@@ -4,15 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RGM.BalancedScorecard.IoC;
-using StructureMap;
-using StructureMap.Graph;
-using System.Reflection;
 
 namespace RGM.BalancedScorecard.API
 {
     using System;
 
-    using RGM.BalancedScorecard.Infrastructure.Mongo.Write;
+    using RGM.BalancedScorecard.Infrastructure.Mongo;
 
     public class Startup
     {
@@ -36,19 +33,7 @@ namespace RGM.BalancedScorecard.API
             // Add framework services.
             services.AddMvc();
 
-            var container = new Container(c => c.AddRegistry<DefaultRegistry>());
-            container.Configure(config =>
-            {
-                config.Scan(scanning =>
-                {
-                    scanning.Assembly(typeof(Startup).GetTypeInfo().Assembly);
-                    scanning.TheCallingAssembly();
-                    scanning.WithDefaultConventions();
-                });
-                config.Populate(services);
-            });
-
-            return container.GetInstance<IServiceProvider>();
+            return ContainerSetup.GetServiceProvider(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

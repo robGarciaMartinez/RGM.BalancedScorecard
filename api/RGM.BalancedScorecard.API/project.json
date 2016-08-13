@@ -11,10 +11,9 @@
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "RGM.BalancedScorecard.Domain": "1.0.0-*",
-    "RGM.BalancedScorecard.Infrastructure.Mongo.Read": "1.0.0-*",
+    "RGM.BalancedScorecard.Infrastructure.Mongo": "1.0.0-*",
     "RGM.BalancedScorecard.IoC": "1.0.0-*",
     "RGM.BalancedScorecard.Query": "1.0.0-*",
-    "StructureMap.Microsoft.DependencyInjection": "1.0.0",
     "System.Interactive.Async": "3.0.0"
   },
 

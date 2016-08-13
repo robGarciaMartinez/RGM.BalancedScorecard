@@ -11,12 +11,8 @@
         public static IServiceProvider GetServiceProvider(IServiceCollection services)
         {
             var container = new Container(c => c.AddRegistry<DefaultRegistry>());
-            container.Configure(
-                config =>
-                    {
-                        config.Populate(services);
-                    });
-            return container.GetInstance<IServiceProvider>(); ;
+            container.Configure(config => config.Populate(services));
+            return container.GetInstance<IServiceProvider>();
         }
     }
 }

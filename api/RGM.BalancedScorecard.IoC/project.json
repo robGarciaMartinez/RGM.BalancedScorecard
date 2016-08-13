@@ -2,12 +2,13 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "RGM.BalancedScorecard.Application": "1.0.0-*",
     "RGM.BalancedScorecard.Domain": "1.0.0-*",
     "RGM.BalancedScorecard.Infrastructure.Automapper": "1.0.0-*",
-    "RGM.BalancedScorecard.Infrastructure.Mongo.Read": "1.0.0-*",
-    "RGM.BalancedScorecard.Infrastructure.Mongo.Write": "1.0.0-*",
+    "RGM.BalancedScorecard.Infrastructure.Mongo": "1.0.0-*",
     "RGM.BalancedScorecard.Query": "1.0.0-*",
-    "StructureMap.Microsoft.DependencyInjection": "1.0.0"
+    "StructureMap.Microsoft.DependencyInjection": "1.0.0",
+    "System.Runtime" : "4.0.20.0" 
   },
 
   "frameworks": {
