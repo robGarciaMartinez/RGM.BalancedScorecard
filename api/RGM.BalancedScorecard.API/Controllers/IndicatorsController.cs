@@ -15,6 +15,7 @@
     using SharedKernel.Domain.Commands;
 
     [Route("api/[controller]")]
+    [ValidateModelStateFilter]
     public class IndicatorsController : Controller
     {
         private readonly ICommandBus commandBus;
@@ -39,8 +40,7 @@
             return this.reader.GetByCode(code);
         }
 
-        [HttpPost]
-        [ValidateModelStateFilter]
+        [HttpPost]    
         public IActionResult CreateIndicator([FromBody] CreateIndicatorCommand command)
         {
             var commandHandlerResponse = this.commandBus.Submit(command);

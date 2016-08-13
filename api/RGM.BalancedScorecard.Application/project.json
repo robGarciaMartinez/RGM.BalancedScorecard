@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0-*",
+  "dependencies": {
+    "RGM.BalancedScorecard.Domain": "1.0.0-*"
+  },
+  "frameworks": {
+    "net461": {
+    }
+  }
+}
