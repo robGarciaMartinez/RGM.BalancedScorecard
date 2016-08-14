@@ -6,7 +6,8 @@
     "NUnit": "3.4.1",
     "RGM.BalancedScorecard.Application": "1.0.0-*",
     "RGM.BalancedScorecard.Domain": "1.0.0-*",
-    "RGM.BalancedScorecard.SharedKernel": "1.0.0-*"
+    "RGM.BalancedScorecard.SharedKernel": "1.0.0-*",
+    "RGM.BalancedScorecard.Test.Helpers": "1.0.0-*"
   },
 
   "frameworks": {

@@ -8,10 +8,12 @@
 
     using RGM.BalancedScorecard.Application.CommandHandlers.Indicators;
     using RGM.BalancedScorecard.Domain.Commands.Indicators;
+    using RGM.BalancedScorecard.Domain.Enums;
     using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.Domain.Repositories;
     using RGM.BalancedScorecard.Domain.Services.Interfaces;
     using RGM.BalancedScorecard.SharedKernel.Domain.Validation;
+    using RGM.BalancedScorecard.Test.Helpers.Indicators;
 
     [TestFixture]
     public class CreateIndicatorCommandHandlerTests
@@ -30,6 +32,8 @@
             this.validator = new Mock<IValidator<CreateIndicatorCommand>>();
             this.repository = new Mock<IIndicatorsRepository>();
             this.stateCalculator = new Mock<IIndicatorStateCalculator>();
+            this.stateCalculator.Setup(sc => sc.Calculate(It.IsAny<Indicator>())).Returns(IndicatorEnum.State.Grey);
+
             this.commandHandler = new CreateIndicatorCommandHandler(
                 this.validator.Object,
                 this.repository.Object,
@@ -41,13 +45,31 @@
         public void CanRunOnSuccessValidation()
         {
             // Arrange
-            var command = new CreateIndicatorCommand() { Id = Guid.NewGuid(), Code = "Code" };
+            var command = MockCommandObjects.GetCreateIndicatorCommand();
 
             // Act
             this.commandHandler.OnSuccessValidation(command);
 
             // Assert
-            this.repository.Verify(r => r.Insert(It.IsAny<Indicator>()), Times.Once);
+            this.repository.Verify(
+                r => r.Insert(
+                    It.Is<Indicator>(
+                        i => 
+                            i.Id.Equals(command.Id)
+                            && i.Code.Equals(command.Code)
+                            && i.Description.Equals(command.Description)
+                            && i.Name.Equals(command.Name)
+                            && i.ComparisonValue.Equals(command.ComparisonValue)
+                            && i.Cumulative.Equals(command.Cumulative)
+                            && i.FulfillmentRate.Equals(command.FulfillmentRate)
+                            && i.IndicatorTypeId.Equals(command.IndicatorTypeId)
+                            && i.ObjectValue.Equals(command.ObjectValue)
+                            && i.Periodicity.Equals(command.Periodicity)
+                            && i.StartDate.Equals(command.StartDate)
+                            && i.Unit.Equals(command.Unit)
+                            && i.ResponsibleId.Equals(command.ResponsibleId)
+                            && i.State.Equals(IndicatorEnum.State.Grey)
+                        )), Times.Once);
         }
     }
 }
