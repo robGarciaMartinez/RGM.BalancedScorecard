@@ -1,7 +1,7 @@
-﻿namespace RGM.BalancedScorecard.Domain.CommandHandlers
+﻿namespace RGM.BalancedScorecard.Domain.Commands
 {
-    using SharedKernel.DependencyContainer;
-    using SharedKernel.Domain.Commands;
+    using RGM.BalancedScorecard.SharedKernel.DependencyContainer;
+    using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
 
     public class CommandBus : ICommandBus
     {
@@ -12,14 +12,9 @@
             this.dependencyContainer = dependencyContainer;
         }
 
-        public CommandHandlerResponse Submit<TCommand>(TCommand command) where TCommand : ICommand
+        public void Submit<TCommand>(TCommand command) where TCommand : ICommand
         {
-            var commandValidator = this.dependencyContainer.GetValidator<TCommand>();
-            var validationResult = commandValidator.Validate(command);
-
-            return !validationResult.IsValid
-                       ? new CommandHandlerResponse(validationResult.ValidationMessages)
-                       : this.dependencyContainer.GetCommandHandler<TCommand>().Execute(command);
+            this.dependencyContainer.GetCommandHandler<TCommand>().Execute(command);
         }
     }
 }

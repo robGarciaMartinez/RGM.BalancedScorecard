@@ -2,6 +2,6 @@
 {
     public interface ICommandHandler<in TCommand> where TCommand : ICommand
     {
-        CommandHandlerResponse Execute(TCommand command);
+        void Execute(TCommand command);
     }
 }

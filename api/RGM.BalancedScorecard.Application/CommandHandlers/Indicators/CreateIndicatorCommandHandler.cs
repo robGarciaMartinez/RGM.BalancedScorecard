@@ -5,20 +5,25 @@
     using RGM.BalancedScorecard.Domain.Repositories;
     using RGM.BalancedScorecard.Domain.Services.Interfaces;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
+    using RGM.BalancedScorecard.SharedKernel.Domain.Validation;
 
-    public class CreateIndicatorCommandHandler : ICommandHandler<CreateIndicatorCommand>
+    public class CreateIndicatorCommandHandler : CommandHandler<CreateIndicatorCommand>
     {
         private readonly IIndicatorsRepository repository;
 
         private readonly IIndicatorStateCalculator stateCalculator;
 
-        public CreateIndicatorCommandHandler(IIndicatorsRepository repository, IIndicatorStateCalculator stateCalculator)
+        public CreateIndicatorCommandHandler(
+            IValidator<CreateIndicatorCommand> validator,
+            IIndicatorsRepository repository,
+            IIndicatorStateCalculator stateCalculator)
+            : base(validator)
         {
             this.repository = repository;
             this.stateCalculator = stateCalculator;
         }
 
-        public CommandHandlerResponse Execute(CreateIndicatorCommand command)
+        public override void OnSuccessValidation(CreateIndicatorCommand command)
         {
             var indicator = new Indicator(
                 command.Name,
@@ -38,8 +43,6 @@
             indicator.Create(this.stateCalculator);
 
             this.repository.Insert(indicator);
-
-            return new CommandHandlerResponse();
         }
     }
 }

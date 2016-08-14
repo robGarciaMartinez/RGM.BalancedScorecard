@@ -28,74 +28,67 @@
             this.reader = reader;
         }
 
-        [HttpGet]
-        public IEnumerable<IndicatorViewModel> GetIndicators()
-        {
-            return null;
-        }
+        //[HttpGet]
+        //public IEnumerable<IndicatorViewModel> GetIndicators()
+        //{
+        //    return null;
+        //}
 
-        [HttpGet("{code}", Name = "GetIndicator")]
-        public IndicatorViewModel GetIndicator(string code)
-        {
-            return this.reader.GetByCode(code);
-        }
+        //[HttpGet("{code}", Name = "GetIndicator")]
+        //public IndicatorViewModel GetIndicator(string code)
+        //{
+        //    return this.reader.GetByCode(code);
+        //}
 
         [HttpPost]    
         public IActionResult CreateIndicator([FromBody] CreateIndicatorCommand command)
         {
-            var commandHandlerResponse = this.commandBus.Submit(command);
-            if (commandHandlerResponse.Successful)
-            {
-                return this.CreatedAtRoute("GetIndicator", new { code = command.Code }, null);
-            }
-            else
-            {
-                return this.BadRequest(commandHandlerResponse.Errors);
-            }
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult UpdateIndicator(Guid id, [FromBody] UpdateIndicatorCommand command)
-        {
-            if (command == null)
-            {
-                return this.BadRequest();
-            }
-
-            command.Id = id;
             this.commandBus.Submit(command);
-            return this.Ok();
+            return this.CreatedAtRoute("GetIndicator", new { code = command.Code }, null);
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult DeleteIndicator(Guid id)
-        {
-            this.commandBus.Submit(new DeleteIndicatorCommand() { Id = id });
-            return new StatusCodeResult((int)HttpStatusCode.NoContent);
-        }
+        //[HttpPut("{id}")]
+        //public IActionResult UpdateIndicator(Guid id, [FromBody] UpdateIndicatorCommand command)
+        //{
+        //    if (command == null)
+        //    {
+        //        return this.BadRequest();
+        //    }
 
-        [HttpGet("{id}/measures")]
-        public IEnumerable<IndicatorMeasureViewModel> GetIndicatorMeasures(Guid id)
-        {
-            return new List<IndicatorMeasureViewModel>();
-        }
+        //    command.Id = id;
+        //    this.commandBus.Submit(command);
+        //    return this.Ok();
+        //}
 
-        [HttpPost("{id}/measures")]
-        public IActionResult CreateIndicatorMeasure(Guid id, [FromBody] CreateIndicatorMeasureCommand command)
-        {
-            return null;
-        }
+        //[HttpDelete("{id}")]
+        //public IActionResult DeleteIndicator(Guid id)
+        //{
+        //    this.commandBus.Submit(new DeleteIndicatorCommand() { Id = id });
+        //    return new StatusCodeResult((int)HttpStatusCode.NoContent);
+        //}
 
-        [HttpPut("{id}/measures/{measureId}")]
-        public IActionResult UpdateIndicatorMeasure(Guid id, [FromBody] UpdateIndicatorMeasureCommand command)
-        {
-            return null;
-        }
+        //[HttpGet("{id}/measures")]
+        //public IEnumerable<IndicatorMeasureViewModel> GetIndicatorMeasures(Guid id)
+        //{
+        //    return new List<IndicatorMeasureViewModel>();
+        //}
 
-        [HttpDelete("{id}/measures/{measureId}")]
-        public IActionResult DeleteIndicatorMeasure(Guid id, Guid measureId)
-        {
-            return null;
-        }
+        //[HttpPost("{id}/measures")]
+        //public IActionResult CreateIndicatorMeasure(Guid id, [FromBody] CreateIndicatorMeasureCommand command)
+        //{
+        //    return null;
+        //}
+
+        //[HttpPut("{id}/measures/{measureId}")]
+        //public IActionResult UpdateIndicatorMeasure(Guid id, [FromBody] UpdateIndicatorMeasureCommand command)
+        //{
+        //    return null;
+        //}
+
+        //[HttpDelete("{id}/measures/{measureId}")]
+        //public IActionResult DeleteIndicatorMeasure(Guid id, Guid measureId)
+        //{
+        //    return null;
+        //}
     }
 }

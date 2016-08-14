@@ -4,11 +4,11 @@
     using RGM.BalancedScorecard.Domain.Repositories;
     using RGM.BalancedScorecard.SharedKernel.Domain.Validation;
 
-    public class IndicatorUniqueCodeSpecification : ISpecification<CreateIndicatorCommand>
+    public class IndicatorCodeMustBeUniqueSpecification : ISpecification<CreateIndicatorCommand>
     {
         private readonly IIndicatorsRepository repository;
 
-        public IndicatorUniqueCodeSpecification(IIndicatorsRepository repository)
+        public IndicatorCodeMustBeUniqueSpecification(IIndicatorsRepository repository)
         {
             this.repository = repository;
         }

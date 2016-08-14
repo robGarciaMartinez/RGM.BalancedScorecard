@@ -3,7 +3,7 @@
     using MongoDB.Driver;
 
     using RGM.BalancedScorecard.Application.CommandHandlers.Indicators;
-    using RGM.BalancedScorecard.Domain.CommandHandlers;
+    using RGM.BalancedScorecard.Domain.Commands;
     using RGM.BalancedScorecard.Domain.Commands.Indicators;
 
     using StructureMap;
@@ -36,7 +36,7 @@
             this.For<ICommandHandler<DeleteIndicatorCommand>>().Use<DeleteIndicatorCommandHandler>();
 
             // Indicators validation
-            this.For<ISpecification<CreateIndicatorCommand>>().Use<IndicatorUniqueCodeSpecification>();
+            this.For<ISpecification<CreateIndicatorCommand>>().Use<IndicatorCodeMustBeUniqueSpecification>();
             this.For<IValidator<CreateIndicatorCommand>>().Use<CommandValidator<CreateIndicatorCommand>>();
 
             this.For<IIndicatorStateCalculator>().Use<IndicatorStateCalculator>();
