@@ -20,7 +20,7 @@ namespace RGM.BalancedScorecard.API
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            this.Configuration = builder.Build();
 
             MongoCollectionsMap.Register();
         }
@@ -33,13 +33,16 @@ namespace RGM.BalancedScorecard.API
             // Add framework services.
             services.AddMvc();
 
+            // Add configuration
+            services.AddSingleton<IConfiguration>(this.Configuration);
+
             return ContainerSetup.GetServiceProvider(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseMvc();

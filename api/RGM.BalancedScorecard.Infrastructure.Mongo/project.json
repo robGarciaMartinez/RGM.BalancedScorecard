@@ -2,6 +2,7 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "MongoDB.Driver": "2.2.4",
     "RGM.BalancedScorecard.Domain": "1.0.0-*",
     "RGM.BalancedScorecard.Infrastructure.Automapper": "1.0.0-*",
