@@ -16,10 +16,12 @@
         public void Execute(TCommand command)
         {
             var validationResult = this.validator.Validate(command);
-            if (validationResult.IsValid)
+            if (!validationResult.IsValid)
             {
                 throw new ArgumentException(string.Join(",", validationResult.ValidationMessages));
             }
+
+            this.OnSuccessValidation(command);
         }
 
         public abstract void OnSuccessValidation(TCommand command);

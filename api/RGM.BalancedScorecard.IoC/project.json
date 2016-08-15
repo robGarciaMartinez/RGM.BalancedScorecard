@@ -7,7 +7,7 @@
     "RGM.BalancedScorecard.Infrastructure.Automapper": "1.0.0-*",
     "RGM.BalancedScorecard.Infrastructure.Mongo": "1.0.0-*",
     "RGM.BalancedScorecard.Query": "1.0.0-*",
-    "StructureMap.Microsoft.DependencyInjection": "1.0.0",
+    "StructureMap.Microsoft.DependencyInjection": "1.0.1",
     "System.Runtime" : "4.0.20.0" 
   },
 

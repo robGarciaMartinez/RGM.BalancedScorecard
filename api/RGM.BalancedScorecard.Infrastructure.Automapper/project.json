@@ -2,7 +2,7 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "AutoMapper": "5.0.2",
+    "AutoMapper": "5.1.1",
     "RGM.BalancedScorecard.Domain": "1.0.0-*",
     "RGM.BalancedScorecard.Query": "1.0.0-*"
   },

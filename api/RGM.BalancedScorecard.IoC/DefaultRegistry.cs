@@ -1,7 +1,5 @@
 ﻿namespace RGM.BalancedScorecard.IoC
 {
-    using MongoDB.Driver;
-
     using RGM.BalancedScorecard.Application.CommandHandlers.Indicators;
     using RGM.BalancedScorecard.Domain.Commands;
     using RGM.BalancedScorecard.Domain.Commands.Indicators;
@@ -13,6 +11,7 @@
     using RGM.BalancedScorecard.Domain.Services.Interfaces;
     using RGM.BalancedScorecard.Domain.Specifications.Indicators;
     using RGM.BalancedScorecard.Infrastructure.Automapper;
+    using RGM.BalancedScorecard.Infrastructure.Mongo.Context;
     using RGM.BalancedScorecard.Infrastructure.Mongo.Readers.Indicators;
     using RGM.BalancedScorecard.Infrastructure.Mongo.Repositories.Indicators;
     using RGM.BalancedScorecard.Query.Readers;
@@ -44,7 +43,7 @@
             this.For<IIndicatorsReader>().Use<IndicatorsReader>();
 
             // Mongo
-            this.For<IMongoDatabase>().Use(new MongoClient("mongodb://localhost:27017").GetDatabase("BalancedScorecard"));
+            this.For<IDbContext>().Use<DbContext>();
         }
     }
 }

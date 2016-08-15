@@ -34,11 +34,11 @@
         //    return null;
         //}
 
-        //[HttpGet("{code}", Name = "GetIndicator")]
-        //public IndicatorViewModel GetIndicator(string code)
-        //{
-        //    return this.reader.GetByCode(code);
-        //}
+        [HttpGet("{code}", Name = "GetIndicator")]
+        public IndicatorViewModel GetIndicator(string code)
+        {
+            return this.reader.GetByCode(code);
+        }
 
         [HttpPost]    
         public IActionResult CreateIndicator([FromBody] CreateIndicatorCommand command)

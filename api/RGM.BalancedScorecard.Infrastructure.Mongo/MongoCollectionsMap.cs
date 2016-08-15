@@ -4,6 +4,7 @@
 
     using MongoDB.Bson.Serialization;
 
+    using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.SharedKernel.Domain.Model;
 
     public static class MongoCollectionsMap

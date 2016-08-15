@@ -6,39 +6,40 @@
 
     using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.Domain.Repositories;
+    using RGM.BalancedScorecard.Infrastructure.Mongo.Context;
 
     public class IndicatorsRepository : IIndicatorsRepository
     {
-        private readonly IMongoCollection<Indicator> collection;
+        private readonly IDbContext context;
 
-        public IndicatorsRepository(IMongoDatabase database)
+        public IndicatorsRepository(IDbContext context)
         {
-            this.collection = database.GetCollection<Indicator>("Indicators");
+            this.context = context;
         }
 
         public Indicator FindByKey(Guid id)
         {
-            return this.collection.Find(i => i.Id == id).FirstOrDefault();
+            return this.context.Collection<Indicator>().Find(i => i.Id == id).FirstOrDefault();
         }
 
         public Indicator FindByCode(string code)
         {
-            return this.collection.Find(i => i.Code == code).FirstOrDefault();
+            return this.context.Collection<Indicator>().Find(i => i.Code == code).FirstOrDefault();
         }
 
         public void Insert(Indicator indicator)
         {
-            this.collection.InsertOne(indicator);
+            this.context.Collection<Indicator>().InsertOne(indicator);
         }
 
         public void Update(Indicator indicator)
         {
-            this.collection.FindOneAndReplace(i => i.Id == indicator.Id, indicator);
+            this.context.Collection<Indicator>().FindOneAndReplace(i => i.Id == indicator.Id, indicator);
         }
 
         public void Delete(Guid id)
         {
-            this.collection.DeleteOne(i => i.Id == id);
+            this.context.Collection<Indicator>().DeleteOne(i => i.Id == id);
         }
     }
 }

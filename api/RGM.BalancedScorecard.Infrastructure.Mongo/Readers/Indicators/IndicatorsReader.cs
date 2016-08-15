@@ -4,24 +4,25 @@
 
     using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.Infrastructure.Automapper;
+    using RGM.BalancedScorecard.Infrastructure.Mongo.Context;
     using RGM.BalancedScorecard.Query.Model.Indicators;
     using RGM.BalancedScorecard.Query.Readers;
 
     public class IndicatorsReader : IIndicatorsReader
     {
-        private readonly IMongoCollection<Indicator> collection;
+        private readonly IDbContext context;
 
         private readonly IMapper mapper;
 
-        public IndicatorsReader(IMongoDatabase database, IMapper mapper)
+        public IndicatorsReader(IDbContext context, IMapper mapper)
         {
-            this.collection = database.GetCollection<Indicator>("Indicators");
+            this.context = context;
             this.mapper = mapper;
         }
 
         public IndicatorViewModel GetByCode(string code)
         {
-            var indicator = this.collection.Find(i => i.Code == code).FirstOrDefault();
+            var indicator = this.context.Collection<Indicator>().Find(i => i.Code == code).FirstOrDefault();
             return this.mapper.Map<IndicatorViewModel>(indicator);
         }
     }
