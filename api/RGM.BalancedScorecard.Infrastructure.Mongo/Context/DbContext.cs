@@ -1,7 +1,6 @@
 ﻿namespace RGM.BalancedScorecard.Infrastructure.Mongo.Context
 {
     using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.Options;
 
     using MongoDB.Driver;
 
@@ -17,7 +16,8 @@
 
         public MongoClient Client { get; }
 
-        public IMongoDatabase Database => this.Client.GetDatabase(this.configuration.GetValue<string>("MongoDB:Database"));
+        public IMongoDatabase Database
+            => this.Client.GetDatabase(this.configuration.GetValue<string>("MongoDB:Database"));
 
         public IMongoCollection<TEntity> Collection<TEntity>() where TEntity : class
         {

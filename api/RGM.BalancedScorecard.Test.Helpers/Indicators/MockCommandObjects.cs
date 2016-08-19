@@ -4,6 +4,7 @@
 
     using RGM.BalancedScorecard.Domain.Commands.Indicators;
     using RGM.BalancedScorecard.Domain.Enums;
+    using RGM.BalancedScorecard.Domain.Model.Indicators;
 
     public static class MockCommandObjects
     {
