@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Indicator.cs" company="RGM">
-//   RGM
-// </copyright>
-// <summary>
-//   Defines the Indicator type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace RGM.BalancedScorecard.Domain.Model.Indicators
+﻿namespace RGM.BalancedScorecard.Domain.Model.Indicators
 {
     using System;
     using System.Collections.Generic;
@@ -18,27 +9,8 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
     using RGM.BalancedScorecard.SharedKernel.Domain.Model;
     using RGM.BalancedScorecard.SharedKernel.Exceptions;
 
-    /// <summary>
-    ///     The indicator.
-    /// </summary>
     public class Indicator : AggregateRoot<Guid>
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Indicator" /> class.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="description">The description.</param>
-        /// <param name="startDate">The start date.</param>
-        /// <param name="code">The code.</param>
-        /// <param name="unit">The unit.</param>
-        /// <param name="periodicity">The periodicity.</param>
-        /// <param name="comparisonValue">The comparison value.</param>
-        /// <param name="objectValue">The object value.</param>
-        /// <param name="indicatorTypeId">The indicator type id.</param>
-        /// <param name="responsibleId">The responsible id.</param>
-        /// <param name="fulfillmentRate">The fulfillment rate.</param>
-        /// <param name="cumulative">The cumulative.</param>
-        /// <param name="id">The id.</param>
         public Indicator(
             string name,
             string description,
@@ -67,6 +39,10 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
             this.ResponsibleId = responsibleId;
             this.FulfillmentRate = fulfillmentRate;
             this.Cumulative = cumulative;
+        }
+
+        public Indicator()
+        {   
         }
 
         /// <summary>

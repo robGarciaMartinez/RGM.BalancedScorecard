@@ -19,12 +19,18 @@
 
         public Indicator FindByKey(Guid id)
         {
-            return this.context.Collection<Indicator>().Find(i => i.Id == id).FirstOrDefault();
+            return
+                this.context.Collection<Indicator>()
+                    .FindSync<Indicator>(Builders<Indicator>.Filter.Where(i => i.Id == id))
+                    .FirstOrDefault();
         }
 
         public Indicator FindByCode(string code)
         {
-            return this.context.Collection<Indicator>().Find(i => i.Code == code).FirstOrDefault();
+            return
+                this.context.Collection<Indicator>()
+                    .FindSync<Indicator>(Builders<Indicator>.Filter.Where(i => i.Code == code))
+                    .FirstOrDefault();
         }
 
         public void Insert(Indicator indicator)
@@ -34,12 +40,13 @@
 
         public void Update(Indicator indicator)
         {
-            this.context.Collection<Indicator>().FindOneAndReplace(i => i.Id == indicator.Id, indicator);
+            this.context.Collection<Indicator>()
+                .FindOneAndReplace(Builders<Indicator>.Filter.Where(i => i.Id == indicator.Id), indicator);
         }
 
         public void Delete(Guid id)
         {
-            this.context.Collection<Indicator>().DeleteOne(i => i.Id == id);
+            this.context.Collection<Indicator>().DeleteOne(Builders<Indicator>.Filter.Where(i => i.Id == id));
         }
     }
 }
