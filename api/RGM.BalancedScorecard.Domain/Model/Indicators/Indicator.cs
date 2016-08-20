@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using RGM.BalancedScorecard.Domain.Enums;
     using RGM.BalancedScorecard.Domain.Events.Indicators;
@@ -41,87 +42,45 @@
             this.Cumulative = cumulative;
         }
 
-        public Indicator()
-        {   
-        }
-
-        /// <summary>
-        ///     Gets the name.
-        /// </summary>
         public string Name { get; private set; }
 
-        /// <summary>
-        ///     Gets the description.
-        /// </summary>
         public string Description { get; private set; }
 
-        /// <summary>
-        ///     Gets the start date.
-        /// </summary>
         public DateTime StartDate { get; private set; }
 
-        /// <summary>
-        ///     Gets the code.
-        /// </summary>
         public string Code { get; private set; }
 
-        /// <summary>
-        ///     Gets the unit.
-        /// </summary>
         public string Unit { get; private set; }
 
-        /// <summary>
-        ///     Gets the periodicity.
-        /// </summary>
         public IndicatorEnum.PeriodicityType Periodicity { get; private set; }
 
-        /// <summary>
-        ///     Gets the comparison value.
-        /// </summary>
         public IndicatorEnum.ComparisonValueType ComparisonValue { get; private set; }
 
-        /// <summary>
-        ///     Gets the object value.
-        /// </summary>
         public IndicatorEnum.ObjectValueType ObjectValue { get; private set; }
 
-        /// <summary>
-        ///     Gets the indicator type id.
-        /// </summary>
         public Guid IndicatorTypeId { get; private set; }
 
-        /// <summary>
-        ///     Gets the responsible id.
-        /// </summary>
         public Guid ResponsibleId { get; private set; }
 
-        /// <summary>
-        ///     Gets the fulfillment rate.
-        /// </summary>
         public int? FulfillmentRate { get; private set; }
 
-        /// <summary>
-        ///     Gets the cumulative.
-        /// </summary>
         public bool Cumulative { get; private set; }
 
-        /// <summary>
-        ///     Gets the measures.
-        /// </summary>
         public List<IndicatorMeasure> Measures { get; private set; }
 
-        /// <summary>
-        ///     Gets the state.
-        /// </summary>
         public IndicatorEnum.State State { get; private set; }
 
-        public void Create(IIndicatorStateCalculator stateCalculator)
+        public void SetState(IndicatorEnum.State state)
         {
-            this.State = stateCalculator.Calculate(this);
-            this.AddEvent(new IndicatorCreatedEvent { IndicatorId = this.Id });
+            this.State = state;
         }
 
-        #region Measure
+        #region Measures
+
+        public List<IndicatorMeasure> GetMeasures(List<IndicatorMeasure> measures)
+        {
+            return this.Measures;
+        }
 
         public void SetMeasures(List<IndicatorMeasure> measures)
         {
@@ -153,6 +112,11 @@
             }
 
             this.Measures.RemoveAt(measureIndex);
+        }
+
+        public bool HasAnyMeasures()
+        {
+            return this.Measures != null && this.Measures.Any();
         }
 
         #endregion

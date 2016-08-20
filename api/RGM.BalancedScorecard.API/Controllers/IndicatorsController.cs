@@ -1,9 +1,5 @@
 ﻿namespace RGM.BalancedScorecard.API.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Net;
-
     using Microsoft.AspNetCore.Mvc;
 
     using Domain.Commands.Indicators;

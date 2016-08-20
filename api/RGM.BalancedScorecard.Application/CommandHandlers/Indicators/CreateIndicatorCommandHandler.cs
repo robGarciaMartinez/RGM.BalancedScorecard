@@ -40,8 +40,7 @@
                 command.Cumulative,
                 command.Id);
 
-            indicator.Create(this.stateCalculator);
-
+            indicator.SetState(this.stateCalculator.Calculate(indicator));
             this.repository.Insert(indicator);
         }
     }

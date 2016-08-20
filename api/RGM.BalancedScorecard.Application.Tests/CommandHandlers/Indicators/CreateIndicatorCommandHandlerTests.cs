@@ -49,6 +49,7 @@
             this.commandHandler.OnSuccessValidation(command);
 
             // Assert
+            this.stateCalculator.Verify(sc => sc.Calculate(It.Is<Indicator>(i => !i.HasAnyMeasures())), Times.Once);
             this.repository.Verify(
                 r => r.Insert(
                     It.Is<Indicator>(
