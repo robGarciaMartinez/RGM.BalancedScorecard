@@ -1,6 +1,7 @@
 ﻿namespace RGM.BalancedScorecard.Query.Model.Indicators
 {
     using System;
+    using System.Collections.Generic;
 
     public class IndicatorViewModel
     {
@@ -29,5 +30,9 @@
         public int? FulfillmentRate { get; set; }
 
         public bool Cumulative { get; set; }
+
+        public int State { get; set; }
+
+        public List<IndicatorMeasureViewModel> Measures { get; set; }
     }
 }

@@ -19,6 +19,18 @@
     [TestFixture]
     public class IndicatorsRepositoryTests
     {
+        private Mock<IDbContext> context;
+
+        private Mock<IMongoCollection<Indicator>> indicatorsCollection;
+
+        private Mock<IAsyncCursor<Indicator>> cursor;
+
+        private IBsonSerializerRegistry serializerRegistry;
+
+        private IBsonSerializer<Indicator> documentSerializer;
+
+        private IndicatorsRepository repository;
+
         [SetUp]
         public void Setup()
         {
@@ -34,16 +46,11 @@
             this.context = new Mock<IDbContext>();
             this.context.Setup(c => c.Collection<Indicator>()).Returns(this.indicatorsCollection.Object);
 
+            this.serializerRegistry = BsonSerializer.SerializerRegistry;
+            this.documentSerializer = this.serializerRegistry.GetSerializer<Indicator>();
+
             this.repository = new IndicatorsRepository(this.context.Object);
         }
-
-        private Mock<IDbContext> context;
-
-        private Mock<IMongoCollection<Indicator>> indicatorsCollection;
-
-        private Mock<IAsyncCursor<Indicator>> cursor;
-
-        private IndicatorsRepository repository;
 
         [Test]
         [Category("Infrastructure")]
@@ -56,15 +63,12 @@
             this.repository.FindByKey(guid);
 
             // Assert
-            var serializerRegistry = BsonSerializer.SerializerRegistry;
-            var documentSerializer = serializerRegistry.GetSerializer<Indicator>();
-
             this.context.Verify(c => c.Collection<Indicator>(), Times.Once);
             this.indicatorsCollection.Verify(
                 c =>
                 c.FindSync(
                     It.Is<FilterDefinition<Indicator>>(
-                        fd => fd.Render(documentSerializer, serializerRegistry)
+                        fd => fd.Render(this.documentSerializer, this.serializerRegistry)
                             .Elements.Count(e => e.Name.Equals("_id") && e.Value.AsGuid.Equals(guid)) == 1),
                     It.IsAny<FindOptions<Indicator, Indicator>>(),
                     It.IsAny<CancellationToken>()),
@@ -82,15 +86,12 @@
             this.repository.FindByCode(code);
 
             // Assert
-            var serializerRegistry = BsonSerializer.SerializerRegistry;
-            var documentSerializer = serializerRegistry.GetSerializer<Indicator>();
-
             this.context.Verify(c => c.Collection<Indicator>(), Times.Once);
             this.indicatorsCollection.Verify(
                 c =>
                 c.FindSync(
                     It.Is<FilterDefinition<Indicator>>(
-                        fd => fd.Render(documentSerializer, serializerRegistry)
+                        fd => fd.Render(this.documentSerializer, this.serializerRegistry)
                             .Elements.Count(e => e.Name.Equals("Code") && e.Value.AsString.Equals(code)) == 1),
                     It.IsAny<FindOptions<Indicator, Indicator>>(),
                     It.IsAny<CancellationToken>()),

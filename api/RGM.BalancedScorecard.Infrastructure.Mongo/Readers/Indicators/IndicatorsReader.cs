@@ -22,7 +22,11 @@
 
         public IndicatorViewModel GetByCode(string code)
         {
-            var indicator = this.context.Collection<Indicator>().Find(i => i.Code == code).FirstOrDefault();
+            var indicator =
+                this.context.Collection<Indicator>()
+                    .FindSync(Builders<Indicator>.Filter.Where(i => i.Code == code))
+                    .FirstOrDefault();
+
             return this.mapper.Map<IndicatorViewModel>(indicator);
         }
     }

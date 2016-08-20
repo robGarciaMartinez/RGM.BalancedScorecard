@@ -15,7 +15,12 @@
             {
                 return configuration
                        ?? (configuration =
-                           new MapperConfiguration(cfg => { cfg.CreateMap<Indicator, IndicatorViewModel>(); }));
+                           new MapperConfiguration(
+                               cfg =>
+                                   {
+                                       cfg.CreateMap<Indicator, IndicatorViewModel>();
+                                       cfg.CreateMap<IndicatorMeasure, IndicatorMeasureViewModel>();
+                                   }));
             }
         }
     }
