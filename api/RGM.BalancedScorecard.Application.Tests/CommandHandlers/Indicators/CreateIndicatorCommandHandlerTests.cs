@@ -1,7 +1,5 @@
-﻿namespace RGM.BalancedScorecard.Application.Tests.Indicators
+﻿namespace RGM.BalancedScorecard.Application.Tests.CommandHandlers.Indicators
 {
-    using System;
-
     using Moq;
 
     using NUnit.Framework;
@@ -41,7 +39,7 @@
         }
 
         [Test]
-        [Category("Indicators")]
+        [Category("Application")]
         public void CanRunOnSuccessValidation()
         {
             // Arrange

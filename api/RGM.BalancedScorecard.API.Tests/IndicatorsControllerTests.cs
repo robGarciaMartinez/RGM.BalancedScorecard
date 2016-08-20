@@ -31,7 +31,7 @@
         }
 
         [Test]
-        [Category("Indicators")]
+        [Category("Application")]
         public void CanCreateIndicator()
         {
             // Arrange

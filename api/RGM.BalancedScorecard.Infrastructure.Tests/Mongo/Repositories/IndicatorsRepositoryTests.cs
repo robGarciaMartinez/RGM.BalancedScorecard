@@ -46,7 +46,7 @@
         private IndicatorsRepository repository;
 
         [Test]
-        [Category("Indicators")]
+        [Category("Infrastructure")]
         public void CanFindByKey()
         {
             // Arrange
@@ -72,7 +72,7 @@
         }
 
         [Test]
-        [Category("Indicators")]
+        [Category("Infrastructure")]
         public void CanFindByCode()
         {
             // Arrange
@@ -98,7 +98,7 @@
         }
 
         [Test]
-        [Category("Indicators")]
+        [Category("Infrastructure")]
         public void CanInsertIndicator()
         {
             // Arrange
@@ -110,6 +110,48 @@
             // Verify
             this.context.Verify(c => c.Collection<Indicator>(), Times.Once);
             this.indicatorsCollection.Verify(c => c.InsertOne(It.IsAny<Indicator>(),It.IsAny<InsertOneOptions>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Test]
+        [Category("Infrastructure")]
+        public void CanUpdateIndicator()
+        {
+            // Arrange
+            var indicator = MockDomainObjects.GetIndicator();
+
+            // Act
+            this.repository.Update(indicator);
+
+            // Verify
+            this.context.Verify(c => c.Collection<Indicator>(), Times.Once);
+            this.indicatorsCollection.Verify(
+                c =>
+                c.FindOneAndReplace(
+                    It.IsAny<FilterDefinition<Indicator>>(),
+                    It.IsAny<Indicator>(),
+                    It.IsAny<FindOneAndReplaceOptions<Indicator>>(),
+                    It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+
+        [Test]
+        [Category("Infrastructure")]
+        public void CanDeleteIndicator()
+        {
+            // Arrange
+            var guid = Guid.NewGuid();
+
+            // Act
+            this.repository.Delete(guid);
+
+            // Verify
+            this.context.Verify(c => c.Collection<Indicator>(), Times.Once);
+            this.indicatorsCollection.Verify(
+                c =>
+                c.DeleteOne(
+                    It.IsAny<FilterDefinition<Indicator>>(),
+                    It.IsAny<CancellationToken>()),
+                Times.Once);
         }
     }
 }
