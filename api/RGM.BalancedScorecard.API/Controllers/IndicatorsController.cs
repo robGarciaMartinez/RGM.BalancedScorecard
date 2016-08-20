@@ -1,5 +1,7 @@
 ﻿namespace RGM.BalancedScorecard.API.Controllers
 {
+    using System;
+
     using Microsoft.AspNetCore.Mvc;
 
     using Domain.Commands.Indicators;
@@ -43,18 +45,13 @@
             return this.CreatedAtRoute("GetIndicator", new { code = command.Code }, null);
         }
 
-        //[HttpPut("{id}")]
-        //public IActionResult UpdateIndicator(Guid id, [FromBody] UpdateIndicatorCommand command)
-        //{
-        //    if (command == null)
-        //    {
-        //        return this.BadRequest();
-        //    }
-
-        //    command.Id = id;
-        //    this.commandBus.Submit(command);
-        //    return this.Ok();
-        //}
+        [HttpPut("{id}")]
+        public IActionResult UpdateIndicator(Guid id, [FromBody] UpdateIndicatorCommand command)
+        {
+            command.Id = id;
+            this.commandBus.Submit(command);
+            return this.Ok();
+        }
 
         //[HttpDelete("{id}")]
         //public IActionResult DeleteIndicator(Guid id)

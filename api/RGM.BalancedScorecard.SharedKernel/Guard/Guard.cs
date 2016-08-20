@@ -2,6 +2,8 @@
 {
     using System;
 
+    using RGM.BalancedScorecard.SharedKernel.Exceptions;
+
     public static class Guard
     {
         public static void AgainstNullArgument(object obj, string paramName, string message)
@@ -25,6 +27,14 @@
             if (obj == null)
             {
                 throw new InvalidOperationException(message);
+            }
+        }
+
+        public static void AgainstItemNotFound(object obj, string message)
+        {
+            if (obj == null)
+            {
+                throw new ItemNotFoundException(message);
             }
         }
     }

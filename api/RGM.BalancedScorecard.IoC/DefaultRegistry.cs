@@ -37,6 +37,8 @@
             // Indicators validation
             this.For<ISpecification<CreateIndicatorCommand>>().Use<IndicatorCodeMustBeUniqueSpecification>();
             this.For<IValidator<CreateIndicatorCommand>>().Use<CommandValidator<CreateIndicatorCommand>>();
+            this.For<ISpecification<UpdateIndicatorCommand>>().Use<IndicatorCodeMustBeUniqueSpecification>();
+            this.For<IValidator<UpdateIndicatorCommand>>().Use<CommandValidator<UpdateIndicatorCommand>>();
 
             this.For<IIndicatorStateCalculator>().Use<IndicatorStateCalculator>();
             this.For<IIndicatorsRepository>().Use<IndicatorsRepository>();

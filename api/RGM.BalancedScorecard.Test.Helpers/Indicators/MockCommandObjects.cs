@@ -27,5 +27,25 @@
                 StartDate = DateTime.Today
             };
         }
+
+        public static UpdateIndicatorCommand GetUpdateIndicatorCommand()
+        {
+            return new UpdateIndicatorCommand
+            {
+                Id = Guid.NewGuid(),
+                Code = "001",
+                Description = "Mock indicator description",
+                Name = "Mock indicator name",
+                ComparisonValue = IndicatorEnum.ComparisonValueType.Equal,
+                FulfillmentRate = 75,
+                IndicatorTypeId = Guid.NewGuid(),
+                Unit = "£",
+                Cumulative = true,
+                ObjectValue = IndicatorEnum.ObjectValueType.Integer,
+                Periodicity = IndicatorEnum.PeriodicityType.FourMonth,
+                ResponsibleId = Guid.NewGuid(),
+                StartDate = DateTime.Today
+            };
+        }
     }
 }

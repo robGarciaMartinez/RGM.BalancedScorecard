@@ -70,6 +70,33 @@
 
         public IndicatorEnum.State State { get; private set; }
 
+        public void Update(string name,
+            string description,
+            DateTime startDate,
+            string code,
+            string unit,
+            IndicatorEnum.PeriodicityType periodicity,
+            IndicatorEnum.ComparisonValueType comparisonValue,
+            IndicatorEnum.ObjectValueType objectValue,
+            Guid indicatorTypeId,
+            Guid responsibleId,
+            int? fulfillmentRate,
+            bool cumulative)
+        {
+            this.Name = name;
+            this.Description = description;
+            this.StartDate = startDate;
+            this.Code = code;
+            this.Unit = unit;
+            this.Periodicity = periodicity;
+            this.ComparisonValue = comparisonValue;
+            this.ObjectValue = objectValue;
+            this.IndicatorTypeId = indicatorTypeId;
+            this.ResponsibleId = responsibleId;
+            this.FulfillmentRate = fulfillmentRate;
+            this.Cumulative = cumulative;
+        }
+
         public void SetState(IndicatorEnum.State state)
         {
             this.State = state;

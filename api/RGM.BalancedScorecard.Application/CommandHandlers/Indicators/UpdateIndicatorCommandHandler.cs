@@ -1,22 +1,26 @@
 ﻿namespace RGM.BalancedScorecard.Application.CommandHandlers.Indicators
 {
     using RGM.BalancedScorecard.Domain.Commands.Indicators;
-    using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.Domain.Repositories;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
+    using RGM.BalancedScorecard.SharedKernel.Domain.Validation;
 
-    public class UpdateIndicatorCommandHandler : ICommandHandler<UpdateIndicatorCommand>
+    public class UpdateIndicatorCommandHandler : CommandHandler<UpdateIndicatorCommand>
     {
         private readonly IIndicatorsRepository repository;
 
-        public UpdateIndicatorCommandHandler(IIndicatorsRepository repository)
+        public UpdateIndicatorCommandHandler(
+            IValidator<UpdateIndicatorCommand> validator,
+            IIndicatorsRepository repository)
+            : base(validator)
         {
             this.repository = repository;
         }
 
-        public void Execute(UpdateIndicatorCommand command)
+        public override void OnSuccessValidation(UpdateIndicatorCommand command)
         {
-            var indicator = new Indicator(
+            var indicator = this.repository.FindByKey(command.Id);
+            indicator.Update(
                 command.Name,
                 command.Description,
                 command.StartDate,
@@ -28,8 +32,7 @@
                 command.IndicatorTypeId,
                 command.ResponsibleId,
                 command.FulfillmentRate,
-                command.Cumulative,
-                command.Id);
+                command.Cumulative);
 
             this.repository.Update(indicator);
         }
