@@ -7,20 +7,7 @@
     "RGM.BalancedScorecard.API": "1.0.0-*",
     "RGM.BalancedScorecard.Domain": "1.0.0-*",
     "RGM.BalancedScorecard.SharedKernel": "1.0.0-*",
-    "Microsoft.AspNetCore.Mvc": "1.0.0",
-    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
-    "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
-    "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
-    "Microsoft.Extensions.Configuration.Json": "1.0.0",
-    "Microsoft.Extensions.Logging": "1.0.0",
-    "Microsoft.Extensions.Logging.Console": "1.0.0",
-    "Microsoft.Extensions.Logging.Debug": "1.0.0",
-    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-    "RGM.BalancedScorecard.Infrastructure.Mongo": "1.0.0-*",
-    "RGM.BalancedScorecard.IoC": "1.0.0-*",
-    "RGM.BalancedScorecard.Query": "1.0.0-*",
-    "System.Interactive.Async": "3.0.0"
+    "RGM.BalancedScorecard.Query": "1.0.0-*"
   },
 
   "frameworks": {
