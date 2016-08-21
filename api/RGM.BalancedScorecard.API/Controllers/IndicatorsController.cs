@@ -1,6 +1,7 @@
 ﻿namespace RGM.BalancedScorecard.API.Controllers
 {
     using System;
+    using System.Collections.Generic;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -26,16 +27,16 @@
             this.reader = reader;
         }
 
-        //[HttpGet]
-        //public IEnumerable<IndicatorViewModel> GetIndicators()
-        //{
-        //    return null;
-        //}
+        [HttpGet]
+        public IActionResult GetIndicators([FromQuery] int page)
+        {
+            return this.Ok(this.reader.GetIndicators(page));
+        }
 
         [HttpGet("{code}", Name = "GetIndicator")]
-        public IndicatorViewModel GetIndicator(string code)
+        public IActionResult GetIndicator(string code)
         {
-            return this.reader.GetByCode(code);
+            return this.Ok(this.reader.GetByCode(code));
         }
 
         [HttpPost]    

@@ -38,6 +38,36 @@
 
         [Test]
         [Category("Application")]
+        public void CanGetIndicators()
+        {
+            // Arrange
+            var page = 1;
+
+            // Act
+            var actionResult = this.controller.GetIndicators(page);
+
+            // Assert
+            this.reader.Verify(c => c.GetIndicators(It.Is<int>(i => i.Equals(page))), Times.Once);
+            Assert.IsInstanceOf<OkObjectResult>(actionResult);
+        }
+
+        [Test]
+        [Category("Application")]
+        public void CanGetIndicator()
+        {
+            // Arrange
+            var code = "001";
+
+            // Act
+            var actionResult = this.controller.GetIndicator(code);
+
+            // Assert
+            this.reader.Verify(c => c.GetByCode(It.Is<string>(s => s.Equals(code))), Times.Once);
+            Assert.IsInstanceOf<OkObjectResult>(actionResult);
+        }
+
+        [Test]
+        [Category("Application")]
         public void CanCreateIndicator()
         {
             // Arrange
@@ -54,7 +84,7 @@
 
         [Test]
         [Category("Application")]
-        public void CanCUpdateIndicator()
+        public void CanUpdateIndicator()
         {
             // Arrange
             var guid = Guid.NewGuid();

@@ -1,7 +1,10 @@
 ﻿namespace RGM.BalancedScorecard.Infrastructure.Tests.Mongo.Readers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+
+    using Microsoft.Extensions.Configuration;
 
     using MongoDB.Bson.Serialization;
     using MongoDB.Driver;
@@ -31,12 +34,17 @@
 
         private IBsonSerializer<Indicator> documentSerializer;
 
+        private Mock<IFindFluent<Indicator, Indicator>> findFluent;
+
+        private Mock<IConfiguration> configuration;
+
         private IndicatorsReader reader;
 
         [SetUp]
         public void Setup()
         {
             this.cursor = new Mock<IAsyncCursor<Indicator>>();
+            this.findFluent = new Mock<IFindFluent<Indicator, Indicator>>();
             this.indicatorsCollection = new Mock<IMongoCollection<Indicator>>();
             this.indicatorsCollection.Setup(
                 c =>
@@ -45,15 +53,21 @@
                     It.IsAny<FindOptions<Indicator, Indicator>>(),
                     It.IsAny<CancellationToken>())).Returns(this.cursor.Object);
 
+            this.indicatorsCollection.Setup(
+                c => c.Find(It.IsAny<FilterDefinition<Indicator>>(), It.IsAny<FindOptions>()))
+                .Returns(this.findFluent.Object);
+
             this.context = new Mock<IDbContext>();
             this.context.Setup(c => c.Collection<Indicator>()).Returns(this.indicatorsCollection.Object);
 
             this.mapper = new Mock<IMapper>();
 
+            this.configuration = new Mock<IConfiguration>();
+
             this.serializerRegistry = BsonSerializer.SerializerRegistry;
             this.documentSerializer = this.serializerRegistry.GetSerializer<Indicator>();
 
-            this.reader = new IndicatorsReader(this.context.Object, this.mapper.Object);
+            this.reader = new IndicatorsReader(this.context.Object, this.mapper.Object, this.configuration.Object);
         }
 
         [Category("Infrastructure")]
@@ -79,5 +93,20 @@
                 Times.Once);
             this.mapper.Verify(m => m.Map<IndicatorViewModel>(It.IsAny<Indicator>()), Times.Once);
         }
-    }
+
+    //    [Category("Infrastructure")]
+    //    [Test]
+    //    public void CanGetIndicators()
+    //    {
+    //        // Arrange
+    //        var page = 1;
+
+    //        // Act
+    //        this.reader.GetIndicators(page);
+
+    //        // Assert
+    //        this.context.Verify(c => c.Collection<Indicator>(), Times.Once);
+    //        this.mapper.Verify(m => m.Map<List<IndicatorViewModel>>(It.IsAny<List<Indicator>>()), Times.Once);
+    //    }
+    //}
 }
