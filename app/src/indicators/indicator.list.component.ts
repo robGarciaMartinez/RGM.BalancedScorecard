@@ -4,7 +4,7 @@ import { Indicator } from './indicator'
 
 @Component({
     selector : 'indicator-list',
-    template : '<div>lalala</div>',
+    template : '<div>Indicator list</div>',
     providers: [IndicatorService]
 })
 export class IndicatorListComponent implements OnInit {
