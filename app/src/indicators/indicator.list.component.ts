@@ -1,17 +1,30 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
+
 import { IndicatorService } from './indicator.service';
 import { Indicator } from './indicator'
 
 @Component({
-    selector : 'indicator-list',
-    template : '<div>Indicator list</div>',
+    selector: 'indicator-list',
+    templateUrl: 'src/indicators/indicator.list.component.html',
     providers: [IndicatorService]
 })
 export class IndicatorListComponent implements OnInit {
-    indicators : Indicator[];
-    constructor(private indicatorService: IndicatorService){}
+    errorMessage: string;
+    indicators: Indicator[];
     
-    ngOnInit() : void {
-        this.indicators = this.indicatorService.getIndicators();
+    constructor(
+        private router: Router,
+        private indicatorService: IndicatorService){}
+    
+    ngOnInit(): void {
+        this.indicatorService.getIndicators()
+            .subscribe(
+                    indicators => this.indicators = indicators,
+                    error =>  this.errorMessage = <any>error);
+    }
+
+    navigateToDetails(indicator: Indicator): void{
+        this.router.navigate(['/indicator', indicator.code]);
     }
 }

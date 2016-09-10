@@ -1,5 +1,6 @@
 export class Indicator {
-    id : string;
-    name : string;
-    description : string;
+    id: string;
+    code: string;
+    name: string;
+    description: string;
 }

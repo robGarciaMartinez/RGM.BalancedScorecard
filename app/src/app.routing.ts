@@ -1,5 +1,6 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule }   from '@angular/router';
+
 import { HomeComponent } from './home/home.component';
 import { IndicatorListComponent } from './indicators/indicator.list.component';
 import { IndicatorDetailsComponent } from './indicators/indicator.details.component';

@@ -1,0 +1,12 @@
+<table>
+    <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    <tr *ngFor="let indicator of indicators" (click)="navigateToDetails(indicator)">
+        <td>{{indicator.code}}</td>
+        <td>{{indicator.name}}</td>
+        <td>{{indicator.description}}</td>
+    </tr>
+</table>

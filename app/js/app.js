@@ -1,5 +1,6 @@
-webpackJsonp([0],[
-/* 0 */
+webpackJsonp([0],{
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -9,30 +10,8 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */
+
+/***/ 24:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -47,10 +26,11 @@ webpackJsonp([0],[
 	};
 	var core_1 = __webpack_require__(3);
 	var platform_browser_1 = __webpack_require__(22);
-	var indicator_module_1 = __webpack_require__(25);
-	var home_module_1 = __webpack_require__(30);
-	var app_component_1 = __webpack_require__(32);
-	var app_routing_1 = __webpack_require__(33);
+	var http_1 = __webpack_require__(25);
+	var indicator_module_1 = __webpack_require__(26);
+	var home_module_1 = __webpack_require__(60);
+	var app_component_1 = __webpack_require__(62);
+	var app_routing_1 = __webpack_require__(63);
 	var AppModule = (function () {
 	    function AppModule() {
 	    }
@@ -60,6 +40,8 @@ webpackJsonp([0],[
 	                platform_browser_1.BrowserModule,
 	                indicator_module_1.IndicatorModule,
 	                home_module_1.HomeModule,
+	                http_1.HttpModule,
+	                http_1.JsonpModule,
 	                app_routing_1.routing
 	            ],
 	            declarations: [
@@ -80,7 +62,8 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 25 */
+
+/***/ 26:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -94,13 +77,17 @@ webpackJsonp([0],[
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(3);
-	var indicator_list_component_1 = __webpack_require__(26);
-	var indicator_details_component_1 = __webpack_require__(29);
+	var platform_browser_1 = __webpack_require__(22);
+	var indicator_list_component_1 = __webpack_require__(27);
+	var indicator_details_component_1 = __webpack_require__(59);
 	var IndicatorModule = (function () {
 	    function IndicatorModule() {
 	    }
 	    IndicatorModule = __decorate([
 	        core_1.NgModule({
+	            imports: [
+	                platform_browser_1.BrowserModule
+	            ],
 	            declarations: [
 	                indicator_list_component_1.IndicatorListComponent,
 	                indicator_details_component_1.IndicatorDetailsComponent
@@ -117,7 +104,8 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 26 */
+
+/***/ 27:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -131,21 +119,28 @@ webpackJsonp([0],[
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(3);
-	var indicator_service_1 = __webpack_require__(27);
+	var router_1 = __webpack_require__(28);
+	var indicator_service_1 = __webpack_require__(58);
 	var IndicatorListComponent = (function () {
-	    function IndicatorListComponent(indicatorService) {
+	    function IndicatorListComponent(router, indicatorService) {
+	        this.router = router;
 	        this.indicatorService = indicatorService;
 	    }
 	    IndicatorListComponent.prototype.ngOnInit = function () {
-	        this.indicators = this.indicatorService.getIndicators();
+	        var _this = this;
+	        this.indicatorService.getIndicators()
+	            .subscribe(function (indicators) { return _this.indicators = indicators; }, function (error) { return _this.errorMessage = error; });
+	    };
+	    IndicatorListComponent.prototype.navigateToDetails = function (indicator) {
+	        this.router.navigate(['/indicator', indicator.code]);
 	    };
 	    IndicatorListComponent = __decorate([
 	        core_1.Component({
 	            selector: 'indicator-list',
-	            template: '<div>Indicator list</div>',
+	            templateUrl: 'src/indicators/indicator.list.component.html',
 	            providers: [indicator_service_1.IndicatorService]
 	        }), 
-	        __metadata('design:paramtypes', [indicator_service_1.IndicatorService])
+	        __metadata('design:paramtypes', [router_1.Router, indicator_service_1.IndicatorService])
 	    ], IndicatorListComponent);
 	    return IndicatorListComponent;
 	}());
@@ -153,7 +148,8 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 27 */
+
+/***/ 58:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -167,16 +163,38 @@ webpackJsonp([0],[
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(3);
-	var indicator_mock_1 = __webpack_require__(28);
+	var http_1 = __webpack_require__(25);
+	var Observable_1 = __webpack_require__(5);
 	var IndicatorService = (function () {
-	    function IndicatorService() {
+	    function IndicatorService(http) {
+	        this.http = http;
 	    }
 	    IndicatorService.prototype.getIndicators = function () {
-	        return indicator_mock_1.Indicators;
+	        var page = 1;
+	        return this.http.get("http://localhost:55004/api/indicators?page=" + page)
+	            .map(this.extractData)
+	            .catch(this.handleError);
+	    };
+	    IndicatorService.prototype.getIndicator = function (code) {
+	        return this.http.get("http://localhost:55004/api/indicators/" + code)
+	            .map(this.extractData)
+	            .catch(this.handleError);
+	    };
+	    IndicatorService.prototype.extractData = function (res) {
+	        var body = res.json();
+	        return body || {};
+	    };
+	    IndicatorService.prototype.handleError = function (error) {
+	        // In a real world app, we might use a remote logging infrastructure
+	        // We'd also dig deeper into the error to get a better message
+	        var errMsg = (error.message) ? error.message :
+	            error.status ? error.status + " - " + error.statusText : 'Server error';
+	        console.error(errMsg); // log to console instead
+	        return Observable_1.Observable.throw(errMsg);
 	    };
 	    IndicatorService = __decorate([
 	        core_1.Injectable(), 
-	        __metadata('design:paramtypes', [])
+	        __metadata('design:paramtypes', [http_1.Http])
 	    ], IndicatorService);
 	    return IndicatorService;
 	}());
@@ -184,19 +202,8 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 28 */
-/***/ function(module, exports) {
 
-	"use strict";
-	exports.Indicators = [
-	    { id: '1', name: 'Indicator1', description: 'Description1' },
-	    { id: '2', name: 'Indicator2', description: 'Description2' },
-	    { id: '3', name: 'Indicator3', description: 'Description3' }
-	];
-
-
-/***/ },
-/* 29 */
+/***/ 59:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -210,15 +217,33 @@ webpackJsonp([0],[
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(3);
+	var router_1 = __webpack_require__(28);
+	var indicator_service_1 = __webpack_require__(58);
 	var IndicatorDetailsComponent = (function () {
-	    function IndicatorDetailsComponent() {
+	    function IndicatorDetailsComponent(route, router, indicatorsService) {
+	        this.route = route;
+	        this.router = router;
+	        this.indicatorsService = indicatorsService;
 	    }
+	    IndicatorDetailsComponent.prototype.ngOnInit = function () {
+	        var _this = this;
+	        //this.route.params.subscribe(
+	        //params => {
+	        //this.indicatorsService.getIndicator(params['code']).subscribe(
+	        //indicator => this.indicator = indicator
+	        //);
+	        //}
+	        //)
+	        var code = this.route.snapshot.params['code'];
+	        this.indicatorsService.getIndicator(code).subscribe(function (indicator) { return _this.indicator = indicator; });
+	    };
 	    IndicatorDetailsComponent = __decorate([
 	        core_1.Component({
 	            selector: 'indicator-details',
-	            template: '<div>Indicator details</div>'
+	            templateUrl: 'src/indicators/indicator.details.component.html',
+	            providers: [indicator_service_1.IndicatorService]
 	        }), 
-	        __metadata('design:paramtypes', [])
+	        __metadata('design:paramtypes', [router_1.ActivatedRoute, router_1.Router, indicator_service_1.IndicatorService])
 	    ], IndicatorDetailsComponent);
 	    return IndicatorDetailsComponent;
 	}());
@@ -226,7 +251,8 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 30 */
+
+/***/ 60:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -240,7 +266,7 @@ webpackJsonp([0],[
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(3);
-	var home_component_1 = __webpack_require__(31);
+	var home_component_1 = __webpack_require__(61);
 	var HomeModule = (function () {
 	    function HomeModule() {
 	    }
@@ -261,7 +287,8 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 31 */
+
+/***/ 61:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -291,7 +318,8 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 32 */
+
+/***/ 62:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -311,7 +339,7 @@ webpackJsonp([0],[
 	    AppComponent = __decorate([
 	        core_1.Component({
 	            selector: 'my-app',
-	            template: '<h1>Component Router</h1><nav><a routerLink="/" routerLinkActive="active">Home</a><a routerLink="/indicators">Indicators</a></nav><router-outlet></router-outlet>'
+	            templateUrl: 'src/app.component.html'
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], AppComponent);
@@ -321,14 +349,15 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 33 */
+
+/***/ 63:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var router_1 = __webpack_require__(34);
-	var home_component_1 = __webpack_require__(31);
-	var indicator_list_component_1 = __webpack_require__(26);
-	var indicator_details_component_1 = __webpack_require__(29);
+	var router_1 = __webpack_require__(28);
+	var home_component_1 = __webpack_require__(61);
+	var indicator_list_component_1 = __webpack_require__(27);
+	var indicator_details_component_1 = __webpack_require__(59);
 	var appRoutes = [
 	    {
 	        path: '',
@@ -348,4 +377,6 @@ webpackJsonp([0],[
 
 
 /***/ }
-]);
+
+});
+//# sourceMappingURL=app.js.map

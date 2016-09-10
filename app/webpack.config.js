@@ -7,28 +7,26 @@ module.exports = {
     },
     entry: 
     {
-        app: "./src/app.ts",
-        vendor: "./src/vendor.ts"
+        app: './src/app.ts',
+        vendor: './src/vendor.ts',
+        polyfills: './src/polyfills.ts'
     },
+    devtool : 'source-map',
     module:{
         loaders: [
             {
                 test: /\.ts$/,
                 loader: 'ts'
-            },
-            {
-                test: /\.html$/,
-                loader: "html-loader"
             }]
     },
     output: 
     {
-        path: __dirname + "/js",
-        filename: "[name].js"
+        path: __dirname + '/js',
+        filename: '[name].js'
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['app', 'vendor']
+            name: ['app', 'vendor', 'polyfills']
         })
     ]
 };

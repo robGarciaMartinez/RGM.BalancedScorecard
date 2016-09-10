@@ -6,6 +6,9 @@
     using Microsoft.AspNetCore.Mvc;
 
     using Domain.Commands.Indicators;
+
+    using Microsoft.AspNetCore.Cors;
+
     using Query.Model.Indicators;
     using Query.Readers;
 
@@ -28,12 +31,14 @@
         }
 
         [HttpGet]
+        [EnableCors("CorsPolicy")]
         public IActionResult GetIndicators([FromQuery] int page)
         {
             return this.Ok(this.reader.GetIndicators(page));
         }
 
         [HttpGet("{code}", Name = "GetIndicator")]
+        [EnableCors("CorsPolicy")]
         public IActionResult GetIndicator(string code)
         {
             return this.Ok(this.reader.GetByCode(code));

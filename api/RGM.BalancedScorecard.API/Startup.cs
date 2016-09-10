@@ -36,6 +36,13 @@ namespace RGM.BalancedScorecard.API
             // Add configuration
             services.AddSingleton<IConfiguration>(this.Configuration);
 
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             return ContainerSetup.GetServiceProvider(services);
         }
 
