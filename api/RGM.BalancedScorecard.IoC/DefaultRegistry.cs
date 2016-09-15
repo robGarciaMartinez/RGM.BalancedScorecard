@@ -11,9 +11,9 @@
     using RGM.BalancedScorecard.Domain.Services.Interfaces;
     using RGM.BalancedScorecard.Domain.Specifications.Indicators;
     using RGM.BalancedScorecard.Infrastructure.Automapper;
-    using RGM.BalancedScorecard.Infrastructure.Mongo.Context;
-    using RGM.BalancedScorecard.Infrastructure.Mongo.Readers.Indicators;
-    using RGM.BalancedScorecard.Infrastructure.Mongo.Repositories.Indicators;
+    using RGM.BalancedScorecard.Infrastructure.MongoDb.Context;
+    using RGM.BalancedScorecard.Infrastructure.MongoDb.Readers.Indicators;
+    using RGM.BalancedScorecard.Infrastructure.MongoDb.Repositories.Indicators;
     using RGM.BalancedScorecard.Query.Readers;
     using RGM.BalancedScorecard.SharedKernel.DependencyContainer;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;

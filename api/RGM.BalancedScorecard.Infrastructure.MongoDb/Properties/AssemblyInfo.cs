@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
@@ -7,7 +6,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RGM.BalancedScorecard.Infrastructure.Mongo.Write")]
+[assembly: AssemblyProduct("RGM.BalancedScorecard.Infrastructure.MongoDb")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,4 +15,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b4d448c0-a67a-4f31-b17e-37bffca7509a")]
+[assembly: Guid("9dc39bf4-3a2f-48b0-b14b-baf39863b7b9")]

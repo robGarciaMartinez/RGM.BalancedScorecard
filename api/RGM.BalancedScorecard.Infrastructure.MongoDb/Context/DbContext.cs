@@ -1,4 +1,4 @@
-﻿namespace RGM.BalancedScorecard.Infrastructure.Mongo.Context
+﻿namespace RGM.BalancedScorecard.Infrastructure.MongoDb.Context
 {
     using Microsoft.Extensions.Configuration;
 

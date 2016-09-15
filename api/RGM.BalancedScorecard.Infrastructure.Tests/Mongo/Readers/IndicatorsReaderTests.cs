@@ -15,8 +15,8 @@
 
     using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.Infrastructure.Automapper;
-    using RGM.BalancedScorecard.Infrastructure.Mongo.Context;
-    using RGM.BalancedScorecard.Infrastructure.Mongo.Readers.Indicators;
+    using RGM.BalancedScorecard.Infrastructure.MongoDb.Context;
+    using RGM.BalancedScorecard.Infrastructure.MongoDb.Readers.Indicators;
     using RGM.BalancedScorecard.Query.Model.Indicators;
 
     [TestFixture]
@@ -86,7 +86,8 @@
                 c =>
                 c.FindSync(
                     It.Is<FilterDefinition<Indicator>>(
-                        fd => fd.Render(this.documentSerializer, this.serializerRegistry)
+                        fd =>
+                        fd.Render(this.documentSerializer, this.serializerRegistry)
                             .Elements.Count(e => e.Name.Equals("Code") && e.Value.AsString.Equals(code)) == 1),
                     It.IsAny<FindOptions<Indicator, Indicator>>(),
                     It.IsAny<CancellationToken>()),
@@ -94,19 +95,20 @@
             this.mapper.Verify(m => m.Map<IndicatorViewModel>(It.IsAny<Indicator>()), Times.Once);
         }
 
-    //    [Category("Infrastructure")]
-    //    [Test]
-    //    public void CanGetIndicators()
-    //    {
-    //        // Arrange
-    //        var page = 1;
+        //    [Category("Infrastructure")]
+        //    [Test]
+        //    public void CanGetIndicators()
+        //    {
+        //        // Arrange
+        //        var page = 1;
 
-    //        // Act
-    //        this.reader.GetIndicators(page);
+        //        // Act
+        //        this.reader.GetIndicators(page);
 
-    //        // Assert
-    //        this.context.Verify(c => c.Collection<Indicator>(), Times.Once);
-    //        this.mapper.Verify(m => m.Map<List<IndicatorViewModel>>(It.IsAny<List<Indicator>>()), Times.Once);
-    //    }
-    //}
+        //        // Assert
+        //        this.context.Verify(c => c.Collection<Indicator>(), Times.Once);
+        //        this.mapper.Verify(m => m.Map<List<IndicatorViewModel>>(It.IsAny<List<Indicator>>()), Times.Once);
+        //    }
+        //}
+    }
 }

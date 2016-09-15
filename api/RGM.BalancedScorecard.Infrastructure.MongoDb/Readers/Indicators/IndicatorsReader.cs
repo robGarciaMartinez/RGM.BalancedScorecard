@@ -1,7 +1,6 @@
-﻿namespace RGM.BalancedScorecard.Infrastructure.Mongo.Readers.Indicators
+﻿namespace RGM.BalancedScorecard.Infrastructure.MongoDb.Readers.Indicators
 {
     using System.Collections.Generic;
-    using System.Linq.Expressions;
     using System.Threading;
 
     using Microsoft.Extensions.Configuration;
@@ -10,7 +9,7 @@
 
     using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.Infrastructure.Automapper;
-    using RGM.BalancedScorecard.Infrastructure.Mongo.Context;
+    using RGM.BalancedScorecard.Infrastructure.MongoDb.Context;
     using RGM.BalancedScorecard.Query.Model.Indicators;
     using RGM.BalancedScorecard.Query.Readers;
 

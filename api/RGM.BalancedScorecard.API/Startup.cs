@@ -9,7 +9,7 @@ namespace RGM.BalancedScorecard.API
 {
     using System;
 
-    using RGM.BalancedScorecard.Infrastructure.Mongo;
+    using RGM.BalancedScorecard.Infrastructure.MongoDb;
 
     public class Startup
     {

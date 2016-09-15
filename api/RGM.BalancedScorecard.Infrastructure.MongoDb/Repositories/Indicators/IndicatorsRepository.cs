@@ -1,4 +1,4 @@
-﻿namespace RGM.BalancedScorecard.Infrastructure.Mongo.Repositories.Indicators
+﻿namespace RGM.BalancedScorecard.Infrastructure.MongoDb.Repositories.Indicators
 {
     using System;
 
@@ -6,7 +6,7 @@
 
     using RGM.BalancedScorecard.Domain.Model.Indicators;
     using RGM.BalancedScorecard.Domain.Repositories;
-    using RGM.BalancedScorecard.Infrastructure.Mongo.Context;
+    using RGM.BalancedScorecard.Infrastructure.MongoDb.Context;
 
     public class IndicatorsRepository : IIndicatorsRepository
     {

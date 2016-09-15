@@ -12,8 +12,8 @@
     using NUnit.Framework;
 
     using RGM.BalancedScorecard.Domain.Model.Indicators;
-    using RGM.BalancedScorecard.Infrastructure.Mongo.Context;
-    using RGM.BalancedScorecard.Infrastructure.Mongo.Repositories.Indicators;
+    using RGM.BalancedScorecard.Infrastructure.MongoDb.Context;
+    using RGM.BalancedScorecard.Infrastructure.MongoDb.Repositories.Indicators;
     using RGM.BalancedScorecard.Test.Helpers.Indicators;
 
     [TestFixture]

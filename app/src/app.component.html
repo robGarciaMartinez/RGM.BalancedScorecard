@@ -1,7 +1,15 @@
-<h1>Balanced Scorecard</h1>
-<nav>
-    <a routerLink="/" routerLinkActive="active">Home</a>
-    <a routerLink="/indicators">Indicators</a>
-    <a routerLink="/indicator/001">Indicator</a>
-</nav>
-<router-outlet></router-outlet>
+<ul class="nav">
+    <li class="nav-item">
+        <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
+    </li>
+    <li class="nav-item dropdown">
+
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" routerLink="/indicators">Indicators</a>
+        </div>
+    </li> 
+</ul>
+<div class="container-fluid">
+    <router-outlet></router-outlet>
+</div>

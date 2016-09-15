@@ -1,15 +1,13 @@
 ﻿namespace RGM.BalancedScorecard.API.Controllers
 {
     using System;
-    using System.Collections.Generic;
 
-    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNet.Mvc;
 
     using Domain.Commands.Indicators;
 
-    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNet.Cors;
 
-    using Query.Model.Indicators;
     using Query.Readers;
 
     using RGM.BalancedScorecard.API.Filters;

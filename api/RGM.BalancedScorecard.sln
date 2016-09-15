@@ -23,7 +23,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RGM.BalancedScorecard.Domai
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RGM.BalancedScorecard.Application", "RGM.BalancedScorecard.Application\RGM.BalancedScorecard.Application.xproj", "{746FFF3E-D538-4917-A87D-4765C5F84F83}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RGM.BalancedScorecard.Infrastructure.Mongo", "RGM.BalancedScorecard.Infrastructure.Mongo\RGM.BalancedScorecard.Infrastructure.Mongo.xproj", "{9DC39BF4-3A2F-48B0-B14B-BAF39863B7B9}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RGM.BalancedScorecard.Infrastructure.MongoDb", "RGM.BalancedScorecard.Infrastructure.MongoDb\RGM.BalancedScorecard.Infrastructure.MongoDb.xproj", "{9DC39BF4-3A2F-48B0-B14B-BAF39863B7B9}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RGM.BalancedScorecard.Application.Tests", "RGM.BalancedScorecard.Application.Tests\RGM.BalancedScorecard.Application.Tests.xproj", "{827F1137-C12C-4D39-95DA-D514BBAC7A75}"
 EndProject
