@@ -2,11 +2,11 @@
 {
     using System;
 
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNetCore.Mvc;
 
     using Domain.Commands.Indicators;
 
-    using Microsoft.AspNet.Cors;
+    using Microsoft.AspNetCore.Cors;
 
     using Query.Readers;
 

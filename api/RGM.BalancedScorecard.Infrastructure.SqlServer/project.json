@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "frameworks": {
     "net461": {
@@ -6,6 +6,9 @@
   },
   "dependencies": {
     "EntityFramework": "6.1.3",
-    "RGM.BalancedScorecard.Domain" : "1.0.0"
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
+    "RGM.BalancedScorecard.Domain": "1.0.0",
+    "RGM.BalancedScorecard.Infrastructure.Automapper": "1.0.0-*",
+    "RGM.BalancedScorecard.Query": "1.0.0-*"
   }
 }

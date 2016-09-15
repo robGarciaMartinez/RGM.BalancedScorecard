@@ -27,6 +27,8 @@ namespace RGM.BalancedScorecard.SharedKernel.Domain.Model
         {
         }
 
+        protected AggregateDescendant() { }
+
         /// <summary>
         /// Gets the state.
         /// </summary>

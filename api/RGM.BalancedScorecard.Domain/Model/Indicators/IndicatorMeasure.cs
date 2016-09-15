@@ -46,6 +46,8 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
             this.Notes = notes;
         }
 
+        public IndicatorMeasure() { }
+
         /// <summary>
         ///     Gets the date.
         /// </summary>

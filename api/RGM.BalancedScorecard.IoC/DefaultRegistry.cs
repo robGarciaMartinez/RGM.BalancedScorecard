@@ -18,6 +18,8 @@
     using RGM.BalancedScorecard.SharedKernel.DependencyContainer;
     using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
     using RGM.BalancedScorecard.SharedKernel.Domain.Validation;
+    using Infrastructure.SqlServer.Context;
+    using System.Data.Entity;
 
     public class DefaultRegistry : Registry
     {
@@ -41,11 +43,15 @@
             this.For<IValidator<UpdateIndicatorCommand>>().Use<CommandValidator<UpdateIndicatorCommand>>();
 
             this.For<IIndicatorStateCalculator>().Use<IndicatorStateCalculator>();
-            this.For<IIndicatorsRepository>().Use<IndicatorsRepository>();
-            this.For<IIndicatorsReader>().Use<IndicatorsReader>();
+            //this.For<IIndicatorsRepository>().Use<IndicatorsRepository>();
+            this.For<IIndicatorsRepository>().Use<Infrastructure.SqlServer.Repositories.Indicators.IndicatorsRepository>();
+            //this.For<IIndicatorsReader>().Use<IndicatorsReader>();
+            this.For<IIndicatorsReader>().Use<Infrastructure.SqlServer.Readers.Indicators.IndicatorsReader>();
 
             // Mongo
-            this.For<IDbContext>().Use<DbContext>();
+            //this.For<IDbContext>().Use<DbContext>();
+            this.For<Infrastructure.SqlServer.Context.IDbContext>().Use<BalancedScorecardContext>();
+            this.For<IDatabaseInitializer<BalancedScorecardContext>>().Use<DropCreateDatabaseIfModelChanges<BalancedScorecardContext>>();
         }
     }
 }

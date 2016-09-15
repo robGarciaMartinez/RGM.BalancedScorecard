@@ -6,9 +6,10 @@
     "RGM.BalancedScorecard.Domain": "1.0.0-*",
     "RGM.BalancedScorecard.Infrastructure.Automapper": "1.0.0-*",
     "RGM.BalancedScorecard.Infrastructure.MongoDb": "1.0.0-*",
+    "RGM.BalancedScorecard.Infrastructure.SqlServer": "1.0.0-*",
     "RGM.BalancedScorecard.Query": "1.0.0-*",
     "StructureMap.Microsoft.DependencyInjection": "1.0.1",
-    "System.Runtime" : "4.0.20.0" 
+    "System.Runtime": "4.0.20.0"
   },
 
   "frameworks": {

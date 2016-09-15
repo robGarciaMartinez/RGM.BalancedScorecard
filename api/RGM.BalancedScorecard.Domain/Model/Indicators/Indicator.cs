@@ -5,8 +5,6 @@
     using System.Linq;
 
     using RGM.BalancedScorecard.Domain.Enums;
-    using RGM.BalancedScorecard.Domain.Events.Indicators;
-    using RGM.BalancedScorecard.Domain.Services.Interfaces;
     using RGM.BalancedScorecard.SharedKernel.Domain.Model;
     using RGM.BalancedScorecard.SharedKernel.Exceptions;
 
@@ -42,6 +40,8 @@
             this.Cumulative = cumulative;
         }
 
+        public Indicator() { }
+
         public string Name { get; private set; }
 
         public string Description { get; private set; }
@@ -69,6 +69,10 @@
         public List<IndicatorMeasure> Measures { get; private set; }
 
         public IndicatorEnum.State State { get; private set; }
+
+        public string MyFancyNewColumn { get; private set; }
+
+        public string xxx { get; private set; }
 
         public void Update(string name,
             string description,
