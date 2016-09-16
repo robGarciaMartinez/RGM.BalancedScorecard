@@ -70,10 +70,6 @@
 
         public IndicatorEnum.State State { get; private set; }
 
-        public string MyFancyNewColumn { get; private set; }
-
-        public string xxx { get; private set; }
-
         public void Update(string name,
             string description,
             DateTime startDate,
