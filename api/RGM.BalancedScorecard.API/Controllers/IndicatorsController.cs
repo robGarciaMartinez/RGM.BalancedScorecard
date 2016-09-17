@@ -70,11 +70,13 @@
         //    return new List<IndicatorMeasureViewModel>();
         //}
 
-        //[HttpPost("{id}/measures")]
-        //public IActionResult CreateIndicatorMeasure(Guid id, [FromBody] CreateIndicatorMeasureCommand command)
-        //{
-        //    return null;
-        //}
+        [HttpPost("{indicatorid}/measures")]
+        public IActionResult CreateIndicatorMeasure(Guid indicatorid, [FromBody] CreateIndicatorMeasureCommand command)
+        {
+            command.IndicatorId = indicatorid;
+            this.commandBus.Submit(command);
+            return this.Ok();
+        }
 
         //[HttpPut("{id}/measures/{measureId}")]
         //public IActionResult UpdateIndicatorMeasure(Guid id, [FromBody] UpdateIndicatorMeasureCommand command)

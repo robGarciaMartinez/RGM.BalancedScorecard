@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    using RGM.BalancedScorecard.SharedKernel.DependencyContainer;
-    using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
-    using RGM.BalancedScorecard.SharedKernel.Domain.Validation;
+    using SharedKernel.DependencyContainer;
+    using SharedKernel.Domain.Commands;
+    using SharedKernel.Domain.Validation;
 
     using StructureMap;
 

@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using RGM.BalancedScorecard.Domain.Enums;
-    using RGM.BalancedScorecard.SharedKernel.Domain.Model;
-    using RGM.BalancedScorecard.SharedKernel.Exceptions;
+    using Enums;
+    using SharedKernel.Domain.Model;
+    using SharedKernel.Exceptions;
 
     public class Indicator : AggregateRoot<Guid>
     {
@@ -40,8 +40,6 @@
             this.Cumulative = cumulative;
         }
 
-        public Indicator() { }
-
         public string Name { get; private set; }
 
         public string Description { get; private set; }
@@ -66,11 +64,16 @@
 
         public bool Cumulative { get; private set; }
 
-        public List<IndicatorMeasure> Measures { get; private set; }
-
         public IndicatorEnum.State State { get; private set; }
 
-        public void Update(string name,
+        public List<IndicatorMeasure> Measures { get; private set; }
+
+        public bool HasMeasures => this.Measures != null && this.Measures.Any();
+
+        public IndicatorMeasure LastMeasure => this.Measures.OrderByDescending(m => m.Date).First();
+
+        public void Update(
+            string name,
             string description,
             DateTime startDate,
             string code,
@@ -116,6 +119,11 @@
 
         public void AddMeasure(IndicatorMeasure measure)
         {
+            if (this.Measures == null)
+            {
+                this.Measures = new List<IndicatorMeasure>();
+            }
+
             this.Measures.Add(measure);
         }
 
@@ -139,11 +147,6 @@
             }
 
             this.Measures.RemoveAt(measureIndex);
-        }
-
-        public bool HasAnyMeasures()
-        {
-            return this.Measures != null && this.Measures.Any();
         }
 
         #endregion

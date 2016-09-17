@@ -1,6 +1,6 @@
 ﻿namespace RGM.BalancedScorecard.Domain.Model.Indicators.Values
 {
-    public class DoubleValue<TValue> : IValue
+    public class DoubleValue<TValue> : IIndicatorValue
     {
         public DoubleValue(TValue lowerValue, TValue higherValue)
         {

@@ -1,7 +1,7 @@
 ﻿namespace RGM.BalancedScorecard.Domain.Commands.Indicators
 {
     using Enums;
-    using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
+    using SharedKernel.Domain.Commands;
 
     using System.ComponentModel.DataAnnotations;
 

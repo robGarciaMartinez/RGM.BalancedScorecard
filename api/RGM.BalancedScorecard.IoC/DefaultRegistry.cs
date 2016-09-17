@@ -1,25 +1,23 @@
 ﻿namespace RGM.BalancedScorecard.IoC
 {
-    using RGM.BalancedScorecard.Application.CommandHandlers.Indicators;
-    using RGM.BalancedScorecard.Domain.Commands;
-    using RGM.BalancedScorecard.Domain.Commands.Indicators;
+    using Application.CommandHandlers.Indicators;
+    using Domain.Commands;
+    using Domain.Commands.Indicators;
 
     using StructureMap;
 
-    using RGM.BalancedScorecard.Domain.Repositories;
-    using RGM.BalancedScorecard.Domain.Services.Implementation;
-    using RGM.BalancedScorecard.Domain.Services.Interfaces;
-    using RGM.BalancedScorecard.Domain.Specifications.Indicators;
-    using RGM.BalancedScorecard.Infrastructure.Automapper;
-    using RGM.BalancedScorecard.Infrastructure.MongoDb.Context;
-    using RGM.BalancedScorecard.Infrastructure.MongoDb.Readers.Indicators;
-    using RGM.BalancedScorecard.Infrastructure.MongoDb.Repositories.Indicators;
-    using RGM.BalancedScorecard.Query.Readers;
-    using RGM.BalancedScorecard.SharedKernel.DependencyContainer;
-    using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
-    using RGM.BalancedScorecard.SharedKernel.Domain.Validation;
-    using Infrastructure.SqlServer.Context;
-    using System.Data.Entity;
+    using Domain.Repositories;
+    using Domain.Services.Implementation;
+    using Domain.Services.Interfaces;
+    using Domain.Specifications.Indicators;
+    using Infrastructure.Automapper;
+    using Infrastructure.MongoDb.Context;
+    using Infrastructure.MongoDb.Readers.Indicators;
+    using Infrastructure.MongoDb.Repositories.Indicators;
+    using Query.Readers;
+    using SharedKernel.DependencyContainer;
+    using SharedKernel.Domain.Commands;
+    using SharedKernel.Domain.Validation;
 
     public class DefaultRegistry : Registry
     {
@@ -36,6 +34,8 @@
             this.For<ICommandHandler<UpdateIndicatorCommand>>().Use<UpdateIndicatorCommandHandler>();
             this.For<ICommandHandler<DeleteIndicatorCommand>>().Use<DeleteIndicatorCommandHandler>();
 
+            this.For<ICommandHandler<CreateIndicatorMeasureCommand>>().Use<CreateIndicatorMeasureCommandHandler>();
+
             // Indicators validation
             this.For<ISpecification<CreateIndicatorCommand>>().Use<IndicatorCodeMustBeUniqueSpecification>();
             this.For<IValidator<CreateIndicatorCommand>>().Use<CommandValidator<CreateIndicatorCommand>>();
@@ -43,15 +43,14 @@
             this.For<IValidator<UpdateIndicatorCommand>>().Use<CommandValidator<UpdateIndicatorCommand>>();
 
             this.For<IIndicatorStateCalculator>().Use<IndicatorStateCalculator>();
-            //this.For<IIndicatorsRepository>().Use<IndicatorsRepository>();
-            this.For<IIndicatorsRepository>().Use<Infrastructure.SqlServer.Repositories.Indicators.IndicatorsRepository>();
-            //this.For<IIndicatorsReader>().Use<IndicatorsReader>();
-            this.For<IIndicatorsReader>().Use<Infrastructure.SqlServer.Readers.Indicators.IndicatorsReader>();
+            this.For<IIndicatorsRepository>().Use<IndicatorsRepository>();
+            this.For<IIndicatorsReader>().Use<IndicatorsReader>();
 
             // Mongo
-            //this.For<IDbContext>().Use<DbContext>();
-            this.For<Infrastructure.SqlServer.Context.IDbContext>().Use<BalancedScorecardContext>();
-            this.For<IDatabaseInitializer<BalancedScorecardContext>>().Use<DropCreateDatabaseIfModelChanges<BalancedScorecardContext>>();
+            this.For<IDbContext>().Use<DbContext>();
+
+            //this.For<Infrastructure.SqlServer.Context.IDbContext>().Use<BalancedScorecardContext>();
+            //this.For<IDatabaseInitializer<BalancedScorecardContext>>().Use<DropCreateDatabaseIfModelChanges<BalancedScorecardContext>>();
         }
     }
 }

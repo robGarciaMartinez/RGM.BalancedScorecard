@@ -7,11 +7,11 @@
 
     using MongoDB.Driver;
 
-    using RGM.BalancedScorecard.Domain.Model.Indicators;
-    using RGM.BalancedScorecard.Infrastructure.Automapper;
-    using RGM.BalancedScorecard.Infrastructure.MongoDb.Context;
-    using RGM.BalancedScorecard.Query.Model.Indicators;
-    using RGM.BalancedScorecard.Query.Readers;
+    using Domain.Model.Indicators;
+    using Automapper;
+    using Context;
+    using Query.Model.Indicators;
+    using Query.Readers;
 
     public class IndicatorsReader : IIndicatorsReader
     {

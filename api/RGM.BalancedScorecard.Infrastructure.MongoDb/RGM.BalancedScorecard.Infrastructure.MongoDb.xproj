@@ -8,7 +8,7 @@
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>9dc39bf4-3a2f-48b0-b14b-baf39863b7b9</ProjectGuid>
-    <RootNamespace>RGM.BalancedScorecard.Infrastructure.Mongo</RootNamespace>
+    <RootNamespace>RGM.BalancedScorecard.Infrastructure.MongoDb</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>

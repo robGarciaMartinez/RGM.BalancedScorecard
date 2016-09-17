@@ -4,9 +4,14 @@
     {
         public enum ComparisonValueType
         {
-            GreaterThann = 1,
+            GreaterThan = 1,
             SmallerThan = 2,
-            Equal = 3
+            Equal = 3,
+            NotEqual = 4,
+            BetweenLimits = 5,
+            OffLimits = 6,
+            GreaterOrEqualThan = 7,
+            SmallerOrEqualThan = 8
         }
 
         public enum ObjectValueType

@@ -1,11 +1,11 @@
 ﻿namespace RGM.BalancedScorecard.Application.CommandHandlers.Indicators
 {
-    using RGM.BalancedScorecard.Domain.Commands.Indicators;
-    using RGM.BalancedScorecard.Domain.Model.Indicators;
-    using RGM.BalancedScorecard.Domain.Repositories;
-    using RGM.BalancedScorecard.Domain.Services.Interfaces;
-    using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
-    using RGM.BalancedScorecard.SharedKernel.Domain.Validation;
+    using Domain.Commands.Indicators;
+    using Domain.Model.Indicators;
+    using Domain.Repositories;
+    using Domain.Services.Interfaces;
+    using SharedKernel.Domain.Commands;
+    using SharedKernel.Domain.Validation;
 
     public class CreateIndicatorCommandHandler : CommandHandler<CreateIndicatorCommand>
     {

@@ -9,6 +9,7 @@ namespace RGM.BalancedScorecard.API
 {
     using System;
 
+    using RGM.BalancedScorecard.API.Infrastructure;
     using RGM.BalancedScorecard.Infrastructure.MongoDb;
 
     public class Startup
@@ -20,8 +21,9 @@ namespace RGM.BalancedScorecard.API
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-            this.Configuration = builder.Build();
 
+            this.Configuration = builder.Build();
+            
             MongoCollectionsMap.Register();
         }
 
@@ -31,7 +33,10 @@ namespace RGM.BalancedScorecard.API
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(o =>
+            {
+                o.SerializerSettings.Converters.Add(new IndicatorValueConverter());
+            });
 
             // Add configuration
             services.AddSingleton<IConfiguration>(this.Configuration);
