@@ -30,7 +30,7 @@
 
         [HttpGet]
         [EnableCors("CorsPolicy")]
-        public IActionResult GetIndicators([FromQuery] int page)
+        public IActionResult GetIndicators([FromQuery] int page = 1)
         {
             return this.Ok(this.reader.GetIndicators(page));
         }
