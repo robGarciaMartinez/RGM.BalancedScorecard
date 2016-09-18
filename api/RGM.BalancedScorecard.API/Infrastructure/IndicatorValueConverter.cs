@@ -22,14 +22,14 @@
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var jObject = JObject.Load(reader);
-            if (jObject.Properties().Any(p => p.Name.Equals("Value")))
+            if (jObject.Properties().Any(p => p.Name.Equals("value")))
             {
-                return this.ReturnSingleValue(jObject["Value"]);
+                return this.ReturnSingleValue(jObject["value"]);
             }
 
-            if (jObject.Properties().Any(p => p.Name.Equals("LowerValue")) && jObject.Properties().Any(p => p.Name.Equals("HigherValue")))
+            if (jObject.Properties().Any(p => p.Name.Equals("lowervalue")) && jObject.Properties().Any(p => p.Name.Equals("highervalue")))
             {
-                return this.ReturnDoubleValue(jObject["LowerValue"], jObject["HigherValue"]);
+                return this.ReturnDoubleValue(jObject["lowervalue"], jObject["highervalue"]);
             }
 
             throw new ArgumentException("Indicator measure does not contain the expected values");

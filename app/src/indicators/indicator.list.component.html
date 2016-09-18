@@ -6,9 +6,12 @@
                     <h4 class="card-title">{{indicator.code}}</h4>
                     <p class="card-text">{{indicator.name}}</p>
                     <button class="btn btn-sm btn-primary" (click)="navigateToDetails(indicator)">View details</button>
-                    <button class="btn btn-sm btn-primary">Add period</button>
+                    <button class="btn btn-sm btn-primary" (click)="showAddIndicatorMeasureForm(indicator)">Add period</button>
                 </div>
             </div>
         </div>
+        <add-indicator-measure *ngIf="selectedIndicator" 
+                [indicator]="selectedIndicator"
+                (indicatorMeasureSaved)="clearAddIndicatorMeasureForm()"></add-indicator-measure>
     </div>
 </div>

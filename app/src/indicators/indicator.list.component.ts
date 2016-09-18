@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 
 import { IndicatorService } from './indicator.service';
-import { Indicator } from './indicator'
+import { Indicator } from './indicator';
 
 @Component({
     selector: 'indicator-list',
@@ -12,10 +12,13 @@ import { Indicator } from './indicator'
 export class IndicatorListComponent implements OnInit {
     errorMessage: string;
     indicators: Indicator[];
-    
-    constructor(
+    selectedIndicator: Indicator;
+
+    constructor (
         private router: Router,
-        private indicatorService: IndicatorService){}
+        private indicatorService: IndicatorService){
+            this.selectedIndicator = null;
+    }
     
     ngOnInit(): void {
         this.indicatorService.getIndicators()
@@ -24,7 +27,15 @@ export class IndicatorListComponent implements OnInit {
                     error =>  this.errorMessage = <any>error);
     }
 
-    navigateToDetails(indicator: Indicator): void{
+    navigateToDetails(indicator: Indicator): void {
         this.router.navigate(['/indicator', indicator.code]);
+    }
+
+    showAddIndicatorMeasureForm(indicator: Indicator): void {
+        this.selectedIndicator = indicator;
+    }
+
+    clearAddIndicatorMeasureForm(): void {
+        this.selectedIndicator = null;
     }
 }

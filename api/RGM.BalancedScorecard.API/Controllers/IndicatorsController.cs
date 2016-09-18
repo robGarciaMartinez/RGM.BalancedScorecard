@@ -71,6 +71,7 @@
         //}
 
         [HttpPost("{indicatorid}/measures")]
+        [EnableCors("CorsPolicy")]
         public IActionResult CreateIndicatorMeasure(Guid indicatorid, [FromBody] CreateIndicatorMeasureCommand command)
         {
             command.IndicatorId = indicatorid;

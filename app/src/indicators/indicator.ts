@@ -1,4 +1,4 @@
-import { IndicatorMeasure } from './indicatorMeasure'
+import { IndicatorMeasure } from './indicator.measure'
 
 export class Indicator {
     id: string;
