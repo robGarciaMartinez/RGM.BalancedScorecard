@@ -4,7 +4,6 @@ import { Http, Response } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 
 import { Indicator } from './indicator';
-import { Indicators } from './indicator.mock';
 
 @Injectable()
 export class IndicatorService {

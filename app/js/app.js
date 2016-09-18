@@ -237,6 +237,11 @@ webpackJsonp([0],{
 	        var code = this.route.snapshot.params['code'];
 	        this.indicatorsService.getIndicator(code).subscribe(function (indicator) { return _this.indicator = indicator; });
 	    };
+	    Object.defineProperty(IndicatorDetailsComponent.prototype, "diagnostic", {
+	        get: function () { return JSON.stringify(this.indicator); },
+	        enumerable: true,
+	        configurable: true
+	    });
 	    IndicatorDetailsComponent = __decorate([
 	        core_1.Component({
 	            selector: 'indicator-details',

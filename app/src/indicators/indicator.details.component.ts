@@ -19,16 +19,9 @@ export class IndicatorDetailsComponent implements OnInit {
         private indicatorsService : IndicatorService){} 
 
     ngOnInit(): void {
-        //this.route.params.subscribe(
-            //params => {
-                //this.indicatorsService.getIndicator(params['code']).subscribe(
-                    //indicator => this.indicator = indicator
-                //);
-            //}
-        //)
         let code = this.route.snapshot.params['code'];
         this.indicatorsService.getIndicator(code).subscribe(
             indicator => this.indicator = indicator
-        );
+        );       
     }
 }
