@@ -1,3 +1,5 @@
+import { GUID } from '../shared/guid';
+
 export class IndicatorMeasure {
     id: string;
     indicatorId: string;
@@ -7,6 +9,7 @@ export class IndicatorMeasure {
     notes: string;
 
     constructor(){
+        this.id = new GUID().toString();
         this.record = new SingleValue();
         this.objective = new SingleValue();
     }

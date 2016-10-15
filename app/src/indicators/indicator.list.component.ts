@@ -11,8 +11,8 @@ import { Indicator } from './indicator';
 })
 export class IndicatorListComponent implements OnInit {
     errorMessage: string;
+    selectedIndicator: string;
     indicators: Indicator[];
-    selectedIndicator: Indicator;
 
     constructor (
         private router: Router,
@@ -24,15 +24,19 @@ export class IndicatorListComponent implements OnInit {
         this.indicatorService.getIndicators()
             .subscribe(
                     indicators => this.indicators = indicators,
-                    error =>  this.errorMessage = <any>error);
+                    error => this.errorMessage = <any>error);
     }
 
     navigateToDetails(indicator: Indicator): void {
         this.router.navigate(['/indicator', indicator.code]);
     }
 
-    showAddIndicatorMeasureForm(indicator: Indicator): void {
-        this.selectedIndicator = indicator;
+    showHideForm(indicator: Indicator): void {
+        this.selectedIndicator = this.selectedIndicator != indicator.id ? indicator.id : null;
+    }
+
+    showHideFormButtonText(indicator: Indicator): string {
+        return this.selectedIndicator != indicator.id ? "Add period" : "Hide form";
     }
 
     clearAddIndicatorMeasureForm(): void {
