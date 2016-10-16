@@ -11,11 +11,11 @@
                     <h4 class="card-title">{{indicator.code}}</h4>
                     <p class="card-text">{{indicator.name}}</p>
                     <button class="btn btn-sm btn-primary" (click)="navigateToDetails(indicator)">View details</button>
-                    <button class="btn btn-sm btn-primary" (click)="showHideForm(indicator)">{{showHideFormButtonText(indicator)}}</button>
+                    <button class="btn btn-sm btn-primary" (click)="showHideFormEvent(indicator)">{{showHideFormButtonText(indicator)}}</button>
                 </div>
                 <div class="card-block">
-                    <add-indicator-measure *ngIf="selectedIndicator == indicator.id" 
-                        [indicator]="indicator" (indicatorMeasureSaved)="showHideForm(indicator)">
+                    <add-indicator-measure *ngIf="showHideFormCondition(indicator)" [indicatorId]="indicator.id" 
+                    [minDate]="indicator.lastMeasureDate" (indicatorMeasureSaved)="showHideForm(indicator)">
                     </add-indicator-measure>
                 </div>
             </div>

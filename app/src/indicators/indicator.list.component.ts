@@ -31,8 +31,12 @@ export class IndicatorListComponent implements OnInit {
         this.router.navigate(['/indicator', indicator.code]);
     }
 
-    showHideForm(indicator: Indicator): void {
+    showHideFormEvent(indicator: Indicator): void {
         this.selectedIndicator = this.selectedIndicator != indicator.id ? indicator.id : null;
+    }
+
+    showHideFormCondition(indicator: Indicator): boolean {
+        return this.selectedIndicator == indicator.id;
     }
 
     showHideFormButtonText(indicator: Indicator): string {

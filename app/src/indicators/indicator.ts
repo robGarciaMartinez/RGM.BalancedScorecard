@@ -15,5 +15,6 @@ export class Indicator {
     fulfillmentRate: number;
     cumulative: boolean;
     state: number;
+    lastMeasureDate: Date;
     measures: IndicatorMeasure[]
 }

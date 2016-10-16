@@ -9,18 +9,19 @@ import { IndicatorService } from './indicator.service';
     templateUrl: 'src/indicators/add.indicator.measure.component.html',
     providers: [IndicatorService]
 })
-export class AddIndicatorMeasureComponent{
-    @Input() indicator: Indicator;
-    @Output() indicatorMeasureSaved= new EventEmitter<any>();
+export class AddIndicatorMeasureComponent {
+    @Input() indicatorId: string;
+    @Input() minDate: string;
+    @Output() indicatorMeasureSaved = new EventEmitter<any>();
     measure: IndicatorMeasure;
     errorMessage: string;
     
     constructor(private indicatorService: IndicatorService){
-        this.measure = new IndicatorMeasure(); 
+        this.measure = new IndicatorMeasure();
     }
 
     saveMeasure(): void {
-        this.indicatorService.saveIndicatorMeasure(this.indicator.id, this.measure)
+        this.indicatorService.saveIndicatorMeasure(this.indicatorId, this.measure)
             .subscribe(error =>  this.errorMessage = <any>error);
         this.indicatorMeasureSaved.emit();
     }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class IndicatorViewModel
     {
@@ -34,5 +35,11 @@
         public int State { get; set; }
 
         public List<IndicatorMeasureViewModel> Measures { get; set; }
+
+        public string LastMeasureDate
+            =>
+                this.Measures != null && this.Measures.Any()
+                    ? this.Measures.OrderByDescending(m => m.Date).First().Date.ToString("yyyy-MM")
+                    : null;
     }
 }
