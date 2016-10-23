@@ -58,8 +58,6 @@ namespace RGM.BalancedScorecard.API
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseStaticFiles();
-            app.UseMvc();
             app.Use(async (context, next) =>
             {
                 await next();
@@ -71,6 +69,8 @@ namespace RGM.BalancedScorecard.API
                     await next();
                 }
             });
+            app.UseStaticFiles();
+            app.UseMvc();
         }
     }
 }
