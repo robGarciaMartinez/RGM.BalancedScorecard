@@ -10,7 +10,7 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
-    "typings": "typings",
+    "typings": "typings"
   },
   "author": "Roberto Garcia",
   "license": "ISC",
