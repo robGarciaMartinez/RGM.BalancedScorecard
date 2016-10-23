@@ -8,6 +8,7 @@ using RGM.BalancedScorecard.IoC;
 namespace RGM.BalancedScorecard.API
 {
     using System;
+    using System.IO;
 
     using RGM.BalancedScorecard.API.Infrastructure;
     using RGM.BalancedScorecard.Infrastructure.MongoDb;
@@ -57,7 +58,19 @@ namespace RGM.BalancedScorecard.API
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseStaticFiles();
             app.UseMvc();
+            app.Use(async (context, next) =>
+            {
+                await next();
+
+                if (context.Response.StatusCode == 404
+                    && !Path.HasExtension(context.Request.Path.Value))
+                {
+                    context.Request.Path = "/index.html";
+                    await next();
+                }
+            });
         }
     }
 }
