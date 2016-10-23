@@ -6,7 +6,7 @@ import { IndicatorService } from './indicator.service';
 
 @Component({
     selector: 'add-indicator-measure',
-    templateUrl: 'src/indicators/add.indicator.measure.component.html',
+    templateUrl: 'html/indicators/add.indicator.measure.component.html',
     providers: [IndicatorService]
 })
 export class AddIndicatorMeasureComponent {

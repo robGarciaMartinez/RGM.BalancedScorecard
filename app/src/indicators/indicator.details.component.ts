@@ -6,7 +6,7 @@ import { Indicator } from './indicator'
 
 @Component({
     selector: 'indicator-details',
-    templateUrl: 'src/indicators/indicator.details.component.html',
+    templateUrl: 'html/indicators/indicator.details.component.html',
     providers: [IndicatorService]
 })
 export class IndicatorDetailsComponent implements OnInit {
