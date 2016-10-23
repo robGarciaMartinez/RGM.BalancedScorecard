@@ -11,7 +11,6 @@
     "tsc:w": "tsc -w",
     "lite": "lite-server",
     "typings": "typings",
-    "postinstall": "typings install"
   },
   "author": "Roberto Garcia",
   "license": "ISC",
