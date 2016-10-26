@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { IndicatorService } from './indicator.service';
 import { Indicator } from './indicator';
 
+import '../../styles/indicators/indicator.list.scss';
+
+
 @Component({
     selector: 'indicator-list',
     templateUrl: 'html/indicators/indicator.list.component.html',

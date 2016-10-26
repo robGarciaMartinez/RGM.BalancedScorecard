@@ -17,16 +17,22 @@ module.exports = {
             {
                 test: /\.ts$/,
                 loader: 'ts'
+            },
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract('css?sourceMap!sass?sourceMap')
             }]
     },
     output: 
     {
-        path: __dirname + '/js',
-        filename: '[name].js'
+        filename: 'js/[name].js'
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
             name: ['app', 'vendor', 'polyfills']
+        }),
+        new ExtractTextPlugin('css/style.css', {
+            allChunks: true
         })
     ]
 };
