@@ -10,7 +10,6 @@
     using Domain.Services.Implementation;
     using Domain.Services.Interfaces;
     using Domain.Specifications.Indicators;
-    using Infrastructure.Automapper;
     using Infrastructure.MongoDb.Context;
     using Infrastructure.MongoDb.Readers.Indicators;
     using Infrastructure.MongoDb.Repositories.Indicators;
@@ -25,8 +24,6 @@
         {
             // General
             this.For<ICommandBus>().Use<CommandBus>();
-            this.For<IMapper>().Use<CustomMapper>();
-            this.For<AutoMapper.IMapper>().Use(Mappings.Configuration.CreateMapper());
             this.For<IDependencyContainer>().Use<CustomDependencyContainer>();
 
             // Indicators command handlers

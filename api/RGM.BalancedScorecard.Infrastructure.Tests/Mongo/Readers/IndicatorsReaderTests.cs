@@ -1,6 +1,5 @@
 ﻿namespace RGM.BalancedScorecard.Infrastructure.Tests.Mongo.Readers
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
 
@@ -14,7 +13,6 @@
     using NUnit.Framework;
 
     using RGM.BalancedScorecard.Domain.Model.Indicators;
-    using RGM.BalancedScorecard.Infrastructure.Automapper;
     using RGM.BalancedScorecard.Infrastructure.MongoDb.Context;
     using RGM.BalancedScorecard.Infrastructure.MongoDb.Readers.Indicators;
     using RGM.BalancedScorecard.Query.Model.Indicators;
@@ -27,8 +25,6 @@
         private Mock<IMongoCollection<Indicator>> indicatorsCollection;
 
         private Mock<IAsyncCursor<Indicator>> cursor;
-
-        private Mock<IMapper> mapper;
 
         private IBsonSerializerRegistry serializerRegistry;
 
@@ -59,15 +55,12 @@
 
             this.context = new Mock<IDbContext>();
             this.context.Setup(c => c.Collection<Indicator>()).Returns(this.indicatorsCollection.Object);
-
-            this.mapper = new Mock<IMapper>();
-
             this.configuration = new Mock<IConfiguration>();
 
             this.serializerRegistry = BsonSerializer.SerializerRegistry;
             this.documentSerializer = this.serializerRegistry.GetSerializer<Indicator>();
 
-            this.reader = new IndicatorsReader(this.context.Object, this.mapper.Object, this.configuration.Object);
+            this.reader = new IndicatorsReader(this.context.Object, this.configuration.Object);
         }
 
         [Category("Infrastructure")]
@@ -92,7 +85,6 @@
                     It.IsAny<FindOptions<Indicator, Indicator>>(),
                     It.IsAny<CancellationToken>()),
                 Times.Once);
-            this.mapper.Verify(m => m.Map<IndicatorViewModel>(It.IsAny<Indicator>()), Times.Once);
         }
 
         //    [Category("Infrastructure")]

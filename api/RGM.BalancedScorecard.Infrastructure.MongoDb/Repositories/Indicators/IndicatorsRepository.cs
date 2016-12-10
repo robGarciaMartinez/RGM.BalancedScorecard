@@ -1,13 +1,11 @@
-﻿namespace RGM.BalancedScorecard.Infrastructure.MongoDb.Repositories.Indicators
+﻿using MongoDB.Driver;
+using RGM.BalancedScorecard.Domain.Model.Indicators;
+using RGM.BalancedScorecard.Domain.Repositories;
+using RGM.BalancedScorecard.Infrastructure.MongoDb.Context;
+using System;
+
+namespace RGM.BalancedScorecard.Infrastructure.MongoDb.Repositories.Indicators
 {
-    using System;
-
-    using MongoDB.Driver;
-
-    using RGM.BalancedScorecard.Domain.Model.Indicators;
-    using RGM.BalancedScorecard.Domain.Repositories;
-    using RGM.BalancedScorecard.Infrastructure.MongoDb.Context;
-
     public class IndicatorsRepository : IIndicatorsRepository
     {
         private readonly IDbContext context;

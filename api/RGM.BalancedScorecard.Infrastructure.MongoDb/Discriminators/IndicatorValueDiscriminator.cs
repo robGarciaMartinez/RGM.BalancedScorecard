@@ -1,8 +1,9 @@
-﻿using MongoDB.Bson.IO;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization.Conventions;
-using System;
-using MongoDB.Bson;
 using RGM.BalancedScorecard.Domain.Model.Indicators.Values;
+using System;
+using System.Reflection;
 
 namespace RGM.BalancedScorecard.Infrastructure.MongoDb.Discriminators
 {
