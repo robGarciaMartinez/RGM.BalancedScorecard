@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGM.BalancedScorecard.Appli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGM.BalancedScorecard.Kernel", "RGM.BalancedScorecard.Kernel\RGM.BalancedScorecard.Kernel.csproj", "{3602207A-4127-44A9-AD4B-AC104855C4E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGM.BalancedScorecard.Api", "RGM.BalancedScorecard.Api\RGM.BalancedScorecard.Api.csproj", "{D721561F-3B99-4B16-9A2F-70E3AF9F4270}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGM.BalancedScorecard.EF", "RGM.BalancedScorecard.EF\RGM.BalancedScorecard.EF.csproj", "{70B1596F-E139-4A03-934A-285337F00E69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{3602207A-4127-44A9-AD4B-AC104855C4E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3602207A-4127-44A9-AD4B-AC104855C4E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3602207A-4127-44A9-AD4B-AC104855C4E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D721561F-3B99-4B16-9A2F-70E3AF9F4270}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D721561F-3B99-4B16-9A2F-70E3AF9F4270}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D721561F-3B99-4B16-9A2F-70E3AF9F4270}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D721561F-3B99-4B16-9A2F-70E3AF9F4270}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70B1596F-E139-4A03-934A-285337F00E69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70B1596F-E139-4A03-934A-285337F00E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70B1596F-E139-4A03-934A-285337F00E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70B1596F-E139-4A03-934A-285337F00E69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
