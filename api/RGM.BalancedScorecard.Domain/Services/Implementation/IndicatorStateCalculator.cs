@@ -1,12 +1,11 @@
-﻿namespace RGM.BalancedScorecard.Domain.Services.Implementation
+﻿using RGM.BalancedScorecard.Domain.Enums;
+using RGM.BalancedScorecard.Domain.Model.Indicators;
+using RGM.BalancedScorecard.Domain.Model.Indicators.Values;
+using RGM.BalancedScorecard.Domain.Services.Interfaces;
+using System;
+
+namespace RGM.BalancedScorecard.Domain.Services.Implementation
 {
-    using System;
-
-    using Enums;
-    using Model.Indicators;
-    using Interfaces;
-    using Model.Indicators.Values;
-
     public class IndicatorStateCalculator : IIndicatorStateCalculator
     {
         public IndicatorEnum.State Calculate(Indicator indicator)
@@ -25,11 +24,11 @@
             switch (indicator.ObjectValue)
             {
                 case IndicatorEnum.ObjectValueType.Integer:
-                    return this.CalculateState<int>(indicator, lastMeasure);
+                    return CalculateState<int>(indicator, lastMeasure);
                 case IndicatorEnum.ObjectValueType.Decimal:
-                    return this.CalculateState<decimal>(indicator, lastMeasure);
+                    return CalculateState<decimal>(indicator, lastMeasure);
                 case IndicatorEnum.ObjectValueType.Boolean:
-                    return this.CalculateState<bool>(indicator, lastMeasure);
+                    return CalculateState<bool>(indicator, lastMeasure);
                 default:
                     throw new InvalidOperationException("Indicator measure type is not correct");
             }
@@ -45,10 +44,10 @@
                 case IndicatorEnum.ComparisonValueType.SmallerThan:
                 case IndicatorEnum.ComparisonValueType.GreaterOrEqualThan:
                 case IndicatorEnum.ComparisonValueType.SmallerOrEqualThan:
-                    return this.CalculateSingleValueBasedState<T>(indicator, lastMeasure);
+                    return CalculateSingleValueBasedState<T>(indicator, lastMeasure);
                 case IndicatorEnum.ComparisonValueType.BetweenLimits:
                 case IndicatorEnum.ComparisonValueType.OffLimits:
-                    return this.CalculateDoubleValueBasedState<T>(indicator, lastMeasure);
+                    return CalculateDoubleValueBasedState<T>(indicator, lastMeasure);
                 default:
                     throw new InvalidOperationException("Indicator measure comparison value is not correct");
             }

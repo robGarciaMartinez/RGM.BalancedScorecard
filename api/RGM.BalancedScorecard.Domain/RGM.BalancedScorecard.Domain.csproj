@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="EventHandlers\Indicators\" />
+    <Folder Include="Events\Indicators\" />
+    <Folder Include="Specifications\Indicators\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RGM.BalancedScorecard.Kernel\RGM.BalancedScorecard.Kernel.csproj" />
+  </ItemGroup>
+
+</Project>

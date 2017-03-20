@@ -1,11 +1,10 @@
-﻿namespace RGM.BalancedScorecard.Domain.Commands.Indicators
+﻿using RGM.BalancedScorecard.Domain.Model.Indicators.Values;
+using RGM.BalancedScorecard.Kernel.Domain.Commands;
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace RGM.BalancedScorecard.Domain.Commands.Indicators
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
-
-    using SharedKernel.Domain.Commands;
-    using Model.Indicators.Values;
-
     public class CreateIndicatorMeasureCommand : ICommand
     {
         [Required]

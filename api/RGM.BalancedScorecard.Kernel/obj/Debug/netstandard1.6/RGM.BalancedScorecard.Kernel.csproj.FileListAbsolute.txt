@@ -1,0 +1,6 @@
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Kernel\bin\Debug\netstandard1.6\RGM.BalancedScorecard.Kernel.deps.json
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Kernel\bin\Debug\netstandard1.6\RGM.BalancedScorecard.Kernel.dll
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Kernel\bin\Debug\netstandard1.6\RGM.BalancedScorecard.Kernel.pdb
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Kernel\obj\Debug\netstandard1.6\RGM.BalancedScorecard.Kernel.AssemblyInfo.cs
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Kernel\obj\Debug\netstandard1.6\RGM.BalancedScorecard.Kernel.dll
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Kernel\obj\Debug\netstandard1.6\RGM.BalancedScorecard.Kernel.pdb

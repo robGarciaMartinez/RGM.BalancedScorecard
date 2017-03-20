@@ -1,23 +1,17 @@
-﻿namespace RGM.BalancedScorecard.Domain.Model.Indicators
+﻿using RGM.BalancedScorecard.Domain.Model.Indicators.Values;
+using RGM.BalancedScorecard.Kernel.Domain.Model;
+using System;
+
+namespace RGM.BalancedScorecard.Domain.Model.Indicators
 {
-    using System;
-
-    using Values;
-    using SharedKernel.Domain.Model;
-
-    public class IndicatorMeasure : AggregateDescendant<Guid>
+    public class IndicatorMeasure : DomainEntity
     {
-        public IndicatorMeasure(DateTime date, IIndicatorValue record, IIndicatorValue objective, string notes, Guid id)
-            : base(id)
+        public IndicatorMeasure(DateTime date, IIndicatorValue record, IIndicatorValue objective, string notes)
         {
-            this.Date = date;
-            this.Record = record;
-            this.Objective = objective;
-            this.Notes = notes;
-        }
-
-        public IndicatorMeasure()
-        {
+            Date = date;
+            Record = record;
+            Objective = objective;
+            Notes = notes;
         }
 
         public DateTime Date { get; private set; }

@@ -1,43 +1,29 @@
-﻿namespace RGM.BalancedScorecard.Domain.Model.Indicators
+﻿using RGM.BalancedScorecard.Domain.Enums;
+using RGM.BalancedScorecard.Kernel.Domain.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace RGM.BalancedScorecard.Domain.Model.Indicators
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using Enums;
-    using SharedKernel.Domain.Model;
-    using SharedKernel.Exceptions;
-
-    public class Indicator : AggregateRoot<Guid>
+    public class Indicator : AggregateRoot
     {
-        public Indicator(
-            string name,
-            string description,
-            DateTime startDate,
-            string code,
-            string unit,
-            IndicatorEnum.PeriodicityType periodicity,
-            IndicatorEnum.ComparisonValueType comparisonValue,
-            IndicatorEnum.ObjectValueType objectValue,
-            Guid indicatorTypeId,
-            Guid responsibleId,
-            int? fulfillmentRate,
-            bool cumulative,
-            Guid id)
-            : base(id)
+        public Indicator(string name, string description, DateTime startDate, string code, string unit, IndicatorEnum.PeriodicityType periodicity, 
+            IndicatorEnum.ComparisonValueType comparisonValue, IndicatorEnum.ObjectValueType objectValue, Guid indicatorTypeId, Guid responsibleId, 
+            int? fulfillmentRate, bool cumulative)
         {
-            this.Name = name;
-            this.Description = description;
-            this.StartDate = startDate;
-            this.Code = code;
-            this.Unit = unit;
-            this.Periodicity = periodicity;
-            this.ComparisonValue = comparisonValue;
-            this.ObjectValue = objectValue;
-            this.IndicatorTypeId = indicatorTypeId;
-            this.ResponsibleId = responsibleId;
-            this.FulfillmentRate = fulfillmentRate;
-            this.Cumulative = cumulative;
+            Name = name;
+            Description = description;
+            StartDate = startDate;
+            Code = code;
+            Unit = unit;
+            Periodicity = periodicity;
+            ComparisonValue = comparisonValue;
+            ObjectValue = objectValue;
+            IndicatorTypeId = indicatorTypeId;
+            ResponsibleId = responsibleId;
+            FulfillmentRate = fulfillmentRate;
+            Cumulative = cumulative;
         }
 
         public string Name { get; private set; }
@@ -68,9 +54,9 @@
 
         public List<IndicatorMeasure> Measures { get; private set; }
 
-        public bool HasMeasures => this.Measures != null && this.Measures.Any();
+        public bool HasMeasures => Measures != null && Measures.Any();
 
-        public IndicatorMeasure LastMeasure => this.Measures.OrderByDescending(m => m.Date).First();
+        public IndicatorMeasure LastMeasure => Measures.OrderByDescending(m => m.Date).First();
 
         public void Update(
             string name,
@@ -86,67 +72,67 @@
             int? fulfillmentRate,
             bool cumulative)
         {
-            this.Name = name;
-            this.Description = description;
-            this.StartDate = startDate;
-            this.Code = code;
-            this.Unit = unit;
-            this.Periodicity = periodicity;
-            this.ComparisonValue = comparisonValue;
-            this.ObjectValue = objectValue;
-            this.IndicatorTypeId = indicatorTypeId;
-            this.ResponsibleId = responsibleId;
-            this.FulfillmentRate = fulfillmentRate;
-            this.Cumulative = cumulative;
+            Name = name;
+            Description = description;
+            StartDate = startDate;
+            Code = code;
+            Unit = unit;
+            Periodicity = periodicity;
+            ComparisonValue = comparisonValue;
+            ObjectValue = objectValue;
+            IndicatorTypeId = indicatorTypeId;
+            ResponsibleId = responsibleId;
+            FulfillmentRate = fulfillmentRate;
+            Cumulative = cumulative;
         }
 
         public void SetState(IndicatorEnum.State state)
         {
-            this.State = state;
+            State = state;
         }
 
         #region Measures
 
         public List<IndicatorMeasure> GetMeasures(List<IndicatorMeasure> measures)
         {
-            return this.Measures;
+            return Measures;
         }
 
         public void SetMeasures(List<IndicatorMeasure> measures)
         {
-            this.Measures = measures;
+            Measures = measures;
         }
 
         public void AddMeasure(IndicatorMeasure measure)
         {
-            if (this.Measures == null)
+            if (Measures == null)
             {
-                this.Measures = new List<IndicatorMeasure>();
+                Measures = new List<IndicatorMeasure>();
             }
 
-            this.Measures.Add(measure);
+            Measures.Add(measure);
         }
 
         public void UpdateMeasure(IndicatorMeasure measure)
         {
-            var measureIndex = this.Measures.FindIndex(m => m.Id == measure.Id);
+            var measureIndex = Measures.FindIndex(m => m.Id == measure.Id);
             if (measureIndex == -1)
             {
-                throw new ItemNotFoundException("Cannot find a measure with the given id");
+                throw new ArgumentException("Cannot find a measure with the given id");
             }
 
-            this.Measures[measureIndex] = measure;
+            Measures[measureIndex] = measure;
         }
 
         public void DeleteMeasure(IndicatorMeasure measure)
         {
-            var measureIndex = this.Measures.FindIndex(m => m.Id == measure.Id);
+            var measureIndex = Measures.FindIndex(m => m.Id == measure.Id);
             if (measureIndex == -1)
             {
-                throw new ItemNotFoundException("Cannot find a measure with the given id");
+                throw new ArgumentException("Cannot find a measure with the given id");
             }
 
-            this.Measures.RemoveAt(measureIndex);
+            Measures.RemoveAt(measureIndex);
         }
 
         #endregion

@@ -1,36 +1,15 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IndicatorType.cs" company="RGM">
-//   RGM
-// </copyright>
-// <summary>
-//   Defines the IndicatorType type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿using RGM.BalancedScorecard.Kernel.Domain.Model;
 
 namespace RGM.BalancedScorecard.Domain.Model.Indicators
 {
-    using System;
-
-    /// <summary>
-    ///     The indicator type.
-    /// </summary>
-    public class IndicatorType : ReferenceEntity
+    public class IndicatorType : DomainEntity
     {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="IndicatorType" /> class.
-        /// </summary>
-        /// <param name="name">
-        ///     The name.
-        /// </param>
-        /// <param name="code">
-        ///     The code.
-        /// </param>
-        /// <param name="id">
-        ///     The id.
-        /// </param>
-        public IndicatorType(string name, string code, Guid? id = null)
-            : base(name, code, id)
+        public IndicatorType(string name, string code)
         {
         }
+
+        public string Name { get; set; }
+
+        public string Code { get; set; }
     }
 }

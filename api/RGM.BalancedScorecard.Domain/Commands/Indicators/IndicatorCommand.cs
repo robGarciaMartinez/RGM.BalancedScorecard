@@ -1,12 +1,10 @@
-﻿namespace RGM.BalancedScorecard.Domain.Commands.Indicators
+﻿using RGM.BalancedScorecard.Domain.Enums;
+using RGM.BalancedScorecard.Kernel.Domain.Commands;
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace RGM.BalancedScorecard.Domain.Commands.Indicators
 {
-    using Enums;
-    using SharedKernel.Domain.Commands;
-
-    using System.ComponentModel.DataAnnotations;
-
-    using System;
-
     public class IndicatorCommand : ICommand
     {
         [Required]

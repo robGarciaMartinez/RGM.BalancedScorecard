@@ -1,7 +1,7 @@
-﻿namespace RGM.BalancedScorecard.Domain.Commands.Indicators
-{
-    using RGM.BalancedScorecard.SharedKernel.Domain.Commands;
+﻿using RGM.BalancedScorecard.Kernel.Domain.Commands;
 
+namespace RGM.BalancedScorecard.Domain.Commands.Indicators
+{
     public class DeleteIndicatorMeasureCommand : ICommand
     {
     }

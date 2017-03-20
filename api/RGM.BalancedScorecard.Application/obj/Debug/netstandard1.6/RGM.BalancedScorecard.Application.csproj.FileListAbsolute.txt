@@ -1,0 +1,11 @@
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Application\bin\Debug\netstandard1.6\RGM.BalancedScorecard.Application.deps.json
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Application\obj\Debug\netstandard1.6\RGM.BalancedScorecard.Application.AssemblyInfo.cs
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Application\bin\Debug\netstandard1.6\RGM.BalancedScorecard.Application.dll
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Application\bin\Debug\netstandard1.6\RGM.BalancedScorecard.Application.pdb
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Application\bin\Debug\netstandard1.6\RGM.BalancedScorecard.Domain.dll
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Application\bin\Debug\netstandard1.6\RGM.BalancedScorecard.Kernel.dll
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Application\bin\Debug\netstandard1.6\RGM.BalancedScorecard.Domain.pdb
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Application\bin\Debug\netstandard1.6\RGM.BalancedScorecard.Kernel.pdb
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Application\obj\Debug\netstandard1.6\RGM.BalancedScorecard.Application.csprojResolveAssemblyReference.cache
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Application\obj\Debug\netstandard1.6\RGM.BalancedScorecard.Application.dll
+C:\GitHub\RGM.BalancedScorecard\api\RGM.BalancedScorecard.Application\obj\Debug\netstandard1.6\RGM.BalancedScorecard.Application.pdb

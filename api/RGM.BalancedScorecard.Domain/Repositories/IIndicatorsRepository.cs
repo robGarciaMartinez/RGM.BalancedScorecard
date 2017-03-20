@@ -1,9 +1,8 @@
-﻿namespace RGM.BalancedScorecard.Domain.Repositories
+﻿using RGM.BalancedScorecard.Domain.Model.Indicators;
+using System;
+
+namespace RGM.BalancedScorecard.Domain.Repositories
 {
-    using System;
-
-    using RGM.BalancedScorecard.Domain.Model.Indicators;
-
     public interface IIndicatorsRepository 
     {
         Indicator FindByCode(string code);
