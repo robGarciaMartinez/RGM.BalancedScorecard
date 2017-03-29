@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Commands\Indicators\CreateIndicatorMeasureCommand.cs" />
+    <Compile Remove="Commands\Indicators\DeleteIndicatorCommand.cs" />
+    <Compile Remove="Commands\Indicators\DeleteIndicatorMeasureCommand.cs" />
+    <Compile Remove="Commands\Indicators\UpdateIndicatorCommand.cs" />
+    <Compile Remove="Commands\Indicators\UpdateIndicatorMeasureCommand.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="EventHandlers\Indicators\" />
     <Folder Include="Events\Indicators\" />
     <Folder Include="Specifications\Indicators\" />

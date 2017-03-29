@@ -2,5 +2,6 @@
 {
     public interface ICommand
     {
+        string RequestedBy { get; set; }
     }
 }

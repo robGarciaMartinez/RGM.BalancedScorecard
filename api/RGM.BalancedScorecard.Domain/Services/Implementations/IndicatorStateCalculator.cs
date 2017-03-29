@@ -1,10 +1,10 @@
 ﻿using RGM.BalancedScorecard.Domain.Enums;
 using RGM.BalancedScorecard.Domain.Model.Indicators;
 using RGM.BalancedScorecard.Domain.Model.Indicators.Values;
-using RGM.BalancedScorecard.Domain.Services.Interfaces;
+using RGM.BalancedScorecard.Domain.Services.Abstractions;
 using System;
 
-namespace RGM.BalancedScorecard.Domain.Services.Implementation
+namespace RGM.BalancedScorecard.Domain.Services.Implementations
 {
     public class IndicatorStateCalculator : IIndicatorStateCalculator
     {

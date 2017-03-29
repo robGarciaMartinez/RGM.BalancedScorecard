@@ -56,7 +56,7 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
 
         public bool HasMeasures => Measures != null && Measures.Any();
 
-        public IndicatorMeasure LastMeasure => Measures.OrderByDescending(m => m.Date).First();
+        public IndicatorMeasure LastMeasure => HasMeasures ? Measures.OrderByDescending(m => m.Date).First() : default(IndicatorMeasure);
 
         public void Update(
             string name,

@@ -19,7 +19,9 @@
   <ItemGroup>
     <ProjectReference Include="..\RGM.BalancedScorecard.Application\RGM.BalancedScorecard.Application.csproj" />
     <ProjectReference Include="..\RGM.BalancedScorecard.Domain\RGM.BalancedScorecard.Domain.csproj" />
+    <ProjectReference Include="..\RGM.BalancedScorecard.Infrastructure.WriteDb\RGM.BalancedScorecard.Infrastructure.WriteDb.csproj" />
     <ProjectReference Include="..\RGM.BalancedScorecard.Kernel\RGM.BalancedScorecard.Kernel.csproj" />
+    <ProjectReference Include="..\RGM.BalancedScorecard.Query\RGM.BalancedScorecard.Query.csproj" />
   </ItemGroup>
 
 </Project>

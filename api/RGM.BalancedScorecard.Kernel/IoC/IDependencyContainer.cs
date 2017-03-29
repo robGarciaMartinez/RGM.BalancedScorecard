@@ -13,5 +13,15 @@ namespace RGM.BalancedScorecard.Kernel.IoC
         IEnumerable<ISpecification<TAggregateRoot, TCommand>> GetSpecifications<TAggregateRoot, TCommand>() 
             where TAggregateRoot : AggregateRoot
             where TCommand : ICommand;
+
+        IValidator<TCommand> GetValidator<TCommand>()
+            where TCommand : ICommand;
+
+        IValidator<TAggregateRoot, TCommand> GetValidator<TAggregateRoot, TCommand>()
+            where TAggregateRoot : AggregateRoot
+            where TCommand : ICommand;
+
+        ICommandHandler<TCommand> GetCommandHandler<TCommand>()
+            where TCommand : ICommand;
     }
 }
