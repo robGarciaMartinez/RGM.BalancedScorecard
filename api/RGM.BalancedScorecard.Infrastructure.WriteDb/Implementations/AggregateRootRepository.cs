@@ -22,7 +22,7 @@ namespace RGM.BalancedScorecard.EF.Implementations
         {
             var dbEntity = 
                 await _dbContext.ExecuteSingleAsync<DbEntity>(
-                    $"SELECT * FROM dbo.{typeof(TAggregateRoot).Name} WHERE Id = @id;",
+                    $"SELECT * FROM dbo.{typeof(TAggregateRoot).Name}s WHERE Id = @id;",
                     new SqlParameter("id", id));
 
             return JsonConvert.DeserializeObject<TAggregateRoot>(dbEntity.SerializedObject);
@@ -31,20 +31,20 @@ namespace RGM.BalancedScorecard.EF.Implementations
         public Task Insert(TAggregateRoot aggregateRoot, string requestedBy)
         {
             return _dbContext.ExecuteNonQueryAsync(
-                $"INSERT INTO dbo.{typeof(TAggregateRoot).Name} (Id, SerializedObject, CreatedOn, CreatedBy) VALUES (@id, @serializedObject, @createdOn, @createdBy)",
+                $"INSERT INTO dbo.{typeof(TAggregateRoot).Name}s (Id, SerializedObject, CreatedOn, CreatedBy) VALUES (@id, @serializedObject, @createdOn, @createdBy)",
                 new SqlParameter[]
                 {
                     new SqlParameter("id", aggregateRoot.Id),
                     new SqlParameter("serializedObject", JsonConvert.SerializeObject(aggregateRoot)),
                     new SqlParameter("createdOn", DateTime.Now),
-                    new SqlParameter("createdBy", requestedBy)
+                    new SqlParameter("createdBy", "lalal")
                 });
         }
 
         public Task Save(TAggregateRoot aggregateRoot, string requestedBy)
         {
             return _dbContext.ExecuteNonQueryAsync(
-                $"UPDATE dbo.{typeof(TAggregateRoot).Name} SET SerializedObject = @serializedObject, UpdatedOn = @updatedOn, UpdatedBy = @updatedBy WHERE Id = @id;",
+                $"UPDATE dbo.{typeof(TAggregateRoot).Name}s SET SerializedObject = @serializedObject, UpdatedOn = @updatedOn, UpdatedBy = @updatedBy WHERE Id = @id;",
                 new SqlParameter[]
                 {
                     new SqlParameter("serializedObject", JsonConvert.SerializeObject(aggregateRoot)),

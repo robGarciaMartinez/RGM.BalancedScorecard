@@ -1,7 +1,9 @@
-﻿namespace RGM.BalancedScorecard.Kernel.Domain.Commands
+﻿using System.Threading.Tasks;
+
+namespace RGM.BalancedScorecard.Kernel.Domain.Commands
 {
     public interface ICommandHandler<in TCommand> where TCommand : ICommand
     {
-        void Execute(TCommand command);
+        Task Execute(TCommand command);
     }
 }

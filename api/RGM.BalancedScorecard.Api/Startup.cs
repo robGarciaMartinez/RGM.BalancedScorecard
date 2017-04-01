@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RGM.BalancedScorecard.Domain.Commands;
+using RGM.BalancedScorecard.Kernel.Domain.Commands;
 
 namespace RGM.BalancedScorecard.Api
 {
@@ -26,6 +28,8 @@ namespace RGM.BalancedScorecard.Api
             // Add framework services.
             services.AddMvc();
             services.AddOptions();
+
+            services.AddSingleton<ICommandBus, CommandBus>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

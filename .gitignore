@@ -39,6 +39,9 @@ TestResult.xml
 [Rr]eleasePS/
 dlldata.c
 
+# DB
+*.jfm
+
 # DNX
 project.lock.json
 artifacts/

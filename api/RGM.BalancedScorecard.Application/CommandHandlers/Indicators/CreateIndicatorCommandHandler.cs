@@ -3,6 +3,7 @@ using RGM.BalancedScorecard.Domain.Model.Indicators;
 using RGM.BalancedScorecard.Domain.Services.Abstractions;
 using RGM.BalancedScorecard.Kernel.Domain.Commands;
 using RGM.BalancedScorecard.Kernel.Domain.Validation;
+using System.Threading.Tasks;
 
 namespace RGM.BalancedScorecard.Application.CommandHandlers.Indicators
 {
@@ -18,7 +19,7 @@ namespace RGM.BalancedScorecard.Application.CommandHandlers.Indicators
             _stateCalculator = stateCalculator;
         }
 
-        public override void OnSuccessfulValidation(CreateIndicatorCommand command)
+        public override Task OnSuccessfulValidation(CreateIndicatorCommand command)
         {
             var indicator = new Indicator(
                 command.Name,
@@ -35,7 +36,7 @@ namespace RGM.BalancedScorecard.Application.CommandHandlers.Indicators
                 command.Cumulative);
 
             indicator.SetState(_stateCalculator.Calculate(indicator));
-            _repository.Insert(indicator, command.RequestedBy);
+            return _repository.Insert(indicator, command.RequestedBy);
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿namespace RGM.BalancedScorecard.Kernel.Domain.Commands
+﻿using System.Threading.Tasks;
+
+namespace RGM.BalancedScorecard.Kernel.Domain.Commands
 {
     public interface ICommandBus
     {
-        void Submit<TCommand>(TCommand command) where TCommand : ICommand;
+        Task SubmitAsync<TCommand>(TCommand command) where TCommand : ICommand;
     }
 }

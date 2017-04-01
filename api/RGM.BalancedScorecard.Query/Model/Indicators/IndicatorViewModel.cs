@@ -26,7 +26,11 @@ namespace RGM.BalancedScorecard.Query.Model.Indicators
 
         public Guid IndicatorTypeId { get; set; }
 
+        public string IndicatorType { get; set; }
+
         public Guid ResponsibleId { get; set; }
+
+        public string Responsible { get; set; }
 
         public int? FulfillmentRate { get; set; }
 

@@ -18,14 +18,14 @@ namespace RGM.BalancedScorecard.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateIndicator([FromBody] CreateIndicatorCommand command)
+        public async Task<IActionResult> CreateIndicator([FromBody] CreateIndicatorCommand command)
         {
-            _commandBus.Submit(command);
+            await _commandBus.SubmitAsync(command);
             return CreatedAtRoute("GetIndicator", new { code = command.Code }, null);
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetIndicator(string code)
+        public async Task<IActionResult> GetIndicator(string code)
         {
             return new OkObjectResult(await _indicatorReader.GetIndicatorByCodeAsync(code));
         }

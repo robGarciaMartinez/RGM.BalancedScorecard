@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RGM.BalancedScorecard.MessageProcessor": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "development"
+      }
+    }
+  }
+}

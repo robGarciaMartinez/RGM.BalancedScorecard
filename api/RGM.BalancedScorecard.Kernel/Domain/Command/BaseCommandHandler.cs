@@ -1,5 +1,6 @@
 ﻿using RGM.BalancedScorecard.Kernel.Domain.Model;
 using RGM.BalancedScorecard.Kernel.Domain.Validation;
+using System.Threading.Tasks;
 
 namespace RGM.BalancedScorecard.Kernel.Domain.Commands
 {
@@ -13,13 +14,13 @@ namespace RGM.BalancedScorecard.Kernel.Domain.Commands
             _validator = validator;
         }
 
-        public void Execute(TCommand command)
+        public Task Execute(TCommand command)
         {
             _validator.Validate(command);
-            OnSuccessfulValidation(command);
+            return OnSuccessfulValidation(command);
         }
 
-        public abstract void OnSuccessfulValidation(TCommand command);
+        public abstract Task OnSuccessfulValidation(TCommand command);
     }
 
     public abstract class BaseCommandHandler<TAggregateRoot, TCommand> : ICommandHandler<TCommand>
@@ -33,15 +34,15 @@ namespace RGM.BalancedScorecard.Kernel.Domain.Commands
             _validator = validator;
         }
 
-        public void Execute(TCommand command)
+        public Task Execute(TCommand command)
         {
             var aggregateRoot = GetAggregateRoot(command);
             _validator.Validate(aggregateRoot, command);
-            OnSuccessfulValidation(aggregateRoot, command);
+            return OnSuccessfulValidation(aggregateRoot, command);
         }
 
         public abstract TAggregateRoot GetAggregateRoot(TCommand command);
 
-        public abstract void OnSuccessfulValidation(TAggregateRoot aggregateRoot, TCommand command);
+        public abstract Task OnSuccessfulValidation(TAggregateRoot aggregateRoot, TCommand command);
     }
 }

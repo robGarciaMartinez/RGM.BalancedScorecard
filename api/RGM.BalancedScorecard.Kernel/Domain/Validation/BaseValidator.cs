@@ -30,7 +30,7 @@ namespace RGM.BalancedScorecard.Kernel.Domain.Validation
         protected virtual IEnumerable<ISpecification<TC>> GetSpecifications<TC>() 
             where TC : ICommand
         {
-            return _container.GetSpecifications<TC>();
+            return  _container.GetSpecifications<TC>();
         }
     }
 
