@@ -1,9 +1,8 @@
-﻿using RGM.BalancedScorecard.Kernel.Domain.Commands;
-using System;
+﻿using System;
 
 namespace RGM.BalancedScorecard.Domain.Commands.Indicators
 {
-    public class DeleteIndicatorCommand : ICommand
+    public class DeleteIndicatorCommand : BaseCommand
     {
         public Guid Id { get; set; }
     }

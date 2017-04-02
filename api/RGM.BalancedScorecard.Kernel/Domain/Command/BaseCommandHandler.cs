@@ -14,7 +14,7 @@ namespace RGM.BalancedScorecard.Kernel.Domain.Commands
             _validator = validator;
         }
 
-        public Task Execute(TCommand command)
+        public Task ExecuteAsync(TCommand command)
         {
             _validator.Validate(command);
             return OnSuccessfulValidation(command);
@@ -34,7 +34,7 @@ namespace RGM.BalancedScorecard.Kernel.Domain.Commands
             _validator = validator;
         }
 
-        public Task Execute(TCommand command)
+        public Task ExecuteAsync(TCommand command)
         {
             var aggregateRoot = GetAggregateRoot(command);
             _validator.Validate(aggregateRoot, command);

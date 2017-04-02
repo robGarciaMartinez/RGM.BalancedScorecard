@@ -7,21 +7,20 @@ using System.Threading.Tasks;
 
 namespace RGM.BalancedScorecard.Application.CommandHandlers.Indicators
 {
-    public class CreateIndicatorCommandHandler : BaseCommandHandler<CreateIndicatorCommand>
+    public class UpdateIndicatorCommandHandler : BaseCommandHandler<UpdateIndicatorCommand>
     {
         private readonly IAggregateRootRepository<Indicator> _repository;
-        private readonly IIndicatorStateCalculator _stateCalculator;
 
-        public CreateIndicatorCommandHandler(IValidator<CreateIndicatorCommand> validator, IAggregateRootRepository<Indicator> repository, 
-            IIndicatorStateCalculator stateCalculator) : base(validator)
+        public UpdateIndicatorCommandHandler(IValidator<UpdateIndicatorCommand> validator, IAggregateRootRepository<Indicator> repository)
+            : base(validator)
         {
             _repository = repository;
-            _stateCalculator = stateCalculator;
         }
 
-        public override Task OnSuccessfulValidation(CreateIndicatorCommand command)
+        public override async Task OnSuccessfulValidation(UpdateIndicatorCommand command)
         {
-            var indicator = new Indicator(
+            var indicator = await _repository.GetAggregateRootAsync(command.Id);
+            indicator.Update(
                 command.Name,
                 command.Description,
                 command.StartDate,
@@ -35,8 +34,7 @@ namespace RGM.BalancedScorecard.Application.CommandHandlers.Indicators
                 command.FulfillmentRate,
                 command.Cumulative);
 
-            indicator.SetState(_stateCalculator.Calculate(indicator));
-            return _repository.InsertAsync(indicator, command.RequestedBy);
+            await _repository.UpdateAsync(indicator, command.RequestedBy);
         }
     }
 }

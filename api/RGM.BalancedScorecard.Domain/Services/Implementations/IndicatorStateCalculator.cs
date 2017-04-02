@@ -10,12 +10,12 @@ namespace RGM.BalancedScorecard.Domain.Services.Implementations
     {
         public IndicatorEnum.State Calculate(Indicator indicator)
         {
-            if (!indicator.HasMeasures)
+            if (!indicator.HasMeasures())
             {
                 return IndicatorEnum.State.Grey;
             }
 
-            var lastMeasure = indicator.LastMeasure;
+            var lastMeasure = indicator.GetLastMeasure();
             if (lastMeasure.Date.AddMonths((int)indicator.Periodicity) < DateTime.Today)
             {
                 return IndicatorEnum.State.Grey;

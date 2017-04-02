@@ -18,7 +18,7 @@ namespace RGM.BalancedScorecard.EF.Implementations
             _dbContext = dbContext;
         }
 
-        public async Task<TAggregateRoot> GetAggregateRoot(Guid id)
+        public async Task<TAggregateRoot> GetAggregateRootAsync(Guid id)
         {
             var dbEntity = 
                 await _dbContext.ExecuteSingleAsync<DbEntity>(
@@ -28,7 +28,7 @@ namespace RGM.BalancedScorecard.EF.Implementations
             return JsonConvert.DeserializeObject<TAggregateRoot>(dbEntity.SerializedObject);
         }
 
-        public Task Insert(TAggregateRoot aggregateRoot, string requestedBy)
+        public Task InsertAsync(TAggregateRoot aggregateRoot, string requestedBy)
         {
             return _dbContext.ExecuteNonQueryAsync(
                 $"INSERT INTO dbo.{typeof(TAggregateRoot).Name}s (Id, SerializedObject, CreatedOn, CreatedBy) VALUES (@id, @serializedObject, @createdOn, @createdBy)",
@@ -41,7 +41,7 @@ namespace RGM.BalancedScorecard.EF.Implementations
                 });
         }
 
-        public Task Save(TAggregateRoot aggregateRoot, string requestedBy)
+        public Task UpdateAsync(TAggregateRoot aggregateRoot, string requestedBy)
         {
             return _dbContext.ExecuteNonQueryAsync(
                 $"UPDATE dbo.{typeof(TAggregateRoot).Name}s SET SerializedObject = @serializedObject, UpdatedOn = @updatedOn, UpdatedBy = @updatedBy WHERE Id = @id;",

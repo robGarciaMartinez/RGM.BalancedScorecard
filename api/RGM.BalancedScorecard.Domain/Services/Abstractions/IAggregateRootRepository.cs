@@ -6,10 +6,10 @@ namespace RGM.BalancedScorecard.Domain.Services.Abstractions
 {
     public interface IAggregateRootRepository<TAggregateRoot> where TAggregateRoot : AggregateRoot
     {
-        Task<TAggregateRoot> GetAggregateRoot(Guid id);
+        Task<TAggregateRoot> GetAggregateRootAsync(Guid id);
 
-        Task Insert(TAggregateRoot aggregateRoot, string requestedBy);
+        Task InsertAsync(TAggregateRoot aggregateRoot, string requestedBy);
 
-        Task Save(TAggregateRoot aggregateRoot, string requestedBy);
+        Task UpdateAsync(TAggregateRoot aggregateRoot, string requestedBy);
     }
 }

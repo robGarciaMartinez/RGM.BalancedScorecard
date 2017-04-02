@@ -1,11 +1,10 @@
 ﻿using RGM.BalancedScorecard.Domain.Model.Indicators.Values;
-using RGM.BalancedScorecard.Kernel.Domain.Commands;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace RGM.BalancedScorecard.Domain.Commands.Indicators
 {
-    public class CreateIndicatorMeasureCommand : ICommand
+    public class CreateIndicatorMeasureCommand : BaseCommand
     {
         [Required]
         public Guid Id { get; set; }

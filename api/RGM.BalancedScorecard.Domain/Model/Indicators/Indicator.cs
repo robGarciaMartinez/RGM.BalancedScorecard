@@ -53,11 +53,7 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
         public IndicatorEnum.State State { get; private set; }
 
         public List<IndicatorMeasure> Measures { get; private set; }
-
-        public bool HasMeasures => Measures != null && Measures.Any();
-
-        public IndicatorMeasure LastMeasure => HasMeasures ? Measures.OrderByDescending(m => m.Date).First() : default(IndicatorMeasure);
-
+    
         public void Update(
             string name,
             string description,
@@ -84,6 +80,16 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
             ResponsibleId = responsibleId;
             FulfillmentRate = fulfillmentRate;
             Cumulative = cumulative;
+        }
+
+        public bool HasMeasures()
+        {
+            return Measures != null && Measures.Any();
+        }
+
+        public IndicatorMeasure GetLastMeasure()
+        {
+            return HasMeasures() ? Measures.OrderByDescending(m => m.Date).First() : default(IndicatorMeasure);
         }
 
         public void SetState(IndicatorEnum.State state)
