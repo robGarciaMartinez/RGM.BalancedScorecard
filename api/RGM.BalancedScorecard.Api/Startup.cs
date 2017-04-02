@@ -4,7 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RGM.BalancedScorecard.Domain.Commands;
+using RGM.BalancedScorecard.Infrastructure.MongoDb.Readers.Indicators;
 using RGM.BalancedScorecard.Kernel.Domain.Commands;
+using RGM.BalancedScorecard.Query.Readers;
 
 namespace RGM.BalancedScorecard.Api
 {
@@ -30,6 +32,7 @@ namespace RGM.BalancedScorecard.Api
             services.AddOptions();
 
             services.AddSingleton<ICommandBus, CommandBus>();
+            services.AddSingleton<IIndicatorsReader, IndicatorsReader>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +41,7 @@ namespace RGM.BalancedScorecard.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseExceptionHandler();
             app.UseMvc();
         }
     }

@@ -12,9 +12,10 @@ namespace RGM.BalancedScorecard.API.Controllers
         private readonly ICommandBus _commandBus;
         private readonly IIndicatorsReader _indicatorReader;
 
-        public IndicatorsController(ICommandBus commandBus)
+        public IndicatorsController(ICommandBus commandBus, IIndicatorsReader indicatorReader)
         {
             _commandBus = commandBus;
+            _indicatorReader = indicatorReader;
         }
 
         [HttpPost]
@@ -24,8 +25,8 @@ namespace RGM.BalancedScorecard.API.Controllers
             return CreatedAtRoute("GetIndicator", new { code = command.Code }, null);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetIndicator(string code)
+        [HttpGet("{code}", Name = "GetIndicator")]        
+        public async Task<IActionResult> GetIndicator([FromRoute] string code)
         {
             return new OkObjectResult(await _indicatorReader.GetIndicatorByCodeAsync(code));
         }

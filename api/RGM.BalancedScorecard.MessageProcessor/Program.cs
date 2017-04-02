@@ -18,8 +18,6 @@ namespace RGM.BalancedScorecard.MessageProcessor
     {
         private static IQueueClient _queueClient;
         private static IContainer _container;
-        private const string ServiceBusConnectionString = "";
-        private const string QueueName = "indicators";
 
         public static void Main(string[] args)
         {
