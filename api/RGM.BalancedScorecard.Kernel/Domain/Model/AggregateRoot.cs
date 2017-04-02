@@ -5,7 +5,7 @@ namespace RGM.BalancedScorecard.Kernel.Domain.Model
 {
     public abstract class AggregateRoot : DomainEntity
     {
-        public List<IDomainEvent> Events { get; protected set; }
+        public List<IDomainEvent> Events { get; set; }
         
         protected void AddEvent(IDomainEvent domainEvent)
         {

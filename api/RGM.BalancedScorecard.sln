@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.ServiceBus"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGM.BalancedScorecard.MessageProcessor", "RGM.BalancedScorecard.MessageProcessor\RGM.BalancedScorecard.MessageProcessor.csproj", "{F0F7DA4B-7556-4F85-BAB5-75FE66013864}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A8EB5C2D-D7A6-4529-97E3-9E91B5B8FAE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -1,9 +1,12 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using RGM.BalancedScorecard.Application.Infrastructure;
 using RGM.BalancedScorecard.Domain.Services.Abstractions;
 using RGM.BalancedScorecard.EF.Abstractions;
 using RGM.BalancedScorecard.EF.Model;
 using RGM.BalancedScorecard.Kernel.Domain.Model;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
@@ -25,7 +28,10 @@ namespace RGM.BalancedScorecard.EF.Implementations
                     $"SELECT * FROM dbo.{typeof(TAggregateRoot).Name}s WHERE Id = @id;",
                     new SqlParameter("id", id));
 
-            return JsonConvert.DeserializeObject<TAggregateRoot>(dbEntity.SerializedObject);
+            return JsonConvert.DeserializeObject<TAggregateRoot>(dbEntity.SerializedObject, new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter> { new IndicatorValueConverter() }
+            });
         }
 
         public Task InsertAsync(TAggregateRoot aggregateRoot, string requestedBy)
@@ -35,9 +41,9 @@ namespace RGM.BalancedScorecard.EF.Implementations
                 new SqlParameter[]
                 {
                     new SqlParameter("id", aggregateRoot.Id),
-                    new SqlParameter("serializedObject", JsonConvert.SerializeObject(aggregateRoot)),
+                    new SqlParameter("serializedObject", JsonConvert.SerializeObject(aggregateRoot, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })),
                     new SqlParameter("createdOn", DateTime.Now),
-                    new SqlParameter("createdBy", "lalal")
+                    new SqlParameter("createdBy", requestedBy)
                 });
         }
 
@@ -47,7 +53,7 @@ namespace RGM.BalancedScorecard.EF.Implementations
                 $"UPDATE dbo.{typeof(TAggregateRoot).Name}s SET SerializedObject = @serializedObject, UpdatedOn = @updatedOn, UpdatedBy = @updatedBy WHERE Id = @id;",
                 new SqlParameter[]
                 {
-                    new SqlParameter("serializedObject", JsonConvert.SerializeObject(aggregateRoot)),
+                    new SqlParameter("serializedObject", JsonConvert.SerializeObject(aggregateRoot,new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })),
                     new SqlParameter("updatedOn", DateTime.Now),
                     new SqlParameter("updatedBy", requestedBy),
                     new SqlParameter("id", aggregateRoot.Id)

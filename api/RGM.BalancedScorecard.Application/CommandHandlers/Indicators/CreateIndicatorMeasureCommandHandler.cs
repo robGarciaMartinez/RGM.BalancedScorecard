@@ -2,6 +2,7 @@
 using RGM.BalancedScorecard.Domain.Model.Indicators;
 using RGM.BalancedScorecard.Domain.Services.Abstractions;
 using RGM.BalancedScorecard.Kernel.Domain.Commands;
+using System;
 using System.Threading.Tasks;
 
 namespace RGM.BalancedScorecard.Application.CommandHandlers.Indicators
@@ -20,7 +21,9 @@ namespace RGM.BalancedScorecard.Application.CommandHandlers.Indicators
         public async Task ExecuteAsync(CreateIndicatorMeasureCommand command)
         {
             var indicator = await _repository.GetAggregateRootAsync(command.IndicatorId);
-            indicator.AddMeasure(new IndicatorMeasure(command.Date, command.Record, command.Objective, command.Notes));
+            var indicatorMeasure = new IndicatorMeasure(command.Date, command.Record, command.Objective, command.Notes);
+            indicatorMeasure.SetId(Guid.NewGuid());
+            indicator.AddMeasure(indicatorMeasure);
             indicator.SetState(_stateCalculator.Calculate(indicator));
 
             await _repository.UpdateAsync(indicator, command.RequestedBy);

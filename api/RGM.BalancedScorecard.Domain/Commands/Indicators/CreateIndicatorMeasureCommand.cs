@@ -6,9 +6,6 @@ namespace RGM.BalancedScorecard.Domain.Commands.Indicators
 {
     public class CreateIndicatorMeasureCommand : BaseCommand
     {
-        [Required]
-        public Guid Id { get; set; }
-
         public Guid IndicatorId { get; set; }
 
         [Required]

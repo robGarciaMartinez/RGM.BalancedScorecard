@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
+using RGM.BalancedScorecard.Application.Infrastructure;
 using RGM.BalancedScorecard.Domain.Commands;
 using RGM.BalancedScorecard.Infrastructure.MongoDb.Readers.Indicators;
 using RGM.BalancedScorecard.Kernel.Domain.Commands;
@@ -28,7 +30,11 @@ namespace RGM.BalancedScorecard.Api
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => 
+            {
+                options.SerializerSettings.Converters.Add(new IndicatorValueConverter());
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
             services.AddOptions();
 
             services.AddSingleton<ICommandBus, CommandBus>();

@@ -26,33 +26,35 @@ namespace RGM.BalancedScorecard.Domain.Model.Indicators
             Cumulative = cumulative;
         }
 
-        public string Name { get; private set; }
+        public Indicator() { }
 
-        public string Description { get; private set; }
+        public string Name { get; set; }
 
-        public DateTime StartDate { get; private set; }
+        public string Description { get; set; }
 
-        public string Code { get; private set; }
+        public DateTime StartDate { get; set; }
 
-        public string Unit { get; private set; }
+        public string Code { get; set; }
 
-        public IndicatorEnum.PeriodicityType Periodicity { get; private set; }
+        public string Unit { get; set; }
 
-        public IndicatorEnum.ComparisonValueType ComparisonValue { get; private set; }
+        public IndicatorEnum.PeriodicityType Periodicity { get; set; }
 
-        public IndicatorEnum.ObjectValueType ObjectValue { get; private set; }
+        public IndicatorEnum.ComparisonValueType ComparisonValue { get; set; }
 
-        public Guid IndicatorTypeId { get; private set; }
+        public IndicatorEnum.ObjectValueType ObjectValue { get; set; }
 
-        public Guid ResponsibleId { get; private set; }
+        public Guid IndicatorTypeId { get; set; }
 
-        public int? FulfillmentRate { get; private set; }
+        public Guid ResponsibleId { get; set; }
 
-        public bool Cumulative { get; private set; }
+        public int? FulfillmentRate { get; set; }
 
-        public IndicatorEnum.State State { get; private set; }
+        public bool Cumulative { get; set; }
 
-        public List<IndicatorMeasure> Measures { get; private set; }
+        public IndicatorEnum.State State { get; set; }
+
+        public List<IndicatorMeasure> Measures { get; set; }
     
         public void Update(
             string name,

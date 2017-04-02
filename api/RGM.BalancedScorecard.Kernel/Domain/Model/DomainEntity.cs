@@ -4,11 +4,11 @@ namespace RGM.BalancedScorecard.Kernel.Domain.Model
 {
     public abstract class DomainEntity
     {
-        protected DomainEntity()
-        {
-            Id = Guid.NewGuid();
-        }
+        public Guid Id { get; set; }
 
-        public Guid Id { get; protected set; }
+        public void SetId(Guid id)
+        {
+            Id = id;
+        }
     }
 }

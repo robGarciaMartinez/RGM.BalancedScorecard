@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RGM.BalancedScorecard.Application\RGM.BalancedScorecard.Application.csproj" />
     <ProjectReference Include="..\RGM.BalancedScorecard.Domain\RGM.BalancedScorecard.Domain.csproj" />
     <ProjectReference Include="..\RGM.BalancedScorecard.Kernel\RGM.BalancedScorecard.Kernel.csproj" />
   </ItemGroup>

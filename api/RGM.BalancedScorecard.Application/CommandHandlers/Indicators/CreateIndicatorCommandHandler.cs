@@ -3,6 +3,7 @@ using RGM.BalancedScorecard.Domain.Model.Indicators;
 using RGM.BalancedScorecard.Domain.Services.Abstractions;
 using RGM.BalancedScorecard.Kernel.Domain.Commands;
 using RGM.BalancedScorecard.Kernel.Domain.Validation;
+using System;
 using System.Threading.Tasks;
 
 namespace RGM.BalancedScorecard.Application.CommandHandlers.Indicators
@@ -36,6 +37,7 @@ namespace RGM.BalancedScorecard.Application.CommandHandlers.Indicators
                 command.Cumulative);
 
             indicator.SetState(_stateCalculator.Calculate(indicator));
+            indicator.SetId(Guid.NewGuid());
             return _repository.InsertAsync(indicator, command.RequestedBy);
         }
     }

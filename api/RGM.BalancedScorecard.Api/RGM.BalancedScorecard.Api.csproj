@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Infrastructure\ExceptionMiddleware.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
@@ -22,6 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Azure.ServiceBus\Microsoft.Azure.ServiceBus.csproj" />
+    <ProjectReference Include="..\RGM.BalancedScorecard.Application\RGM.BalancedScorecard.Application.csproj" />
     <ProjectReference Include="..\RGM.BalancedScorecard.Domain\RGM.BalancedScorecard.Domain.csproj" />
     <ProjectReference Include="..\RGM.BalancedScorecard.Infrastructure.ReadDb\RGM.BalancedScorecard.Infrastructure.ReadDb.csproj" />
     <ProjectReference Include="..\RGM.BalancedScorecard.Query\RGM.BalancedScorecard.Query.csproj" />

@@ -2,12 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using RGM.BalancedScorecard.Application.Infrastructure;
 using RGM.BalancedScorecard.Domain.Services.Abstractions;
 using RGM.BalancedScorecard.EF.Implementations;
 using RGM.BalancedScorecard.Kernel.Domain.Commands;
 using RGM.BalancedScorecard.Kernel.Domain.Validation;
 using StructureMap;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -84,12 +86,16 @@ namespace RGM.BalancedScorecard.MessageProcessor
                         Console.WriteLine($"Received message: SequenceNumber:{message.SequenceNumber} Body:{stringBody}");
 
                         var messageBodyType = Type.GetType(message.ContentType);
-                        var messageBody = JsonConvert.DeserializeObject(stringBody, messageBodyType);
+                        var messageBody = JsonConvert.DeserializeObject(stringBody, messageBodyType, 
+                            new JsonSerializerSettings
+                            {
+                                Converters = new List<JsonConverter> { new IndicatorValueConverter() }
+                            });
 
                         var commandHandlerType = typeof(ICommandHandler<>).MakeGenericType(messageBodyType);
                         var commandHandler = _container.GetInstance(commandHandlerType);
 
-                        var commandHandlerExecute = commandHandlerType.GetMethod("Execute");
+                        var commandHandlerExecute = commandHandlerType.GetMethod("ExecuteAsync");
                         await ((Task)commandHandlerExecute.Invoke(commandHandler, new[] { messageBody }));
 
                         // Complete the message so that it is not received again.

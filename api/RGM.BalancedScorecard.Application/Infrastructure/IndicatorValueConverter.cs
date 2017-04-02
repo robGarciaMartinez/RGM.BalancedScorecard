@@ -1,13 +1,11 @@
-﻿namespace RGM.BalancedScorecard.API.Infrastructure
+﻿using System;
+using Newtonsoft.Json;
+using RGM.BalancedScorecard.Domain.Model.Indicators.Values;
+using Newtonsoft.Json.Linq;
+using System.Linq;
+
+namespace RGM.BalancedScorecard.Application.Infrastructure
 {
-    using System;
-    using System.Linq;
-
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-
-    using Domain.Model.Indicators.Values;
-
     public class IndicatorValueConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

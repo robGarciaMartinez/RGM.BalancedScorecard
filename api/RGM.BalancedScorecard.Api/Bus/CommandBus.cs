@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using RGM.BalancedScorecard.Kernel.Domain.Commands;
 using System;
 using System.Threading.Tasks;
@@ -18,7 +19,9 @@ namespace RGM.BalancedScorecard.Domain.Commands
         public Task SubmitAsync<TCommand>(TCommand command) where TCommand : ICommand
         {
             var type = Type.GetType(typeof(TCommand).AssemblyQualifiedName);
-            return _queueClient.SendAsync(new Message(JsonConvert.SerializeObject(command)) { ContentType = typeof(TCommand).AssemblyQualifiedName });
+            return _queueClient.SendAsync(
+                new Message(JsonConvert.SerializeObject(command, 
+                new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })) { ContentType = typeof(TCommand).AssemblyQualifiedName });
         }
     }
 }
