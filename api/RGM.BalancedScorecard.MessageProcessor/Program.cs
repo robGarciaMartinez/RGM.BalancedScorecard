@@ -55,8 +55,7 @@ namespace RGM.BalancedScorecard.MessageProcessor
             });
 
             _container.Populate(services);
-            services.BuildServiceProvider();
-
+            
             MainAsync().GetAwaiter().GetResult();
         }
 
