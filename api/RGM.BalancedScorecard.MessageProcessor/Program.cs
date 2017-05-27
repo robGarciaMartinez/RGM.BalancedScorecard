@@ -2,10 +2,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using RGM.BalancedScorecard.Api.Bus;
 using RGM.BalancedScorecard.Application.Infrastructure;
 using RGM.BalancedScorecard.Domain.Services.Abstractions;
 using RGM.BalancedScorecard.EF.Implementations;
 using RGM.BalancedScorecard.Kernel.Domain.Commands;
+using RGM.BalancedScorecard.Kernel.Domain.Events;
 using RGM.BalancedScorecard.Kernel.Domain.Validation;
 using StructureMap;
 using System;
@@ -17,13 +19,13 @@ using System.Threading.Tasks;
 
 namespace RGM.BalancedScorecard.MessageProcessor
 {
-    public class Program
+    class Program
     {
-        private static IQueueClient _queueClient;
-        private static IContainer _container;
-        private static IConfiguration _configuration;
+        static IQueueClient _queueClient;
+        static IContainer _container;
+        static IConfiguration _configuration;
 
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
             var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var builder = new ConfigurationBuilder()
@@ -35,7 +37,6 @@ namespace RGM.BalancedScorecard.MessageProcessor
             _configuration = builder.Build();
 
             var services = new ServiceCollection();
-            services.AddSingleton(_configuration);
             
             _container = new Container();
             _container.Configure(config =>
@@ -53,11 +54,8 @@ namespace RGM.BalancedScorecard.MessageProcessor
 
                 config.For<IConfiguration>().Use(_configuration);
                 config.For(typeof(IValidator<>)).Use(typeof(BaseValidator<>));
+                config.For(typeof(IEventBus)).Use(typeof(EventBus));
                 config.For(typeof(IAggregateRootRepository<>)).Use(typeof(AggregateRootRepository<>));
-                config.For<IQueueClient>().Use(
-                    new QueueClient(
-                        _configuration.GetSection($"{nameof(ServiceBusSettings)}:{nameof(ServiceBusSettings.ConnectionString)}").Value, 
-                        _configuration.GetSection($"{nameof(ServiceBusSettings)}:{nameof(ServiceBusSettings.QueueName)}").Value, ReceiveMode.PeekLock));
             });
 
             _container.Populate(services);
@@ -67,7 +65,10 @@ namespace RGM.BalancedScorecard.MessageProcessor
 
         private static async Task MainAsync()
         {
-            _queueClient = _container.GetInstance<IQueueClient>();
+            _queueClient = new QueueClient(
+                        _configuration.GetSection($"{nameof(ServiceBusSettings)}:{nameof(ServiceBusSettings.ConnectionString)}").Value,
+                        _configuration.GetSection($"{nameof(ServiceBusSettings)}:{nameof(ServiceBusSettings.QueueName)}").Value, ReceiveMode.PeekLock);
+
             ReceiveMessages();
 
             Console.ReadKey();

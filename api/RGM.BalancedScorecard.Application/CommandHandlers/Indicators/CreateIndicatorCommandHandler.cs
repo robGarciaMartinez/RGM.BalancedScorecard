@@ -1,7 +1,9 @@
 ﻿using RGM.BalancedScorecard.Domain.Commands.Indicators;
+using RGM.BalancedScorecard.Domain.Events.Indicators;
 using RGM.BalancedScorecard.Domain.Model.Indicators;
 using RGM.BalancedScorecard.Domain.Services.Abstractions;
 using RGM.BalancedScorecard.Kernel.Domain.Commands;
+using RGM.BalancedScorecard.Kernel.Domain.Events;
 using RGM.BalancedScorecard.Kernel.Domain.Validation;
 using System;
 using System.Threading.Tasks;
@@ -12,15 +14,20 @@ namespace RGM.BalancedScorecard.Application.CommandHandlers.Indicators
     {
         private readonly IAggregateRootRepository<Indicator> _repository;
         private readonly IIndicatorStateCalculator _stateCalculator;
+        private readonly IEventBus _eventBus;
 
-        public CreateIndicatorCommandHandler(IValidator<CreateIndicatorCommand> validator, IAggregateRootRepository<Indicator> repository, 
-            IIndicatorStateCalculator stateCalculator) : base(validator)
+        public CreateIndicatorCommandHandler(
+            IValidator<CreateIndicatorCommand> validator, 
+            IAggregateRootRepository<Indicator> repository,
+            IIndicatorStateCalculator stateCalculator,
+            IEventBus eventBus) : base(validator)
         {
             _repository = repository;
             _stateCalculator = stateCalculator;
+            _eventBus = eventBus;
         }
 
-        public override Task OnSuccessfulValidation(CreateIndicatorCommand command)
+        public override async Task OnSuccessfulValidation(CreateIndicatorCommand command)
         {
             var indicator = new Indicator(
                 command.Name,
@@ -38,7 +45,9 @@ namespace RGM.BalancedScorecard.Application.CommandHandlers.Indicators
 
             indicator.SetState(_stateCalculator.Calculate(indicator));
             indicator.SetId(Guid.NewGuid());
-            return _repository.InsertAsync(indicator, command.RequestedBy);
+
+            await _repository.InsertAsync(indicator, command.RequestedBy);
+            await _eventBus.SubmitAsync(new IndicatorCreatedEvent { IndicatorId = indicator.Id });
         }
     }
 }

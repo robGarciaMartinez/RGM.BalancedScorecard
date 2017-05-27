@@ -4,10 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using RGM.BalancedScorecard.Api.Bus;
 using RGM.BalancedScorecard.Application.Infrastructure;
 using RGM.BalancedScorecard.Domain.Commands;
 using RGM.BalancedScorecard.Infrastructure.MongoDb.Readers.Indicators;
 using RGM.BalancedScorecard.Kernel.Domain.Commands;
+using RGM.BalancedScorecard.Kernel.Domain.Events;
 using RGM.BalancedScorecard.Query.Readers;
 
 namespace RGM.BalancedScorecard.Api
@@ -37,6 +39,7 @@ namespace RGM.BalancedScorecard.Api
             });
             services.AddOptions();
 
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddSingleton<ICommandBus, CommandBus>();
             services.AddSingleton<IIndicatorsReader, IndicatorsReader>();
         }
