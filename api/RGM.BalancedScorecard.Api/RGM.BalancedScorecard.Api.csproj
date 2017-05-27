@@ -8,16 +8,15 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="0.0.5-preview" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Azure.ServiceBus\Microsoft.Azure.ServiceBus.csproj" />
     <ProjectReference Include="..\RGM.BalancedScorecard.Application\RGM.BalancedScorecard.Application.csproj" />
     <ProjectReference Include="..\RGM.BalancedScorecard.Domain\RGM.BalancedScorecard.Domain.csproj" />
     <ProjectReference Include="..\RGM.BalancedScorecard.Infrastructure.ReadDb\RGM.BalancedScorecard.Infrastructure.ReadDb.csproj" />

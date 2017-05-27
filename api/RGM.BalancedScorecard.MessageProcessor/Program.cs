@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace RGM.BalancedScorecard.MessageProcessor
@@ -20,6 +21,7 @@ namespace RGM.BalancedScorecard.MessageProcessor
     {
         private static IQueueClient _queueClient;
         private static IContainer _container;
+        private static IConfiguration _configuration;
 
         public static void Main(string[] args)
         {
@@ -30,10 +32,10 @@ namespace RGM.BalancedScorecard.MessageProcessor
                 .AddJsonFile($"appsettings.{environmentName}.json", true, true)
                 .AddEnvironmentVariables();
 
-            var configuration = builder.Build();
+            _configuration = builder.Build();
 
             var services = new ServiceCollection();
-            services.AddSingleton(configuration);
+            services.AddSingleton(_configuration);
             
             _container = new Container();
             _container.Configure(config =>
@@ -49,11 +51,13 @@ namespace RGM.BalancedScorecard.MessageProcessor
                     scanner.ConnectImplementationsToTypesClosing(typeof(ICommandHandler<>));
                 });
 
-                config.For<IConfiguration>().Use(configuration);
+                config.For<IConfiguration>().Use(_configuration);
                 config.For(typeof(IValidator<>)).Use(typeof(BaseValidator<>));
                 config.For(typeof(IAggregateRootRepository<>)).Use(typeof(AggregateRootRepository<>));
                 config.For<IQueueClient>().Use(
-                    new QueueClient(configuration.GetSection("ServiceBus:ConnectionString").Value, configuration.GetSection("ServiceBus:Queue").Value, ReceiveMode.PeekLock));
+                    new QueueClient(
+                        _configuration.GetSection($"{nameof(ServiceBusSettings)}:{nameof(ServiceBusSettings.ConnectionString)}").Value, 
+                        _configuration.GetSection($"{nameof(ServiceBusSettings)}:{nameof(ServiceBusSettings.QueueName)}").Value, ReceiveMode.PeekLock));
             });
 
             _container.Populate(services);
@@ -82,8 +86,8 @@ namespace RGM.BalancedScorecard.MessageProcessor
                     try
                     {
                         // Process the message
-                        var stringBody = message.GetBody<string>();
-                        Console.WriteLine($"Received message: SequenceNumber:{message.SequenceNumber} Body:{stringBody}");
+                        var stringBody = Encoding.UTF8.GetString(message.Body);
+                        Console.WriteLine($"Received message: SequenceNumber:{message.SystemProperties.SequenceNumber} Body:{stringBody}");
 
                         var messageBodyType = Type.GetType(message.ContentType);
                         var messageBody = JsonConvert.DeserializeObject(stringBody, messageBodyType, 
@@ -100,14 +104,14 @@ namespace RGM.BalancedScorecard.MessageProcessor
 
                         // Complete the message so that it is not received again.
                         // This can be done only if the queueClient is opened in ReceiveMode.PeekLock mode.
-                        await _queueClient.CompleteAsync(message.LockToken);
+                        await _queueClient.CompleteAsync(message.SystemProperties.LockToken);
                     }
                     catch (Exception exception)
                     {
                         Console.WriteLine($"{DateTime.Now} > Exception: {exception.ToString()}");
                     }
                 },
-                new RegisterHandlerOptions() { MaxConcurrentCalls = 1, AutoComplete = false });
+                new MessageHandlerOptions() { MaxConcurrentCalls = 1, AutoComplete = false });
         }
     }
 }
