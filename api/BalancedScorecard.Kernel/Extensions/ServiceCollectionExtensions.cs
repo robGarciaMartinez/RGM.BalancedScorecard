@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using BalancedScorecard.Kernel.Commands;
+﻿using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Kernel.Domain;
 using BalancedScorecard.Kernel.Events;
 using BalancedScorecard.Kernel.Queries;
-using System;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace RHS.Components.Extensions
+namespace BalancedScorecard.Kernel
 {
     /// <summary>
     /// Class to register with the IoC the RHS Shared Kernel services

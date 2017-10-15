@@ -13,7 +13,7 @@ namespace BalancedScorecard.Infrastructure.Persistence.Implementations
 {
     public class SqlServerRepository<TEntity> : IRepository<TEntity> where TEntity : IAggregateRoot
     {
-        private IMapper<TEntity> _mapper;
+        private readonly IMapper<TEntity> _mapper;
         private readonly IConfiguration _configuration;
 
         public SqlServerRepository(
@@ -74,8 +74,6 @@ namespace BalancedScorecard.Infrastructure.Persistence.Implementations
                         throw new Exception("Concurrency exception");
                     }
 
-
-                    var tasks = new List<Task>(eventsToSave.Count + 1);
                     using (var command = new SqlCommand(@"INSERT INTO Snapshots(AggregateType, AggregateId, Version, Snapshot) " +
                         "VALUES(@aggregateType, @aggregateId, @version, @snapshot)", connection, transaction))
                     {
@@ -84,9 +82,10 @@ namespace BalancedScorecard.Infrastructure.Persistence.Implementations
                         command.Parameters.Add(new SqlParameter("@version", SqlDbType.Int)).Value = currentVersion;
                         command.Parameters.Add(new SqlParameter("@snapshot", SqlDbType.NVarChar)).Value = JsonConvert.SerializeObject(aggregate);
 
-                        tasks.Add(command.ExecuteNonQueryAsync());
+                        await command.ExecuteNonQueryAsync();
                     }
 
+                    var tasks = new List<Task>(eventsToSave.Count);
                     using (var command = new SqlCommand(@"INSERT INTO Events(Id, Created, AggregateType, AggregateId, Version, Event, Metadata) " +
                         "VALUES(@id, @created, @aggregateType, @aggregateId, @version, @event, @metadata)", connection, transaction))
                     {

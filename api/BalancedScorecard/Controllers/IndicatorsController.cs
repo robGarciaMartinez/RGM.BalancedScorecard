@@ -9,19 +9,18 @@ namespace BalancedScorecard.Api.Controllers
     [Route("api/[controller]")]
     public class IndicatorsController : Controller
     {
-        private readonly ICommandHandler<CreateIndicatorCommand> _commandHandler;
+        private readonly ICommandDispatcher _commandDispatcher;
 
-        public IndicatorsController(ICommandHandler<CreateIndicatorCommand> commandHandler)
+        public IndicatorsController(ICommandDispatcher commandDispatcher)
         {
-            _commandHandler = commandHandler;
+            _commandDispatcher = commandDispatcher;
         }
 
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] CreateIndicatorCommand command)
         {
-            var guid = Guid.Parse("9404e1f5-dd02-4b99-8c91-859fb6447c1e");
-            command.Id = guid;
-            await _commandHandler.Execute(command);
+            command.Id = Guid.NewGuid();
+            await _commandDispatcher.Submit(command);
             return new OkResult();
         }
 

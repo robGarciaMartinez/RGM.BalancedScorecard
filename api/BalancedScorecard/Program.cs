@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using StructureMap.AspNetCore;
 
 namespace BalancedScorecard.Api
 {
@@ -13,6 +14,7 @@ namespace BalancedScorecard.Api
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseStructureMap()
                 .Build();
     }
 }
