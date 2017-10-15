@@ -8,52 +8,52 @@ namespace BalancedScorecard.Domain.Services.Implementations
 {
     public class IndicatorStateCalculator : IIndicatorStateCalculator
     {
-        public IndicatorEnum.State Calculate(Indicator indicator)
+        public IndicatorEnum.Status Calculate(Indicator indicator)
         {
             if (!indicator.HasMeasures())
             {
-                return IndicatorEnum.State.Grey;
+                return IndicatorEnum.Status.Grey;
             }
 
             var lastMeasure = indicator.GetLastMeasure();
-            if (lastMeasure.Date.AddMonths((int)indicator.Periodicity) < DateTime.Today)
+            if (lastMeasure.Date.AddMonths((int)indicator.PeriodicityType) < DateTime.Today)
             {
-                return IndicatorEnum.State.Grey;
+                return IndicatorEnum.Status.Grey;
             }
 
-            switch (indicator.ObjectValue)
+            switch (indicator.IndicatorValueType)
             {
-                case IndicatorEnum.ObjectValueType.Integer:
+                case IndicatorEnum.IndicatorValueType.Integer:
                     return CalculateState<int>(indicator, lastMeasure);
-                case IndicatorEnum.ObjectValueType.Decimal:
+                case IndicatorEnum.IndicatorValueType.Decimal:
                     return CalculateState<decimal>(indicator, lastMeasure);
-                case IndicatorEnum.ObjectValueType.Boolean:
+                case IndicatorEnum.IndicatorValueType.Boolean:
                     return CalculateState<bool>(indicator, lastMeasure);
                 default:
                     throw new InvalidOperationException("Indicator measure type is not correct");
             }
         }
 
-        private IndicatorEnum.State CalculateState<T>(Indicator indicator, IndicatorMeasure lastMeasure) where T : IComparable
+        private IndicatorEnum.Status CalculateState<T>(Indicator indicator, IndicatorMeasure lastMeasure) where T : IComparable
         {
-            switch (indicator.ComparisonValue)
+            switch (indicator.ComparisonType)
             {
-                case IndicatorEnum.ComparisonValueType.Equal:
-                case IndicatorEnum.ComparisonValueType.NotEqual:
-                case IndicatorEnum.ComparisonValueType.GreaterThan:
-                case IndicatorEnum.ComparisonValueType.SmallerThan:
-                case IndicatorEnum.ComparisonValueType.GreaterOrEqualThan:
-                case IndicatorEnum.ComparisonValueType.SmallerOrEqualThan:
+                case IndicatorEnum.ComparisonType.Equal:
+                case IndicatorEnum.ComparisonType.NotEqual:
+                case IndicatorEnum.ComparisonType.GreaterThan:
+                case IndicatorEnum.ComparisonType.SmallerThan:
+                case IndicatorEnum.ComparisonType.GreaterOrEqualThan:
+                case IndicatorEnum.ComparisonType.SmallerOrEqualThan:
                     return CalculateSingleValueBasedState<T>(indicator, lastMeasure);
-                case IndicatorEnum.ComparisonValueType.BetweenLimits:
-                case IndicatorEnum.ComparisonValueType.OffLimits:
+                case IndicatorEnum.ComparisonType.BetweenLimits:
+                case IndicatorEnum.ComparisonType.OffLimits:
                     return CalculateDoubleValueBasedState<T>(indicator, lastMeasure);
                 default:
                     throw new InvalidOperationException("Indicator measure comparison value is not correct");
             }
         }
 
-        private IndicatorEnum.State CalculateDoubleValueBasedState<T>(Indicator indicator, IndicatorMeasure lastMeasure) where T : IComparable
+        private IndicatorEnum.Status CalculateDoubleValueBasedState<T>(Indicator indicator, IndicatorMeasure lastMeasure) where T : IComparable
         {
             var recordValue = lastMeasure.Record as SingleValue<T>;
             var objectiveValue = lastMeasure.Objective as DoubleValue<T>;
@@ -64,18 +64,18 @@ namespace BalancedScorecard.Domain.Services.Implementations
                 throw new InvalidOperationException("Indicator measure values are not correct");
             }
 
-            switch (indicator.ComparisonValue)
+            switch (indicator.ComparisonType)
             {
-                case IndicatorEnum.ComparisonValueType.BetweenLimits:
-                    return lowerValueComparison >= 0 && higherValueComparison <= 0 ? IndicatorEnum.State.Green : IndicatorEnum.State.Red;
-                case IndicatorEnum.ComparisonValueType.OffLimits:
-                    return lowerValueComparison < 0 && higherValueComparison > 0 ? IndicatorEnum.State.Green : IndicatorEnum.State.Red;
+                case IndicatorEnum.ComparisonType.BetweenLimits:
+                    return lowerValueComparison >= 0 && higherValueComparison <= 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
+                case IndicatorEnum.ComparisonType.OffLimits:
+                    return lowerValueComparison < 0 && higherValueComparison > 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
                 default:
                     throw new InvalidOperationException("Indicator comparison type is not correct");
             }
         }
 
-        private IndicatorEnum.State CalculateSingleValueBasedState<T>(Indicator indicator, IndicatorMeasure lastMeasure) where T : IComparable
+        private IndicatorEnum.Status CalculateSingleValueBasedState<T>(Indicator indicator, IndicatorMeasure lastMeasure) where T : IComparable
         {
             var recordValue = lastMeasure.Record as SingleValue<T>;
             var objectiveValue = lastMeasure.Objective as SingleValue<T>;
@@ -85,18 +85,18 @@ namespace BalancedScorecard.Domain.Services.Implementations
                 throw new InvalidOperationException("Indicator measure values are not correct");
             }
 
-            switch (indicator.ComparisonValue)
+            switch (indicator.ComparisonType)
             {
-                case IndicatorEnum.ComparisonValueType.Equal:
-                    return comparison == 0 ? IndicatorEnum.State.Green : IndicatorEnum.State.Red;
-                case IndicatorEnum.ComparisonValueType.GreaterThan:
-                    return comparison > 0 ? IndicatorEnum.State.Green : IndicatorEnum.State.Red;
-                case IndicatorEnum.ComparisonValueType.SmallerThan:
-                    return comparison < 0 ? IndicatorEnum.State.Green : IndicatorEnum.State.Red;
-                case IndicatorEnum.ComparisonValueType.GreaterOrEqualThan:
-                    return comparison >= 0 ? IndicatorEnum.State.Green : IndicatorEnum.State.Red;
-                case IndicatorEnum.ComparisonValueType.SmallerOrEqualThan:
-                    return comparison <= 0 ? IndicatorEnum.State.Green : IndicatorEnum.State.Red;
+                case IndicatorEnum.ComparisonType.Equal:
+                    return comparison == 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
+                case IndicatorEnum.ComparisonType.GreaterThan:
+                    return comparison > 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
+                case IndicatorEnum.ComparisonType.SmallerThan:
+                    return comparison < 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
+                case IndicatorEnum.ComparisonType.GreaterOrEqualThan:
+                    return comparison >= 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
+                case IndicatorEnum.ComparisonType.SmallerOrEqualThan:
+                    return comparison <= 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
                 default:
                     throw new InvalidOperationException("Indicator comparison type is not correct");
             }

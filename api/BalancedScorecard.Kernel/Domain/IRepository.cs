@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 
 namespace BalancedScorecard.Kernel.Domain
 {
-    public interface IRepository<TEntity> where TEntity : BaseEntity
+    public interface IRepository<TEntity> where TEntity : IAggregateRoot
     {
-        Task<TEntity> GetEntityById(Guid id);
+        Task<TEntity> GetById(Guid id);
 
-        void InsertEntity(TEntity entity);
+        Task SaveAsync(TEntity aggregate);
     }
 }

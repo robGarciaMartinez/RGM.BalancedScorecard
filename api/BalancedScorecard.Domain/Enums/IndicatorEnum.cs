@@ -2,7 +2,7 @@
 {
     public static class IndicatorEnum
     {
-        public enum ComparisonValueType
+        public enum ComparisonType
         {
             GreaterThan = 1,
             SmallerThan = 2,
@@ -14,7 +14,7 @@
             SmallerOrEqualThan = 8
         }
 
-        public enum ObjectValueType
+        public enum IndicatorValueType
         {
             Integer = 1,
             Decimal = 2,
@@ -31,7 +31,7 @@
             TwelveMonth = 12
         }
 
-        public enum State
+        public enum Status
         {
             Grey,
             Blue,

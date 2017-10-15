@@ -5,6 +5,6 @@ namespace BalancedScorecard.Domain.Services.Abstractions
 {
     public interface IIndicatorStateCalculator
     {
-        IndicatorEnum.State Calculate(Indicator indicator);
+        IndicatorEnum.Status Calculate(Indicator indicator);
     }
 }

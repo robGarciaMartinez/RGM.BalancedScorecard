@@ -6,14 +6,13 @@ namespace BalancedScorecard.Domain.Commands.Indicators
 {
     public class IndicatorCommand : BaseCommand
     {
+        public Guid Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 
         [Required]
         public string Description { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
 
         [Required]
         public string Code { get; set; }
@@ -25,10 +24,10 @@ namespace BalancedScorecard.Domain.Commands.Indicators
         public IndicatorEnum.PeriodicityType Periodicity { get; set; }
 
         [Required]
-        public IndicatorEnum.ComparisonValueType ComparisonValue { get; set; }
+        public IndicatorEnum.ComparisonType ComparisonType { get; set; }
 
         [Required]
-        public IndicatorEnum.ObjectValueType ObjectValue { get; set; }
+        public IndicatorEnum.IndicatorValueType IndicatorValueType { get; set; }
 
         [Required]
         public Guid IndicatorTypeId { get; set; }

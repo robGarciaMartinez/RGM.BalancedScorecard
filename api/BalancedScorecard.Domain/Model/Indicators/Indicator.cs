@@ -1,5 +1,7 @@
 ﻿using BalancedScorecard.Domain.Enums;
+using BalancedScorecard.Domain.Events.Indicators;
 using BalancedScorecard.Kernel.Domain;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,61 +10,86 @@ namespace BalancedScorecard.Domain.Model.Indicators
 {
     public class Indicator : AggregateRoot
     {
-        public Indicator(string name, string description, DateTime startDate, string code, string unit, IndicatorEnum.PeriodicityType periodicity, 
-            IndicatorEnum.ComparisonValueType comparisonValue, IndicatorEnum.ObjectValueType objectValue, Guid indicatorTypeId, Guid responsibleId, 
-            int? fulfillmentRate, bool cumulative)
+        public Indicator(
+            Guid id,
+            string name, 
+            string description, 
+            string code, 
+            string unit, 
+            IndicatorEnum.PeriodicityType periodicityType, 
+            IndicatorEnum.ComparisonType comparisonType, 
+            IndicatorEnum.IndicatorValueType indicatorValueType, 
+            Guid indicatorTypeId, 
+            Guid responsibleId, 
+            int? fulfillmentRate, 
+            bool cumulative,
+            IndicatorEnum.Status status)
         {
+            Id = id;
             Name = name;
             Description = description;
-            StartDate = startDate;
             Code = code;
             Unit = unit;
-            Periodicity = periodicity;
-            ComparisonValue = comparisonValue;
-            ObjectValue = objectValue;
+            PeriodicityType = periodicityType;
+            ComparisonType = comparisonType;
+            IndicatorValueType = indicatorValueType;
             IndicatorTypeId = indicatorTypeId;
             ResponsibleId = responsibleId;
             FulfillmentRate = fulfillmentRate;
             Cumulative = cumulative;
+            Status = status;
+            AddEvent(new IndicatorCreatedEvent { IndicatorId = Id });
         }
 
         public Indicator() { }
 
-        public string Name { get; set; }
+        [JsonProperty]
+        public string Name { get; private set; }
 
-        public string Description { get; set; }
+        [JsonProperty]
+        public string Description { get; private set; }
 
-        public DateTime StartDate { get; set; }
+        [JsonProperty]
+        public string Code { get; private set; }
 
-        public string Code { get; set; }
+        [JsonProperty]
+        public string Unit { get; private set; }
 
-        public string Unit { get; set; }
+        [JsonProperty]
+        public IndicatorEnum.PeriodicityType PeriodicityType { get; private set; }
 
-        public IndicatorEnum.PeriodicityType Periodicity { get; set; }
+        [JsonProperty]
+        public IndicatorEnum.ComparisonType ComparisonType { get; private set; }
 
-        public IndicatorEnum.ComparisonValueType ComparisonValue { get; set; }
+        [JsonProperty]
+        public IndicatorEnum.IndicatorValueType IndicatorValueType { get; private set; }
 
-        public IndicatorEnum.ObjectValueType ObjectValue { get; set; }
+        [JsonProperty]
+        public Guid IndicatorTypeId { get; private set; }
 
-        public Guid IndicatorTypeId { get; set; }
+        [JsonProperty]
+        public Guid ResponsibleId { get; private set; }
 
-        public Guid ResponsibleId { get; set; }
+        [JsonProperty]
+        public int? FulfillmentRate { get; private set; }
 
-        public int? FulfillmentRate { get; set; }
+        [JsonProperty]
+        public bool Cumulative { get; private set; }
 
-        public bool Cumulative { get; set; }
+        [JsonProperty]
+        public IndicatorEnum.Status Status { get; private set; }
 
-        public List<IndicatorMeasure> Measures { get; set; }
+        [JsonProperty]
+        public List<IndicatorMeasure> Measures { get; private set; }
     
         public void Update(
             string name,
             string description,
-            DateTime startDate,
             string code,
             string unit,
-            IndicatorEnum.PeriodicityType periodicity,
-            IndicatorEnum.ComparisonValueType comparisonValue,
-            IndicatorEnum.ObjectValueType objectValue,
+            IndicatorEnum.PeriodicityType periodicityType,
+            IndicatorEnum.ComparisonType comparisonType,
+            IndicatorEnum.IndicatorValueType indicatorValueType,
             Guid indicatorTypeId,
             Guid responsibleId,
             int? fulfillmentRate,
@@ -70,12 +97,11 @@ namespace BalancedScorecard.Domain.Model.Indicators
         {
             Name = name;
             Description = description;
-            StartDate = startDate;
             Code = code;
             Unit = unit;
-            Periodicity = periodicity;
-            ComparisonValue = comparisonValue;
-            ObjectValue = objectValue;
+            PeriodicityType = periodicityType;
+            ComparisonType = comparisonType;
+            IndicatorValueType = indicatorValueType;
             IndicatorTypeId = indicatorTypeId;
             ResponsibleId = responsibleId;
             FulfillmentRate = fulfillmentRate;
