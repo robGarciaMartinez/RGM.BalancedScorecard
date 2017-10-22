@@ -1,0 +1,35 @@
+<div class="js-sidebar-content">
+  <header class="logo hidden-sm-down">
+    <a href="index.html">{{config.name}}</a>
+  </header>
+  <!-- main notification links are placed inside of .sidebar-nav -->
+  <ul class="sidebar-nav">
+    <li>
+      <a [routerLink]=" ['dashboard'] ">
+      <span class="icon">
+          <i class="fa fa-child"></i>
+      </span>
+        Dashboard
+      </a>
+    </li>
+    <li>
+      <a [routerLink]=" ['indicator'] ">
+      <span class="icon">
+          <i class="fa fa-child"></i>
+      </span>
+        Indicator
+      </a>
+    </li>
+    <li>
+      <a [routerLink]=" ['another-page'] ">
+      <span class="icon">
+          <i class="fa fa-tree"></i>
+      </span>
+        Another Page
+      <span class="badge badge-danger">
+          9
+      </span>
+      </a>
+    </li>
+  </ul>
+</div>
