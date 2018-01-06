@@ -32,7 +32,7 @@ namespace BalancedScorecard.Kernel.Commands
 
         protected virtual Task OnUnsuccessfulValidation(TCommand command, ValidationResult validationResult)
         {
-            throw new DomainValidationException(validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);
         }
 
         protected abstract Task OnSuccessfulValidation(TCommand command);
@@ -67,7 +67,7 @@ namespace BalancedScorecard.Kernel.Commands
 
         protected virtual Task OnUnsuccessfulValidation(TCommand command, TAggregateRoot aggregateRoot, ValidationResult validationResult)
         {
-            throw new DomainValidationException(validationResult.Errors);
+            throw new ValidationException(validationResult.Errors);
         }
 
         protected abstract TAggregateRoot GetAggregateRoot(TCommand command);

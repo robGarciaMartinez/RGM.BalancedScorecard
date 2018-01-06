@@ -7,6 +7,7 @@ using BalancedScorecard.Kernel;
 using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Kernel.Domain;
 using BalancedScorecard.Kernel.Queries;
+using BalancedScorecard.Kernel.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -36,8 +37,10 @@ namespace BalancedScorecard.Api
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
                 }));
+
             services.AddLocalCommandDispatcher<StructureMapMediator>();
             services.AddLocalQueryDispatcher<StructureMapMediator>();
+            services.AddScoped<IValidationDependencyContainer, StructureMapMediator>();
         }
 
         public void ConfigureContainer(Registry registry)
@@ -53,10 +56,13 @@ namespace BalancedScorecard.Api
                 scanner.AddAllTypesOf(typeof(IQuery<,>));
                 scanner.AddAllTypesOf(typeof(IMapper<>));
                 scanner.AddAllTypesOf(typeof(IRepository<>));
+                scanner.AddAllTypesOf(typeof(IValidator<>));
+                scanner.AddAllTypesOf(typeof(ISpecification<>));
                 scanner.ConnectImplementationsToTypesClosing(typeof(ICommandHandler<>));
                 scanner.ConnectImplementationsToTypesClosing(typeof(IQuery<,>));
                 scanner.ConnectImplementationsToTypesClosing(typeof(IMapper<>));
                 scanner.ConnectImplementationsToTypesClosing(typeof(IRepository<>));
+                scanner.ConnectImplementationsToTypesClosing(typeof(IValidator<>));
             });
         }
 

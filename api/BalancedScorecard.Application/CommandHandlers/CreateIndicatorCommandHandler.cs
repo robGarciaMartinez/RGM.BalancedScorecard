@@ -2,39 +2,50 @@
 using BalancedScorecard.Domain.Model.Indicators;
 using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Kernel.Domain;
+using BalancedScorecard.Kernel.Exceptions;
+using BalancedScorecard.Kernel.Validation;
+using System;
 using System.Threading.Tasks;
 
 namespace BalancedScorecard.Application.CommandHandlers
 {
     public class CreateIndicatorCommandHandler : ICommandHandler<CreateIndicatorCommand>
     {
+        private readonly IValidator<CreateIndicatorCommand> _validator;
         private readonly IRepository<Indicator> _repository;
 
-        public CreateIndicatorCommandHandler(IRepository<Indicator> repository)
+        public CreateIndicatorCommandHandler(
+            IValidator<CreateIndicatorCommand> validator,
+            IRepository<Indicator> repository)
         {
+            _validator = validator;
             _repository = repository;
         }
 
         public async Task Execute(CreateIndicatorCommand command)
         {
-            var indicator = await _repository.GetById(command.Id);
-            if (indicator == null)
+            if (command == null) throw new ArgumentNullException("Command can't be null");
+            if (command.Id == null) throw new ArgumentException("Command Id can't be null");
+
+            var validationResult = await _validator.Validate(command);
+            if (!validationResult.IsValid)
             {
-                indicator = new Indicator(
-                    command.Id,
+                throw new ValidationException(validationResult.Errors);
+            }
+
+            var indicator = new Indicator(
+                    command.Id.Value,
                     command.Name,
                     command.Description,
                     command.Code,
                     command.Unit,
-                    command.Periodicity,
+                    command.PeriodicityType,
                     command.ComparisonType,
                     command.IndicatorValueType,
                     command.IndicatorTypeId,
                     command.ResponsibleId,
                     command.FulfillmentRate,
-                    command.Cumulative,
-                    Domain.Enums.IndicatorEnum.Status.Green);
-            }
+                    command.Cumulative);
 
             await  _repository.SaveAsync(indicator);
         }

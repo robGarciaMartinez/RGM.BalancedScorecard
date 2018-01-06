@@ -10,6 +10,8 @@ namespace BalancedScorecard.Domain.Services.Implementations
     {
         public IndicatorEnum.Status Calculate(Indicator indicator)
         {
+            if (indicator == null) throw new ArgumentNullException("Indicator is null");
+
             if (!indicator.HasMeasures())
             {
                 return IndicatorEnum.Status.Grey;

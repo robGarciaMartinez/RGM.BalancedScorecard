@@ -1,6 +1,6 @@
 ﻿using BalancedScorecard.Kernel.Commands;
 
-namespace BalancedScorecard.Domain.Commands.Indicators
+namespace BalancedScorecard.Domain.Commands
 {
     public class BaseCommand : ICommand
     {

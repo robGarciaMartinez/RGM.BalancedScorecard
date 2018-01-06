@@ -5,8 +5,6 @@ namespace BalancedScorecard.Kernel.Domain
 {
     public abstract class AggregateRoot : BaseEntity, IAggregateRoot
     {
-        private ICollection<IDomainEvent> _events;
-
         public AggregateRoot()
         {
             _events = new List<IDomainEvent>();
@@ -17,8 +15,13 @@ namespace BalancedScorecard.Kernel.Domain
 
         [JsonIgnore]
         public ICollection<IDomainEvent> Events => _events;
-        
-        public void AddEvent(IDomainEvent domainEvent)
+
+        public void SetVersion(int version)
+        {
+            Version = version;
+        }
+
+        protected void AddEvent(IDomainEvent domainEvent)
         {
             if (_events == null)
             {
@@ -27,5 +30,7 @@ namespace BalancedScorecard.Kernel.Domain
 
             _events.Add(domainEvent);
         }
+
+        private ICollection<IDomainEvent> _events;
     }
 }

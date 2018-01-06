@@ -10,5 +10,7 @@ namespace BalancedScorecard.Kernel.Domain
         int Version { get; }
 
         ICollection<IDomainEvent> Events { get; }
+
+        void SetVersion(int version);
     }
 }

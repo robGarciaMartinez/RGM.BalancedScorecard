@@ -66,7 +66,7 @@ namespace BalancedScorecard.Infrastructure.Persistence.Implementations
                     {
                         command.Parameters.Add(new SqlParameter("@aggregateId", SqlDbType.UniqueIdentifier)).Value = aggregate.Id;
                         var result = await command.ExecuteScalarAsync();
-                        existingVersion = result != DBNull.Value ? (int)existingVersion : default(int?);
+                        existingVersion = result != DBNull.Value ? (int)result : default(int?);
                     }
 
                     if (existingVersion.HasValue && existingVersion > currentVersion)
@@ -74,8 +74,11 @@ namespace BalancedScorecard.Infrastructure.Persistence.Implementations
                         throw new Exception("Concurrency exception");
                     }
 
-                    using (var command = new SqlCommand(@"INSERT INTO Snapshots(AggregateType, AggregateId, Version, Snapshot) " +
-                        "VALUES(@aggregateType, @aggregateId, @version, @snapshot)", connection, transaction))
+                    var commandText = existingVersion.HasValue
+                        ? @"UPDATE Snapshots SET Snapshot=@snapshot, Version=@version WHERE AggregateId=@aggregateId"
+                        : @"INSERT INTO Snapshots(AggregateType, AggregateId, Version, Snapshot) VALUES(@aggregateType, @aggregateId, @version, @snapshot)";
+
+                    using (var command = new SqlCommand(commandText, connection, transaction))
                     {
                         command.Parameters.Add(new SqlParameter("@aggregateType", SqlDbType.NVarChar)).Value = aggregate.GetType().Name;
                         command.Parameters.Add(new SqlParameter("@aggregateId", SqlDbType.UniqueIdentifier)).Value = aggregate.Id;

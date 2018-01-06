@@ -19,11 +19,10 @@ namespace BalancedScorecard.Domain.Model.Indicators
             IndicatorEnum.PeriodicityType periodicityType, 
             IndicatorEnum.ComparisonType comparisonType, 
             IndicatorEnum.IndicatorValueType indicatorValueType, 
-            Guid indicatorTypeId, 
-            Guid responsibleId, 
+            Guid? indicatorTypeId, 
+            Guid? responsibleId, 
             int? fulfillmentRate, 
-            bool cumulative,
-            IndicatorEnum.Status status)
+            bool cumulative)
         {
             Id = id;
             Name = name;
@@ -37,8 +36,23 @@ namespace BalancedScorecard.Domain.Model.Indicators
             ResponsibleId = responsibleId;
             FulfillmentRate = fulfillmentRate;
             Cumulative = cumulative;
-            Status = status;
-            AddEvent(new IndicatorCreatedEvent { IndicatorId = Id });
+            Status = IndicatorEnum.Status.Grey;
+            AddEvent(
+                new IndicatorCreatedEvent
+                {
+                    IndicatorId = Id,
+                    Name = Name,
+                    Description = Description,
+                    Code = Code,
+                    Unit = Unit,
+                    PeriodicityType = PeriodicityType,
+                    ComparisonType = ComparisonType,
+                    IndicatorValueType = IndicatorValueType,
+                    IndicatorTypeId = IndicatorTypeId,
+                    ResponsibleId = ResponsibleId,
+                    FulfillmentRate = FulfillmentRate,
+                    Cumulative = Cumulative
+                });
         }
 
         public Indicator() { }
@@ -65,10 +79,10 @@ namespace BalancedScorecard.Domain.Model.Indicators
         public IndicatorEnum.IndicatorValueType IndicatorValueType { get; private set; }
 
         [JsonProperty]
-        public Guid IndicatorTypeId { get; private set; }
+        public Guid? IndicatorTypeId { get; private set; }
 
         [JsonProperty]
-        public Guid ResponsibleId { get; private set; }
+        public Guid? ResponsibleId { get; private set; }
 
         [JsonProperty]
         public int? FulfillmentRate { get; private set; }
@@ -90,8 +104,8 @@ namespace BalancedScorecard.Domain.Model.Indicators
             IndicatorEnum.PeriodicityType periodicityType,
             IndicatorEnum.ComparisonType comparisonType,
             IndicatorEnum.IndicatorValueType indicatorValueType,
-            Guid indicatorTypeId,
-            Guid responsibleId,
+            Guid? indicatorTypeId,
+            Guid? responsibleId,
             int? fulfillmentRate,
             bool cumulative)
         {
@@ -106,6 +120,22 @@ namespace BalancedScorecard.Domain.Model.Indicators
             ResponsibleId = responsibleId;
             FulfillmentRate = fulfillmentRate;
             Cumulative = cumulative;
+            AddEvent(
+                new IndicatorUpdatedEvent
+                {
+                    IndicatorId = Id,
+                    Name = Name,
+                    Description = Description,
+                    Code = Code,
+                    Unit = Unit,
+                    PeriodicityType = PeriodicityType,
+                    ComparisonType = ComparisonType,
+                    IndicatorValueType = IndicatorValueType,
+                    IndicatorTypeId = IndicatorTypeId,
+                    ResponsibleId = ResponsibleId,
+                    FulfillmentRate = FulfillmentRate,
+                    Cumulative = Cumulative
+                });
         }
 
         public bool HasMeasures()

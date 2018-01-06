@@ -1,12 +1,13 @@
 ﻿using BalancedScorecard.Domain.Enums;
+using BalancedScorecard.Kernel.Domain;
 using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace BalancedScorecard.Domain.Commands.Indicators
+namespace BalancedScorecard.Domain.Events.Indicators
 {
-    public class IndicatorCommand : BaseAggregateRootCommand
+    public class BaseIndicatorEvent : IDomainEvent
     {
-        [Required]
+        public Guid IndicatorId { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -15,13 +16,10 @@ namespace BalancedScorecard.Domain.Commands.Indicators
 
         public string Unit { get; set; }
 
-        [Required]
         public IndicatorEnum.PeriodicityType PeriodicityType { get; set; }
 
-        [Required]
         public IndicatorEnum.ComparisonType ComparisonType { get; set; }
 
-        [Required]
         public IndicatorEnum.IndicatorValueType IndicatorValueType { get; set; }
 
         public Guid? IndicatorTypeId { get; set; }

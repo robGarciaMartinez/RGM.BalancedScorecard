@@ -26,7 +26,7 @@ namespace BalancedScorecard.Kernel.Validation
                 tasks[index] = specifications[index].IsSatisfiedBy(command);
             }
 
-            await Task.WhenAll(tasks.ToArray());
+            await Task.WhenAll(tasks.ToList());
 
             foreach(var index in Enumerable.Range(0, tasks.Length))
             {

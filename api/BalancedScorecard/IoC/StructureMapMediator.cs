@@ -1,12 +1,16 @@
-﻿using BalancedScorecard.Kernel.Commands;
+﻿using System.Collections.Generic;
+using BalancedScorecard.Kernel.Commands;
+using BalancedScorecard.Kernel.Domain;
 using BalancedScorecard.Kernel.Queries;
+using BalancedScorecard.Kernel.Validation;
 using StructureMap;
 
 namespace BalancedScorecard.Api.IoC
 {
     public class StructureMapMediator :
         ICommandDispatcherDependencyContainer,
-        IQueryDispatcherDependencyContainer
+        IQueryDispatcherDependencyContainer,
+        IValidationDependencyContainer
     {
         public readonly IContainer _container;
 
@@ -33,6 +37,18 @@ namespace BalancedScorecard.Api.IoC
         }
 
         public IQuery<TViewModel> GetQuery<TViewModel>() where TViewModel : IViewModel
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<ISpecification<TCommand>> GetSpecifications<TCommand>() where TCommand : ICommand
+        {
+            return _container.GetAllInstances<ISpecification<TCommand>>();
+        }
+
+        public IEnumerable<ISpecification<TAggregateRoot, TCommand>> GetSpecifications<TAggregateRoot, TCommand>()
+            where TAggregateRoot : IAggregateRoot
+            where TCommand : ICommand
         {
             throw new System.NotImplementedException();
         }

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace BalancedScorecard.Kernel.Exceptions
 {
-    public class DomainValidationException : Exception
+    public class ValidationException : Exception
     {
         private List<ValidationError> _errors;
 
-        public DomainValidationException(List<ValidationError> errors)
+        public ValidationException(List<ValidationError> errors)
         {
             _errors = errors;
         }
