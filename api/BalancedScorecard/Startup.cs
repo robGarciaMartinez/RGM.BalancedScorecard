@@ -6,6 +6,7 @@ using BalancedScorecard.Infrastructure.Persistence.Implementations;
 using BalancedScorecard.Kernel;
 using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Kernel.Domain;
+using BalancedScorecard.Kernel.Queries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +28,16 @@ namespace BalancedScorecard.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddCors(
+                options => options.AddPolicy("Local", 
+                builder => 
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                }));
             services.AddLocalCommandDispatcher<StructureMapMediator>();
+            services.AddLocalQueryDispatcher<StructureMapMediator>();
         }
 
         public void ConfigureContainer(Registry registry)
@@ -40,9 +50,11 @@ namespace BalancedScorecard.Api
                 scanner.Assembly(typeof(SqlServerRepository<Indicator>).Assembly);
                 scanner.WithDefaultConventions();
                 scanner.AddAllTypesOf(typeof(ICommandHandler<>));
+                scanner.AddAllTypesOf(typeof(IQuery<,>));
                 scanner.AddAllTypesOf(typeof(IMapper<>));
                 scanner.AddAllTypesOf(typeof(IRepository<>));
                 scanner.ConnectImplementationsToTypesClosing(typeof(ICommandHandler<>));
+                scanner.ConnectImplementationsToTypesClosing(typeof(IQuery<,>));
                 scanner.ConnectImplementationsToTypesClosing(typeof(IMapper<>));
                 scanner.ConnectImplementationsToTypesClosing(typeof(IRepository<>));
             });

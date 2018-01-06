@@ -6,6 +6,7 @@ namespace BalancedScorecard.Domain.Commands.Indicators
 {
     public class IndicatorCommand : BaseCommand
     {
+        [Required]
         public Guid Id { get; set; }
 
         [Required]

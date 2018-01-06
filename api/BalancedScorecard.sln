@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalancedScorecard.Domain", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalancedScorecard.Kernel", "BalancedScorecard.Kernel\BalancedScorecard.Kernel.csproj", "{9C1780B1-24A7-49F9-B931-793234A81385}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalancedScorecard.Infrastructure.Persistence", "BalancedScorecard.Infrastructure.Persistence\BalancedScorecard.Infrastructure.Persistence.csproj", "{8FEC3C82-9559-4A01-B941-DA4C4FFD474F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalancedScorecard.Infrastructure.Persistence", "BalancedScorecard.Infrastructure.Persistence\BalancedScorecard.Infrastructure.Persistence.csproj", "{8FEC3C82-9559-4A01-B941-DA4C4FFD474F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalancedScorecard.Query", "BalancedScorecard.Query\BalancedScorecard.Query.csproj", "{38D31E28-3C7B-46E1-A799-9EE0920DCE12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8FEC3C82-9559-4A01-B941-DA4C4FFD474F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FEC3C82-9559-4A01-B941-DA4C4FFD474F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FEC3C82-9559-4A01-B941-DA4C4FFD474F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38D31E28-3C7B-46E1-A799-9EE0920DCE12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38D31E28-3C7B-46E1-A799-9EE0920DCE12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38D31E28-3C7B-46E1-A799-9EE0920DCE12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38D31E28-3C7B-46E1-A799-9EE0920DCE12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

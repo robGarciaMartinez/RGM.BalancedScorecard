@@ -18,10 +18,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0" />
@@ -35,6 +33,7 @@
     <ProjectReference Include="..\BalancedScorecard.Domain\BalancedScorecard.Domain.csproj" />
     <ProjectReference Include="..\BalancedScorecard.Infrastructure.Persistence\BalancedScorecard.Infrastructure.Persistence.csproj" />
     <ProjectReference Include="..\BalancedScorecard.Kernel\BalancedScorecard.Kernel.csproj" />
+    <ProjectReference Include="..\BalancedScorecard.Query\BalancedScorecard.Query.csproj" />
   </ItemGroup>
 
 </Project>

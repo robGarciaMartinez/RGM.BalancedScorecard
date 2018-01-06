@@ -1,0 +1,10 @@
+<h1 class="page-title">New Indicator</h1>
+<div class="widget-container">
+    <div class="row">
+        <div class="col-md-10">
+            <section class="widget" widget>
+                <indicator-form [model]="indicator$ | async" (saveClicked)="saveIndicator($event)"></indicator-form>
+            </section>
+        </div>
+    </div>
+</div>

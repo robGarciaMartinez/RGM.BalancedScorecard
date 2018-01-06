@@ -1,0 +1,33 @@
+<form class="form-horizontal" [formGroup]="indicatorForm" (ngSubmit)="saveIndicator(indicatorForm.value)">
+    <fieldset>
+        <legend><strong>General Data</strong></legend>
+    
+        <div class="row form-group">
+            <label for="Name" class="col-md-2">Name</label>
+            <div class="col-md-4">
+                <input class="form-control" type="text" id="Name" formControlName="name"/>
+                <span class="error" *ngIf="indicatorForm.controls.name.errors && indicatorForm.controls.name.touched">Name is required</span>
+            </div>
+
+            <label for="Code" class="col-md-2">Code</label>
+            <div class="col-md-4"> 
+                <input class="form-control" type="text" id="Code" formControlName="code"/>
+                <span class="error" *ngIf="indicatorForm.controls.code.errors && indicatorForm.controls.code.touched">Code is required</span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label for="Description" class="col-md-2">Description</label>
+            <div class="col-md-10"> 
+                <input class="form-control" type="text" id="Description" formControlName="description"/>
+                <span class="error" *ngIf="indicatorForm.controls.description.errors && indicatorForm.controls.description.touched">Description is required</span>
+            </div>
+        </div>
+    </fieldset>
+    <hr/>
+    <div class="row form-actions">
+        <div class="text-right col-md-12">
+            <button type="submit" class="btn btn-info btn-rounded" [disabled]="!indicatorForm.valid">Save</button>
+            <button type="button" class="btn btn-default btn-rounded">Cancel</button>
+        </div> 
+    </div>
+</form>
