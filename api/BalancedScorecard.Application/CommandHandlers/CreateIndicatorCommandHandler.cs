@@ -25,7 +25,6 @@ namespace BalancedScorecard.Application.CommandHandlers
         public async Task Execute(CreateIndicatorCommand command)
         {
             if (command == null) throw new ArgumentNullException("Command can't be null");
-            if (command.Id == null) throw new ArgumentException("Command Id can't be null");
 
             var validationResult = await _validator.Validate(command);
             if (!validationResult.IsValid)
@@ -34,14 +33,14 @@ namespace BalancedScorecard.Application.CommandHandlers
             }
 
             var indicator = new Indicator(
-                    command.Id.Value,
+                    command.Id,
                     command.Name,
                     command.Description,
                     command.Code,
                     command.Unit,
-                    command.PeriodicityType,
-                    command.ComparisonType,
-                    command.IndicatorValueType,
+                    command.PeriodicityType.Value,
+                    command.ComparisonType.Value,
+                    command.IndicatorValueType.Value,
                     command.IndicatorTypeId,
                     command.ResponsibleId,
                     command.FulfillmentRate,

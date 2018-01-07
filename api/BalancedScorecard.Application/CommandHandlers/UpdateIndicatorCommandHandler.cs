@@ -23,7 +23,7 @@ namespace BalancedScorecard.Application.CommandHandlers
             if (command == null) throw new ArgumentNullException("Command can't be null");
             if (command.Id == null) throw new ArgumentException("Command Id can't be null");
 
-            var indicator = await _repository.GetById(command.Id.Value);
+            var indicator = await _repository.GetById(command.Id);
             if (indicator == null)
             {
                 throw new ItemNotFoundException("Indicator not found");
@@ -34,9 +34,9 @@ namespace BalancedScorecard.Application.CommandHandlers
                 command.Description,
                 command.Code,
                 command.Unit,
-                command.PeriodicityType,
-                command.ComparisonType,
-                command.IndicatorValueType,
+                command.PeriodicityType.Value,
+                command.ComparisonType.Value,
+                command.IndicatorValueType.Value,
                 command.IndicatorTypeId,
                 command.ResponsibleId, 
                 command.FulfillmentRate,

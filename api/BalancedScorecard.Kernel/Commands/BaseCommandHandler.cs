@@ -1,6 +1,7 @@
 ﻿using BalancedScorecard.Kernel.Domain;
 using BalancedScorecard.Kernel.Exceptions;
 using BalancedScorecard.Kernel.Validation;
+using System;
 using System.Threading.Tasks;
 
 namespace BalancedScorecard.Kernel.Commands
@@ -17,7 +18,7 @@ namespace BalancedScorecard.Kernel.Commands
 
         public async Task Execute(TCommand command)
         {
-            Guard.AgainstArgumentNullException(command, nameof(command));
+            if (command == null) throw new ArgumentNullException("Command can't be null");
 
             var validationResult = await _validator.Validate(command);
             if (validationResult.IsValid)
@@ -51,7 +52,7 @@ namespace BalancedScorecard.Kernel.Commands
 
         public async Task Execute(TCommand command)
         {
-            Guard.AgainstArgumentNullException(command, nameof(command));
+            if (command == null) throw new ArgumentNullException("Command can't be null");
 
             var aggregateRoot = GetAggregateRoot(command);
             var validationResult = await _validator.Validate(aggregateRoot, command);

@@ -1,6 +1,8 @@
 ﻿using BalancedScorecard.Domain.Enums;
 using BalancedScorecard.Domain.Events.Indicators;
+using BalancedScorecard.Domain.Model.Indicators.Values;
 using BalancedScorecard.Kernel.Domain;
+using BalancedScorecard.Kernel.Exceptions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -51,7 +53,8 @@ namespace BalancedScorecard.Domain.Model.Indicators
                     IndicatorTypeId = IndicatorTypeId,
                     ResponsibleId = ResponsibleId,
                     FulfillmentRate = FulfillmentRate,
-                    Cumulative = Cumulative
+                    Cumulative = Cumulative,
+                    IndicatorStatus = Status
                 });
         }
 
@@ -120,6 +123,8 @@ namespace BalancedScorecard.Domain.Model.Indicators
             ResponsibleId = responsibleId;
             FulfillmentRate = fulfillmentRate;
             Cumulative = cumulative;
+            Status = CalculateStatus();
+
             AddEvent(
                 new IndicatorUpdatedEvent
                 {
@@ -134,13 +139,26 @@ namespace BalancedScorecard.Domain.Model.Indicators
                     IndicatorTypeId = IndicatorTypeId,
                     ResponsibleId = ResponsibleId,
                     FulfillmentRate = FulfillmentRate,
-                    Cumulative = Cumulative
+                    Cumulative = Cumulative,
+                    IndicatorStatus = Status
                 });
         }
+
+        #region Measures
 
         public bool HasMeasures()
         {
             return Measures != null && Measures.Any();
+        }
+
+        public IndicatorMeasure GetMeasure(Guid id)
+        {
+            if (!HasMeasures())
+            {
+                return default(IndicatorMeasure);
+            }
+
+            return Measures.FirstOrDefault(m => m.Id == id);
         }
 
         public IndicatorMeasure GetLastMeasure()
@@ -148,48 +166,149 @@ namespace BalancedScorecard.Domain.Model.Indicators
             return HasMeasures() ? Measures.OrderByDescending(m => m.Date).First() : default(IndicatorMeasure);
         }
 
-        #region Measures
-
-        public List<IndicatorMeasure> GetMeasures(List<IndicatorMeasure> measures)
-        {
-            return Measures;
-        }
-
-        public void SetMeasures(List<IndicatorMeasure> measures)
-        {
-            Measures = measures;
-        }
-
-        public void AddMeasure(IndicatorMeasure measure)
+        public void AddMeasure(DateTime date, IIndicatorValue realValue, IIndicatorValue objectiveValue, string notes)
         {
             if (Measures == null)
             {
                 Measures = new List<IndicatorMeasure>();
             }
 
-            Measures.Add(measure);
+            var indicatorMeasureId = Guid.NewGuid();
+            Measures.Add(new IndicatorMeasure(indicatorMeasureId, date, realValue, objectiveValue, notes));
+            Status = CalculateStatus();
+
+            AddEvent(
+                new IndicatorMeasureCreatedEvent
+                {
+                    IndicatorMeasureId = indicatorMeasureId,
+                    Date = date,
+                    RealValue = realValue,
+                    ObjectiveValue = objectiveValue,
+                    Notes = notes,
+                    IndicatorStatus = Status
+                });
         }
 
-        public void UpdateMeasure(IndicatorMeasure measure)
+        public void UpdateMeasure(Guid id, DateTime date, IIndicatorValue realValue, IIndicatorValue objectiveValue, string notes)
         {
-            var measureIndex = Measures.FindIndex(m => m.Id == measure.Id);
-            if (measureIndex == -1)
+            var measure = GetMeasure(id);
+            if (measure == null)
             {
-                throw new ArgumentException("Cannot find a measure with the given id");
+                throw new ItemNotFoundException("Indicator measure not found");
             }
 
-            Measures[measureIndex] = measure;
+            measure.Update(date, realValue, objectiveValue, notes);
+            Status = CalculateStatus();
         }
 
-        public void DeleteMeasure(IndicatorMeasure measure)
+        public void DeleteMeasure(Guid id)
         {
-            var measureIndex = Measures.FindIndex(m => m.Id == measure.Id);
-            if (measureIndex == -1)
+            var measure = GetMeasure(id);
+            if (measure == null)
             {
-                throw new ArgumentException("Cannot find a measure with the given id");
+                throw new ItemNotFoundException("Indicator measure not found");
             }
 
-            Measures.RemoveAt(measureIndex);
+            Measures.Remove(measure);
+            Status = CalculateStatus();
+        }
+
+        #endregion
+
+        #region Status Calculation
+
+        private IndicatorEnum.Status CalculateStatus()
+        {
+            if (!HasMeasures())
+            {
+                return IndicatorEnum.Status.Grey;
+            }
+
+            var lastMeasure = GetLastMeasure();
+            if (lastMeasure.Date.AddMonths((int)PeriodicityType) < DateTime.Today)
+            {
+                return IndicatorEnum.Status.Grey;
+            }
+
+            switch (IndicatorValueType)
+            {
+                case IndicatorEnum.IndicatorValueType.Integer:
+                    return CalculateStatus<int>(lastMeasure);
+                case IndicatorEnum.IndicatorValueType.Decimal:
+                    return CalculateStatus<decimal>(lastMeasure);
+                case IndicatorEnum.IndicatorValueType.Boolean:
+                    return CalculateStatus<bool>(lastMeasure);
+                default:
+                    throw new InvalidOperationException("Indicator measure type is not correct");
+            }
+        }
+
+        private IndicatorEnum.Status CalculateStatus<T>(IndicatorMeasure lastMeasure) where T : IComparable
+        {
+            switch (ComparisonType)
+            {
+                case IndicatorEnum.ComparisonType.Equal:
+                case IndicatorEnum.ComparisonType.NotEqual:
+                case IndicatorEnum.ComparisonType.GreaterThan:
+                case IndicatorEnum.ComparisonType.SmallerThan:
+                case IndicatorEnum.ComparisonType.GreaterOrEqualThan:
+                case IndicatorEnum.ComparisonType.SmallerOrEqualThan:
+                    return CalculateSingleValueBasedStatus<T>(lastMeasure);
+                case IndicatorEnum.ComparisonType.BetweenLimits:
+                case IndicatorEnum.ComparisonType.OffLimits:
+                    return CalculateSingleValueBasedStatus<T>(lastMeasure);
+                default:
+                    throw new InvalidOperationException("Indicator measure comparison value is not correct");
+            }
+        }
+
+        private IndicatorEnum.Status CalculateSingleValueBasedStatus<T>(IndicatorMeasure lastMeasure) where T : IComparable
+        {
+            var realValue = lastMeasure.RealValue as SingleValue<T>;
+            var objectiveValue = lastMeasure.ObjectiveValue as SingleValue<T>;
+            var comparison = realValue.Value.CompareTo(objectiveValue.Value);
+            if (realValue == null || objectiveValue == null)
+            {
+                throw new InvalidOperationException("Indicator measure values are not correct");
+            }
+
+            switch (ComparisonType)
+            {
+                case IndicatorEnum.ComparisonType.Equal:
+                    return comparison == 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
+                case IndicatorEnum.ComparisonType.GreaterThan:
+                    return comparison > 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
+                case IndicatorEnum.ComparisonType.SmallerThan:
+                    return comparison < 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
+                case IndicatorEnum.ComparisonType.GreaterOrEqualThan:
+                    return comparison >= 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
+                case IndicatorEnum.ComparisonType.SmallerOrEqualThan:
+                    return comparison <= 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
+                default:
+                    throw new InvalidOperationException("Indicator comparison type is not correct");
+            }
+        }
+
+        private IndicatorEnum.Status CalculateDoubleValueBasedStatus<T>(IndicatorMeasure lastMeasure) where T : IComparable
+        {
+            var realValue = lastMeasure.RealValue as SingleValue<T>;
+            var objectiveValue = lastMeasure.ObjectiveValue as DoubleValue<T>;
+            var lowerValueComparison = realValue.Value.CompareTo(objectiveValue.LowerValue);
+            var higherValueComparison = realValue.Value.CompareTo(objectiveValue.HigherValue);
+            if (realValue == null || objectiveValue == null)
+            {
+                throw new InvalidOperationException("Indicator measure values are not correct");
+            }
+
+            switch (ComparisonType)
+            {
+                case IndicatorEnum.ComparisonType.BetweenLimits:
+                    return lowerValueComparison >= 0 && higherValueComparison <= 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
+                case IndicatorEnum.ComparisonType.OffLimits:
+                    return lowerValueComparison < 0 && higherValueComparison > 0 ? IndicatorEnum.Status.Green : IndicatorEnum.Status.Red;
+                default:
+                    throw new InvalidOperationException("Indicator comparison type is not correct");
+            }
         }
 
         #endregion

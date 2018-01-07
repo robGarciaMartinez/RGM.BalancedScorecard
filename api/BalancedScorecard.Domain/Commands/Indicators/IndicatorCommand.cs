@@ -16,13 +16,13 @@ namespace BalancedScorecard.Domain.Commands.Indicators
         public string Unit { get; set; }
 
         [Required]
-        public IndicatorEnum.PeriodicityType PeriodicityType { get; set; }
+        public IndicatorEnum.PeriodicityType? PeriodicityType { get; set; }
 
         [Required]
-        public IndicatorEnum.ComparisonType ComparisonType { get; set; }
+        public IndicatorEnum.ComparisonType? ComparisonType { get; set; }
 
         [Required]
-        public IndicatorEnum.IndicatorValueType IndicatorValueType { get; set; }
+        public IndicatorEnum.IndicatorValueType? IndicatorValueType { get; set; }
 
         public Guid? IndicatorTypeId { get; set; }
 

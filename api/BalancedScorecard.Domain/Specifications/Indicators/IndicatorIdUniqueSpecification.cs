@@ -23,7 +23,7 @@ namespace BalancedScorecard.Domain.Specifications
             if (command == null) throw new ArgumentNullException("Command can't be null");
             if (command.Id == null) throw new ArgumentException("Command Id can't be null");
 
-            return await _repository.GetById(command.Id.Value) == null;
+            return await _repository.GetById(command.Id) == null;
         }
     }
 }

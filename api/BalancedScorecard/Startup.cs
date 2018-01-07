@@ -1,4 +1,5 @@
 ﻿using BalancedScorecard.Api.IoC;
+using BalancedScorecard.Api.JsonConverters;
 using BalancedScorecard.Application.CommandHandlers;
 using BalancedScorecard.Domain.Model.Indicators;
 using BalancedScorecard.Infrastructure.Persistence.Abstractions;
@@ -28,7 +29,8 @@ namespace BalancedScorecard.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(
+                options => options.SerializerSettings.Converters.Add(new IndicatorMeasureConverter()));
             services.AddCors(
                 options => options.AddPolicy("Local", 
                 builder => 

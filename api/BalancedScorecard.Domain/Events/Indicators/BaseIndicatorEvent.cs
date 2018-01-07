@@ -29,5 +29,7 @@ namespace BalancedScorecard.Domain.Events.Indicators
         public int? FulfillmentRate { get; set; }
 
         public bool Cumulative { get; set; }
+
+        public IndicatorEnum.Status IndicatorStatus { get; set; }
     }
 }
