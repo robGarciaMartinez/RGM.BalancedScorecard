@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BalancedScorecard.Domain.Commands.Indicators
 {
-    public class IndicatorCommand : BaseAggregateRootCommand
+    public class IndicatorCommand : BaseCommand
     {
+        public Guid IndicatorId { get; set; }
+
         [Required]
         public string Name { get; set; }
 

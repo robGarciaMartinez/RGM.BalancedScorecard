@@ -199,6 +199,17 @@ namespace BalancedScorecard.Domain.Model.Indicators
 
             measure.Update(date, realValue, objectiveValue, notes);
             Status = CalculateStatus();
+
+            AddEvent(
+                new IndicatorMeasureCreatedEvent
+                {
+                    IndicatorMeasureId = measure.Id,
+                    Date = date,
+                    RealValue = realValue,
+                    ObjectiveValue = objectiveValue,
+                    Notes = notes,
+                    IndicatorStatus = Status
+                });
         }
 
         public void DeleteMeasure(Guid id)

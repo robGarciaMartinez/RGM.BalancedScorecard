@@ -29,9 +29,11 @@ namespace BalancedScorecard.Infrastructure.Persistence.Implementations
             using (var connection = new SqlConnection(_configuration.GetConnectionString("WriteDb")))
             {
                 await connection.OpenAsync();
-                using (var command = new SqlCommand("SELECT * FROM Snapshots WHERE AggregateId = @aggregateId", connection))
+                using (var command = new SqlCommand("SELECT * FROM Snapshots WHERE AggregateId = @aggregateId and AggregateType = @aggregateType", connection))
                 {
                     command.Parameters.Add(new SqlParameter("@aggregateId", SqlDbType.UniqueIdentifier)).Value = id;
+                    command.Parameters.Add(new SqlParameter("@aggregateType", SqlDbType.NVarChar)).Value = typeof(TEntity).Name;
+
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
@@ -62,9 +64,11 @@ namespace BalancedScorecard.Infrastructure.Persistence.Implementations
                 using (var transaction = connection.BeginTransaction())
                 {
                     int? existingVersion = null;
-                    using (var command = new SqlCommand("SELECT MAX(Version) FROM Events WHERE AggregateId = @aggregateId", connection, transaction))
+                    using (var command = new SqlCommand("SELECT MAX(Version) FROM Events WHERE AggregateId = @aggregateId and AggregateType = @aggregateType", connection, transaction))
                     {
                         command.Parameters.Add(new SqlParameter("@aggregateId", SqlDbType.UniqueIdentifier)).Value = aggregate.Id;
+                        command.Parameters.Add(new SqlParameter("@aggregateType", SqlDbType.NVarChar)).Value = typeof(TEntity).Name;
+
                         var result = await command.ExecuteScalarAsync();
                         existingVersion = result != DBNull.Value ? (int)result : default(int?);
                     }
@@ -80,7 +84,7 @@ namespace BalancedScorecard.Infrastructure.Persistence.Implementations
 
                     using (var command = new SqlCommand(commandText, connection, transaction))
                     {
-                        command.Parameters.Add(new SqlParameter("@aggregateType", SqlDbType.NVarChar)).Value = aggregate.GetType().Name;
+                        command.Parameters.Add(new SqlParameter("@aggregateType", SqlDbType.NVarChar)).Value = typeof(TEntity).Name;
                         command.Parameters.Add(new SqlParameter("@aggregateId", SqlDbType.UniqueIdentifier)).Value = aggregate.Id;
                         command.Parameters.Add(new SqlParameter("@version", SqlDbType.Int)).Value = currentVersion;
                         command.Parameters.Add(new SqlParameter("@snapshot", SqlDbType.NVarChar)).Value = JsonConvert.SerializeObject(aggregate);

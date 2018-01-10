@@ -1,24 +1,24 @@
-﻿using System;
-using System.Threading.Tasks;
-using BalancedScorecard.Domain.Commands.Indicators;
+﻿using BalancedScorecard.Domain.Commands.Indicators;
 using BalancedScorecard.Domain.Model.Indicators;
 using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Kernel.Domain;
 using BalancedScorecard.Kernel.Exceptions;
+using System;
+using System.Threading.Tasks;
 
 namespace BalancedScorecard.Application.CommandHandlers
 {
-    public class UpdateIndicatorCommandHandler : ICommandHandler<UpdateIndicatorCommand>
+    public class UpdateIndicatorMeasureCommandHandler : ICommandHandler<UpdateIndicatorMeasureCommand>
     {
         private readonly IRepository<Indicator> _repository;
 
-        public UpdateIndicatorCommandHandler(
+        public UpdateIndicatorMeasureCommandHandler(
             IRepository<Indicator> repository)
         {
             _repository = repository;
         }
 
-        public async Task Execute(UpdateIndicatorCommand command)
+        public async Task Execute(UpdateIndicatorMeasureCommand command)
         {
             if (command == null) throw new ArgumentNullException("Command can't be null");
 
@@ -28,19 +28,7 @@ namespace BalancedScorecard.Application.CommandHandlers
                 throw new ItemNotFoundException("Indicator not found");
             }
 
-            indicator.Update(
-                command.Name,
-                command.Description,
-                command.Code,
-                command.Unit,
-                command.PeriodicityType.Value,
-                command.ComparisonType.Value,
-                command.IndicatorValueType.Value,
-                command.IndicatorTypeId,
-                command.ResponsibleId, 
-                command.FulfillmentRate,
-                command.Cumulative);
-
+            indicator.UpdateMeasure(command.IndicatorMeasureId, command.Date.Value, command.RealValue, command.ObjectiveValue, command.Notes);
             await _repository.SaveAsync(indicator);
         }
     }

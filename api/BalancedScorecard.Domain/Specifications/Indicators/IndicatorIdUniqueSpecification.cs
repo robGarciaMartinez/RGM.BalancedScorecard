@@ -21,9 +21,9 @@ namespace BalancedScorecard.Domain.Specifications
         public async Task<bool> IsSatisfiedBy(CreateIndicatorCommand command)
         {
             if (command == null) throw new ArgumentNullException("Command can't be null");
-            if (command.Id == null) throw new ArgumentException("Command Id can't be null");
+            if (command.IndicatorId == null) throw new ArgumentException("Command Id can't be null");
 
-            return await _repository.GetById(command.Id) == null;
+            return await _repository.GetById(command.IndicatorId) == null;
         }
     }
 }

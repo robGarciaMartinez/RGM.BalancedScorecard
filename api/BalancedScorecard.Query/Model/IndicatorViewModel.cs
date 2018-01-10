@@ -6,6 +6,8 @@ namespace BalancedScorecard.Query.Model
 {
     public class IndicatorViewModel : IViewModel
     {
+        public Guid Id { get; set; }
+
         public string Name { get; set; }
 
         public string Code { get; set; }
@@ -14,7 +16,7 @@ namespace BalancedScorecard.Query.Model
        
         public string Unit { get; set; }
      
-        public IndicatorEnum.PeriodicityType Periodicity { get; set; }
+        public IndicatorEnum.PeriodicityType PeriodicityType { get; set; }
        
         public IndicatorEnum.ComparisonType ComparisonType { get; set; }
        
@@ -23,5 +25,7 @@ namespace BalancedScorecard.Query.Model
         public int? FulfillmentRate { get; set; }
     
         public bool Cumulative { get; set; }
+
+        public IndicatorEnum.Status Status { get; set; }
     }
 }

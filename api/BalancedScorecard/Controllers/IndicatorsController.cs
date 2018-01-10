@@ -25,38 +25,59 @@ namespace BalancedScorecard.Api.Controllers
             _queryDispatcher = queryDispatcher;
         }
 
-        [HttpGet(Name = "GetIndicator")]
-        public Task<IndicatorViewModel> GetIndicator(string code)
+        [HttpGet("{indicatorId}", Name = "GetIndicator")]
+        public Task<IndicatorViewModel> GetIndicator(Guid id)
         {
-            return _queryDispatcher.Get<IndicatorViewModel, GetIndicatorViewModelFilter>(new GetIndicatorViewModelFilter { Code = code });
+            return _queryDispatcher.Get<IndicatorViewModel, GetIndicatorViewModelFilter>(
+                new GetIndicatorViewModelFilter { Id = id });
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateIndicator([FromBody] CreateIndicatorCommand command)
+        public async Task<IActionResult> CreateIndicator(
+            [FromBody] CreateIndicatorCommand command)
         {
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
-            command.Id = Guid.NewGuid();
+            command.IndicatorId = Guid.NewGuid();
             await _commandDispatcher.Submit(command);
-            return new CreatedAtRouteResult("GetIndicator", new { code = command.Code }, null);
+            return new CreatedAtRouteResult("GetIndicator", new { id = command.IndicatorId }, null);
         }
 
         [HttpPut("{indicatorId}")]
-        public async Task<IActionResult> UpdateIndicator([FromRoute]Guid indicatorId, [FromBody] UpdateIndicatorCommand command)
+        public async Task<IActionResult> UpdateIndicator(
+            [FromRoute]Guid indicatorId, 
+            [FromBody] UpdateIndicatorCommand command)
         {
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
-            command.Id = indicatorId;
+            command.IndicatorId = indicatorId;
             await _commandDispatcher.Submit(command);
             return new OkResult();
         }
 
         [HttpPost("{indicatorId}/measures")]
-        public async Task<IActionResult> CreateIndicatorMeasure([FromRoute]Guid indicatorId, [FromBody] CreateIndicatorMeasureCommand command)
+        public async Task<IActionResult> CreateIndicatorMeasure(
+            [FromRoute]Guid indicatorId, 
+            [FromBody] CreateIndicatorMeasureCommand command)
         {
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
             command.IndicatorId = indicatorId;
+            command.IndicatorMeasureId = Guid.NewGuid();
+            await _commandDispatcher.Submit(command);
+            return new OkResult();
+        }
+
+        [HttpPost("{indicatorId}/measures/{indicatorMeasureId}")]
+        public async Task<IActionResult> CreateIndicatorMeasure(
+            [FromRoute]Guid indicatorId, 
+            [FromRoute]Guid indicatorMeasureId, 
+            [FromBody] CreateIndicatorMeasureCommand command)
+        {
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+
+            command.IndicatorId = indicatorId;
+            command.IndicatorMeasureId = indicatorMeasureId;
             await _commandDispatcher.Submit(command);
             return new OkResult();
         }

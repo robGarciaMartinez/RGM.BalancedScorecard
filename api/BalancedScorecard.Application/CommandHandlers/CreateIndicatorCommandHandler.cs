@@ -33,7 +33,7 @@ namespace BalancedScorecard.Application.CommandHandlers
             }
 
             var indicator = new Indicator(
-                    command.Id,
+                    command.IndicatorId,
                     command.Name,
                     command.Description,
                     command.Code,
