@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Kernel.Domain;
 using BalancedScorecard.Kernel.Queries;
@@ -10,7 +12,8 @@ namespace BalancedScorecard.Api.IoC
     public class StructureMapMediator :
         ICommandDispatcherDependencyContainer,
         IQueryDispatcherDependencyContainer,
-        IValidationDependencyContainer
+        IValidationDependencyContainer,
+        IDomainEventDispatcherDependencyContainer
     {
         public readonly IContainer _container;
 
@@ -36,6 +39,11 @@ namespace BalancedScorecard.Api.IoC
             return _container.GetInstance<IQuery<TViewModel, TFilter>>();
         }
 
+        public IEnumerable GetIntegrationDomainEventHandlers(Type type)
+        {
+            return _container.GetAllInstances(typeof(IIntegrationDomainEventHandler<>).MakeGenericType(type));
+        }
+
         public IQuery<TViewModel> GetQuery<TViewModel>() where TViewModel : IViewModel
         {
             throw new System.NotImplementedException();
@@ -51,6 +59,11 @@ namespace BalancedScorecard.Api.IoC
             where TCommand : ICommand
         {
             throw new System.NotImplementedException();
+        }
+
+        public IEnumerable GetTransactionalDomainEventHandlers(Type type)
+        {
+            throw new NotImplementedException();
         }
     }
 }

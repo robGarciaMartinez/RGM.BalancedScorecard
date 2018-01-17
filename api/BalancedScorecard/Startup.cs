@@ -2,6 +2,8 @@
 using BalancedScorecard.Api.JsonConverters;
 using BalancedScorecard.Application.CommandHandlers;
 using BalancedScorecard.Domain.Model.Indicators;
+using BalancedScorecard.Infrastructure.DocumentDb;
+using BalancedScorecard.Infrastructure.DocumentDb.Readers;
 using BalancedScorecard.Infrastructure.Persistence.Abstractions;
 using BalancedScorecard.Infrastructure.Persistence.Implementations;
 using BalancedScorecard.Kernel;
@@ -9,6 +11,7 @@ using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Kernel.Domain;
 using BalancedScorecard.Kernel.Queries;
 using BalancedScorecard.Kernel.Validation;
+using BalancedScorecard.Query.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -42,7 +45,10 @@ namespace BalancedScorecard.Api
 
             services.AddLocalCommandDispatcher<StructureMapMediator>();
             services.AddLocalQueryDispatcher<StructureMapMediator>();
+            services.AddLocalDomainEventDispatcher<StructureMapMediator>();
             services.AddScoped<IValidationDependencyContainer, StructureMapMediator>();
+            services.Configure<DocumentDbSettings>(
+                options => _configuration.GetSection(nameof(DocumentDbSettings)).Bind(options));
         }
 
         public void ConfigureContainer(Registry registry)
@@ -53,6 +59,8 @@ namespace BalancedScorecard.Api
                 scanner.Assembly(typeof(Indicator).Assembly);
                 scanner.Assembly(typeof(LocalCommandDispatcher).Assembly);
                 scanner.Assembly(typeof(SqlServerRepository<Indicator>).Assembly);
+                scanner.Assembly(typeof(BaseCollectionReader).Assembly);              
+                scanner.Assembly(typeof(IndicatorViewModel).Assembly);
                 scanner.WithDefaultConventions();
                 scanner.AddAllTypesOf(typeof(ICommandHandler<>));
                 scanner.AddAllTypesOf(typeof(IQuery<,>));
@@ -60,6 +68,7 @@ namespace BalancedScorecard.Api
                 scanner.AddAllTypesOf(typeof(IRepository<>));
                 scanner.AddAllTypesOf(typeof(IValidator<>));
                 scanner.AddAllTypesOf(typeof(ISpecification<>));
+                scanner.AddAllTypesOf(typeof(IIntegrationDomainEventHandler<>));
                 scanner.ConnectImplementationsToTypesClosing(typeof(ICommandHandler<>));
                 scanner.ConnectImplementationsToTypesClosing(typeof(IQuery<,>));
                 scanner.ConnectImplementationsToTypesClosing(typeof(IMapper<>));
