@@ -1,10 +1,11 @@
-﻿using BalancedScorecard.Infrastructure.Persistence.Model;
+﻿using BalancedScorecard.Infrastructure.SqlServerDb.Model;
 using BalancedScorecard.Kernel.Domain;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
-namespace BalancedScorecard.Infrastructure.Persistence
+namespace BalancedScorecard.Infrastructure.SqlServerDb
 {
     public static class Extensions
     {
@@ -21,7 +22,7 @@ namespace BalancedScorecard.Infrastructure.Persistence
                 Metadata = JsonConvert.SerializeObject(new Dictionary<string, object>
                 {
                     { "EventClrType", @event.GetType().Name }
-                })
+                }, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() })
             };
         }
     }

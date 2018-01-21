@@ -1,7 +1,7 @@
 ﻿using BalancedScorecard.Kernel.Domain;
 using System.Data.SqlClient;
 
-namespace BalancedScorecard.Infrastructure.Persistence.Abstractions
+namespace BalancedScorecard.Infrastructure.SqlServerDb.Abstractions
 {
     public interface IMapper<TEntity> where TEntity : IAggregateRoot
     {

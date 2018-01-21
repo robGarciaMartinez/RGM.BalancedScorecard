@@ -1,8 +1,7 @@
 ﻿using BalancedScorecard.Domain.Commands.Indicators;
 using BalancedScorecard.Kernel.Commands;
-using BalancedScorecard.Kernel.Queries;
-using BalancedScorecard.Query.Filter;
 using BalancedScorecard.Query.Model;
+using BalancedScorecard.Query.Readers.Indicators;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,21 +14,20 @@ namespace BalancedScorecard.Api.Controllers
     public class IndicatorsController : Controller
     {
         private readonly ICommandDispatcher _commandDispatcher;
-        private readonly IQueryDispatcher _queryDispatcher;
+        private readonly IIndicatorCollectionReader _reader;
 
         public IndicatorsController(
             ICommandDispatcher commandDispatcher,
-            IQueryDispatcher queryDispatcher)
+            IIndicatorCollectionReader reader)
         {
             _commandDispatcher = commandDispatcher;
-            _queryDispatcher = queryDispatcher;
+            _reader = reader;
         }
 
         [HttpGet("{indicatorId}", Name = "GetIndicator")]
-        public Task<IndicatorViewModel> GetIndicator(Guid id)
+        public Task<IndicatorViewModel> GetIndicator(Guid indicatorId)
         {
-            return _queryDispatcher.Get<IndicatorViewModel, GetIndicatorViewModelFilter>(
-                new GetIndicatorViewModelFilter { Id = id });
+            return _reader.GetIndicatorViewModel(indicatorId);
         }
 
         [HttpPost]
@@ -40,7 +38,7 @@ namespace BalancedScorecard.Api.Controllers
 
             command.IndicatorId = Guid.NewGuid();
             await _commandDispatcher.Submit(command);
-            return new CreatedAtRouteResult("GetIndicator", new { id = command.IndicatorId }, null);
+            return new CreatedAtRouteResult("GetIndicator", new { indicatorId = command.IndicatorId }, null);
         }
 
         [HttpPut("{indicatorId}")]

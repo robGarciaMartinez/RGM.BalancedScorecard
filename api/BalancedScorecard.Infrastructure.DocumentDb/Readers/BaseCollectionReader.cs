@@ -1,6 +1,8 @@
 ﻿using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 
 namespace BalancedScorecard.Infrastructure.DocumentDb.Readers
@@ -15,7 +17,10 @@ namespace BalancedScorecard.Infrastructure.DocumentDb.Readers
             if (options.Value == null) throw new ArgumentNullException("Document db settings can't be null");
 
             _dbSettings = options.Value;
-            _documentClient = new DocumentClient(new Uri(_dbSettings.EndpointUrl), _dbSettings.PrimaryKey);
+            _documentClient = new DocumentClient(
+                new Uri(_dbSettings.EndpointUrl), 
+                _dbSettings.PrimaryKey, 
+                new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
         }
     }
 }

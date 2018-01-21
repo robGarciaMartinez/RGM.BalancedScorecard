@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace BalancedScorecard.Application.DomainEventHandlers.Indicators
 {
-    public class CreateIndicatorViewModel : IIntegrationDomainEventHandler<IndicatorCreatedEvent>
+    public class CreateIndicatorViewModelHandler : IIntegrationDomainEventHandler<IndicatorCreatedEvent>
     {
         private readonly IIndicatorCollectionReader _reader;
 
-        public CreateIndicatorViewModel(IIndicatorCollectionReader reader)
+        public CreateIndicatorViewModelHandler(
+            IIndicatorCollectionReader reader)
         {
             _reader = reader;
         }

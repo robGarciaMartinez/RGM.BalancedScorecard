@@ -60,43 +60,30 @@ namespace BalancedScorecard.Domain.Model.Indicators
 
         public Indicator() { }
 
-        [JsonProperty]
         public string Name { get; private set; }
 
-        [JsonProperty]
         public string Description { get; private set; }
 
-        [JsonProperty]
         public string Code { get; private set; }
 
-        [JsonProperty]
         public string Unit { get; private set; }
 
-        [JsonProperty]
         public IndicatorEnum.PeriodicityType PeriodicityType { get; private set; }
 
-        [JsonProperty]
         public IndicatorEnum.ComparisonType ComparisonType { get; private set; }
 
-        [JsonProperty]
         public IndicatorEnum.IndicatorValueType IndicatorValueType { get; private set; }
 
-        [JsonProperty]
         public Guid? IndicatorTypeId { get; private set; }
 
-        [JsonProperty]
         public Guid? ResponsibleId { get; private set; }
 
-        [JsonProperty]
         public int? FulfillmentRate { get; private set; }
 
-        [JsonProperty]
         public bool Cumulative { get; private set; }
 
-        [JsonProperty]
         public IndicatorEnum.Status Status { get; private set; }
 
-        [JsonProperty]
         public List<IndicatorMeasure> Measures { get; private set; }
     
         public void Update(
@@ -180,6 +167,7 @@ namespace BalancedScorecard.Domain.Model.Indicators
             AddEvent(
                 new IndicatorMeasureCreatedEvent
                 {
+                    IndicatorId = Id,
                     IndicatorMeasureId = indicatorMeasureId,
                     Date = date,
                     RealValue = realValue,
@@ -203,6 +191,7 @@ namespace BalancedScorecard.Domain.Model.Indicators
             AddEvent(
                 new IndicatorMeasureCreatedEvent
                 {
+                    IndicatorId = Id,
                     IndicatorMeasureId = measure.Id,
                     Date = date,
                     RealValue = realValue,

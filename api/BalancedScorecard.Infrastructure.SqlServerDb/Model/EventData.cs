@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BalancedScorecard.Infrastructure.Persistence.Model
+namespace BalancedScorecard.Infrastructure.SqlServerDb.Model
 {
     public class EventData
     {

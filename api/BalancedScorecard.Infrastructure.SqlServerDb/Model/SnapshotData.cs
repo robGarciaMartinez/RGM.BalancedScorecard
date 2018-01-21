@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BalancedScorecard.Infrastructure.Persistence.Model
+namespace BalancedScorecard.Infrastructure.SqlServerDb.Model
 {
     public class SnapshotData
     {

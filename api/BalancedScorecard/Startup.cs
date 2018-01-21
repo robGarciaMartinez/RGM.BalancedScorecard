@@ -1,21 +1,13 @@
 ﻿using BalancedScorecard.Api.IoC;
-using BalancedScorecard.Api.JsonConverters;
-using BalancedScorecard.Application.CommandHandlers;
-using BalancedScorecard.Domain.Model.Indicators;
 using BalancedScorecard.Infrastructure.DocumentDb;
-using BalancedScorecard.Infrastructure.DocumentDb.Readers;
-using BalancedScorecard.Infrastructure.Persistence.Abstractions;
-using BalancedScorecard.Infrastructure.Persistence.Implementations;
+using BalancedScorecard.Infrastructure.SqlServerDb.JsonConverters;
 using BalancedScorecard.Kernel;
-using BalancedScorecard.Kernel.Commands;
-using BalancedScorecard.Kernel.Domain;
-using BalancedScorecard.Kernel.Queries;
 using BalancedScorecard.Kernel.Validation;
-using BalancedScorecard.Query.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Serialization;
 using StructureMap;
 
 namespace BalancedScorecard.Api
@@ -23,17 +15,25 @@ namespace BalancedScorecard.Api
     public class Startup
     {
         private readonly IConfiguration _configuration;
+        private readonly IContainer _container;
 
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
+            _container = new Container();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().AddJsonOptions(
-                options => options.SerializerSettings.Converters.Add(new IndicatorMeasureConverter()));
+            services
+                .AddMvc()
+                .AddJsonOptions(
+                options => {
+                    options.SerializerSettings.Converters.Add(new IndicatorMeasureConverter());
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                });
+
             services.AddCors(
                 options => options.AddPolicy("Local", 
                 builder => 
@@ -43,38 +43,17 @@ namespace BalancedScorecard.Api
                     builder.AllowAnyMethod();
                 }));
 
+            
             services.AddLocalCommandDispatcher<StructureMapMediator>();
             services.AddLocalQueryDispatcher<StructureMapMediator>();
             services.AddLocalDomainEventDispatcher<StructureMapMediator>();
             services.AddScoped<IValidationDependencyContainer, StructureMapMediator>();
-            services.Configure<DocumentDbSettings>(
-                options => _configuration.GetSection(nameof(DocumentDbSettings)).Bind(options));
-        }
+            services.Configure<DocumentDbSettings>(options => _configuration.GetSection(nameof(DocumentDbSettings)).Bind(options));
 
-        public void ConfigureContainer(Registry registry)
-        {
-            registry.Scan(scanner =>
-            {
-                scanner.Assembly(typeof(CreateIndicatorCommandHandler).Assembly);
-                scanner.Assembly(typeof(Indicator).Assembly);
-                scanner.Assembly(typeof(LocalCommandDispatcher).Assembly);
-                scanner.Assembly(typeof(SqlServerRepository<Indicator>).Assembly);
-                scanner.Assembly(typeof(BaseCollectionReader).Assembly);              
-                scanner.Assembly(typeof(IndicatorViewModel).Assembly);
-                scanner.WithDefaultConventions();
-                scanner.AddAllTypesOf(typeof(ICommandHandler<>));
-                scanner.AddAllTypesOf(typeof(IQuery<,>));
-                scanner.AddAllTypesOf(typeof(IMapper<>));
-                scanner.AddAllTypesOf(typeof(IRepository<>));
-                scanner.AddAllTypesOf(typeof(IValidator<>));
-                scanner.AddAllTypesOf(typeof(ISpecification<>));
-                scanner.AddAllTypesOf(typeof(IIntegrationDomainEventHandler<>));
-                scanner.ConnectImplementationsToTypesClosing(typeof(ICommandHandler<>));
-                scanner.ConnectImplementationsToTypesClosing(typeof(IQuery<,>));
-                scanner.ConnectImplementationsToTypesClosing(typeof(IMapper<>));
-                scanner.ConnectImplementationsToTypesClosing(typeof(IRepository<>));
-                scanner.ConnectImplementationsToTypesClosing(typeof(IValidator<>));
-            });
+            _container.Configure(config => config.AddRegistry<StructureMapRegistry>());
+            _container.Populate(services);
+
+            services.AddSingleton(_container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,6 +64,7 @@ namespace BalancedScorecard.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<StructureMapNestedContainerMiddleware>();
             app.UseMvc();
         }
     }

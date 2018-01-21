@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 
-namespace BalancedScorecard.Api.JsonConverters
+namespace BalancedScorecard.Infrastructure.SqlServerDb.JsonConverters
 {
     public class IndicatorMeasureConverter : JsonConverter
     {

@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalancedScorecard.Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalancedScorecard.Query", "BalancedScorecard.Query\BalancedScorecard.Query.csproj", "{38D31E28-3C7B-46E1-A799-9EE0920DCE12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalancedScorecard.Infrastructure.DocumentDb", "BalancedScorecard.Infrastructure.DocumentDb\BalancedScorecard.Infrastructure.DocumentDb.csproj", "{8993E3B1-9312-4284-864E-41907CB3E577}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalancedScorecard.Infrastructure.DocumentDb", "BalancedScorecard.Infrastructure.DocumentDb\BalancedScorecard.Infrastructure.DocumentDb.csproj", "{8993E3B1-9312-4284-864E-41907CB3E577}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

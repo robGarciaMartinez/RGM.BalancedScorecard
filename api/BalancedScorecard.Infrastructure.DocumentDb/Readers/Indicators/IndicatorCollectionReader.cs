@@ -1,5 +1,6 @@
 ﻿using BalancedScorecard.Query.Model;
 using BalancedScorecard.Query.Readers.Indicators;
+using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Extensions.Options;
@@ -20,8 +21,10 @@ namespace BalancedScorecard.Infrastructure.DocumentDb.Readers
         public async Task<IndicatorViewModel> GetIndicatorViewModel(Guid id)
         {
             var query = _documentClient.CreateDocumentQuery<IndicatorViewModel>(
-                UriFactory.CreateDocumentCollectionUri(_dbSettings.DatabaseName, IndicatorsCollection), 
-                new FeedOptions { MaxItemCount = 1 }).AsDocumentQuery();
+                UriFactory.CreateDocumentCollectionUri(_dbSettings.DatabaseName, IndicatorsCollection),
+                new SqlQuerySpec($"select * from Indicators where Indicators.id = '{id.ToString().ToLower()}'"),
+                new FeedOptions { MaxItemCount = 1 })
+                .AsDocumentQuery();
 
             while (query.HasMoreResults)
             {

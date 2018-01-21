@@ -9,6 +9,8 @@ namespace BalancedScorecard.Domain.Events.Indicators
     {
         public Guid IndicatorMeasureId { get; set; }
 
+        public Guid IndicatorId { get; set; }
+
         public DateTime Date { get; set; }
 
         public IIndicatorValue RealValue { get; set; }

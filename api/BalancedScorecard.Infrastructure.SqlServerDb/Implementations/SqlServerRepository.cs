@@ -1,8 +1,10 @@
-﻿using BalancedScorecard.Infrastructure.Persistence.Abstractions;
-using BalancedScorecard.Infrastructure.Persistence.Model;
+﻿using BalancedScorecard.Infrastructure.SqlServerDb.Abstractions;
+using BalancedScorecard.Infrastructure.SqlServerDb.Model;
 using BalancedScorecard.Kernel.Domain;
+using BalancedScorecard.Kernel.Exceptions;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +12,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BalancedScorecard.Infrastructure.Persistence.Implementations
+namespace BalancedScorecard.Infrastructure.SqlServerDb.Implementations
 {
     public class SqlServerRepository<TEntity> : IRepository<TEntity> where TEntity : IAggregateRoot
     {
@@ -69,7 +71,7 @@ namespace BalancedScorecard.Infrastructure.Persistence.Implementations
                     int? existingVersion = await GetAggregateCurrentVersion(aggregate.Id, connection, transaction);
                     if (existingVersion.HasValue && existingVersion > currentVersion)
                     {
-                        throw new Exception("Concurrency exception");
+                        throw new ConcurrencyException("Concurrency exception");
                     }
 
                     await Task.WhenAll(
@@ -108,7 +110,10 @@ namespace BalancedScorecard.Infrastructure.Persistence.Implementations
                 command.Parameters.Add(new SqlParameter("@aggregateType", SqlDbType.NVarChar)).Value = typeof(TEntity).Name;
                 command.Parameters.Add(new SqlParameter("@aggregateId", SqlDbType.UniqueIdentifier)).Value = aggregate.Id;
                 command.Parameters.Add(new SqlParameter("@version", SqlDbType.Int)).Value = currentVersion;
-                command.Parameters.Add(new SqlParameter("@snapshot", SqlDbType.NVarChar)).Value = JsonConvert.SerializeObject(aggregate);
+                command.Parameters.Add(new SqlParameter("@snapshot", SqlDbType.NVarChar)).Value = 
+                    JsonConvert.SerializeObject(
+                        aggregate, 
+                        new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver()});
 
                 return command.ExecuteNonQueryAsync();
             }

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using BalancedScorecard.Domain.Commands.Indicators;
+﻿using BalancedScorecard.Domain.Commands.Indicators;
 using BalancedScorecard.Domain.Model.Indicators;
 using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Kernel.Domain;
 using BalancedScorecard.Kernel.Exceptions;
+using System;
+using System.Threading.Tasks;
 
 namespace BalancedScorecard.Application.CommandHandlers
 {

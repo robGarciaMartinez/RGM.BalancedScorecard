@@ -20,6 +20,7 @@ namespace BalancedScorecard.Application.CommandHandlers
 
         public async Task Execute(CreateIndicatorMeasureCommand command)
         {
+
             if (command == null) throw new ArgumentNullException("Command can't be null");
 
             var indicator = await _repository.GetById(command.IndicatorId);
