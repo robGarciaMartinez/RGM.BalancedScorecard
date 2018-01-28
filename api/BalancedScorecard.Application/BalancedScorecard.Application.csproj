@@ -5,14 +5,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DomainEventHandlers\**" />
+    <EmbeddedResource Remove="DomainEventHandlers\**" />
+    <None Remove="DomainEventHandlers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="1.7.1" />
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BalancedScorecard.Domain\BalancedScorecard.Domain.csproj" />
-    <ProjectReference Include="..\BalancedScorecard.Infrastructure.DocumentDb\BalancedScorecard.Infrastructure.DocumentDb.csproj" />
-    <ProjectReference Include="..\BalancedScorecard.Query\BalancedScorecard.Query.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" Version="2.0.1" />
   </ItemGroup>
 
 </Project>

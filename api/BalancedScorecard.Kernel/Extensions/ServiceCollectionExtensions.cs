@@ -34,7 +34,7 @@ namespace BalancedScorecard.Kernel
         public static IServiceCollection AddLocalDomainEventDispatcher<TDependencyContainerImplementation>(this IServiceCollection services) 
             where TDependencyContainerImplementation : class, IDomainEventDispatcherDependencyContainer
         {
-            services.AddScoped<IDomainEventDispatcher, LocalDomainEventDispatcher>();
+            services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
             services.AddScoped<IDomainEventDispatcherDependencyContainer, TDependencyContainerImplementation>();
             return services;
         }

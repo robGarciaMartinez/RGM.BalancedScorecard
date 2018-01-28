@@ -7,7 +7,7 @@ using BalancedScorecard.Kernel.Validation;
 using System;
 using System.Threading.Tasks;
 
-namespace BalancedScorecard.Application.CommandHandlers
+namespace BalancedScorecard.Application.CommandHandlers.Indicators
 {
     public class CreateIndicatorCommandHandler : ICommandHandler<CreateIndicatorCommand>
     {

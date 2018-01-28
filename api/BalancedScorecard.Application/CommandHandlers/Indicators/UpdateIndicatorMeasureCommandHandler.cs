@@ -6,7 +6,7 @@ using BalancedScorecard.Kernel.Exceptions;
 using System;
 using System.Threading.Tasks;
 
-namespace BalancedScorecard.Application.CommandHandlers
+namespace BalancedScorecard.Application.CommandHandlers.Indicators
 {
     public class UpdateIndicatorMeasureCommandHandler : ICommandHandler<UpdateIndicatorMeasureCommand>
     {

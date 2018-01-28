@@ -2,7 +2,6 @@
 using BalancedScorecard.Infrastructure.SqlServerDb.Model;
 using BalancedScorecard.Kernel.Domain;
 using BalancedScorecard.Kernel.Exceptions;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -17,22 +16,21 @@ namespace BalancedScorecard.Infrastructure.SqlServerDb.Implementations
     public class SqlServerRepository<TEntity> : IRepository<TEntity> where TEntity : IAggregateRoot
     {
         private readonly IMapper<TEntity> _mapper;
-        private readonly IConfiguration _configuration;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
+        private readonly string _connectionString =
+            @"Server=rgm.database.windows.net;Database=BalancedScorecard;User=robertogarcia;Password=23/Junio/1984;MultipleActiveResultSets=true;";
 
         public SqlServerRepository(
             IMapper<TEntity> mapper,
-            IConfiguration configuration,
             IDomainEventDispatcher domainEventDispatcher)
         {
             _mapper = mapper;
-            _configuration = configuration;
             _domainEventDispatcher = domainEventDispatcher;
         }
 
         public async Task<TEntity> GetById(Guid id) 
         {
-            using (var connection = new SqlConnection(_configuration.GetConnectionString("SqlServer")))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
                 using (var command = new SqlCommand("SELECT * FROM Snapshots WHERE AggregateId = @aggregateId and AggregateType = @aggregateType", connection))
@@ -63,7 +61,7 @@ namespace BalancedScorecard.Infrastructure.SqlServerDb.Implementations
             var currentVersion = aggregate.Version;
             var eventsToSave = aggregate.Events.Select(e => e.ToEventData(aggregate, ++currentVersion)).ToList();
             
-            using (var connection = new SqlConnection(_configuration.GetConnectionString("SqlServer")))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
                 using (var transaction = connection.BeginTransaction())
@@ -83,7 +81,7 @@ namespace BalancedScorecard.Infrastructure.SqlServerDb.Implementations
             }
 
             
-            await _domainEventDispatcher.DispatchIntegrationDomainEvents(aggregate.Events);
+            await _domainEventDispatcher.DispatchDomainEvents(aggregate.Events);
             aggregate.Events.Clear();
         }
 
