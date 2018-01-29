@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace BalancedScorecard.Api.Bus
 {
-    public class AzureServiceBus : ICommandBus
+    public class AzureCommandBus : ICommandBus
     {
         private readonly IQueueClient _queueClient;
 
-        public AzureServiceBus(IOptions<AzureServiceBusSettings> options)
+        public AzureCommandBus(IOptions<AzureServiceBusSettings> options)
         {
             if (options.Value == null) throw new ArgumentNullException("AzureServiceBusSettings are null");
 

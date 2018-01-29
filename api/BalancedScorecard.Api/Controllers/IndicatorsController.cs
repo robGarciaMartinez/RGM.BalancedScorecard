@@ -1,5 +1,6 @@
 ﻿using BalancedScorecard.Api.Bus;
 using BalancedScorecard.Domain.Commands.Indicators;
+using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Query.Model;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;

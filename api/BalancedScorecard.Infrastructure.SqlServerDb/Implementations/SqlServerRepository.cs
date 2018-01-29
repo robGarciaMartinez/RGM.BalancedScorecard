@@ -1,6 +1,7 @@
 ﻿using BalancedScorecard.Infrastructure.SqlServerDb.Abstractions;
 using BalancedScorecard.Infrastructure.SqlServerDb.Model;
 using BalancedScorecard.Kernel.Domain;
+using BalancedScorecard.Kernel.Events;
 using BalancedScorecard.Kernel.Exceptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

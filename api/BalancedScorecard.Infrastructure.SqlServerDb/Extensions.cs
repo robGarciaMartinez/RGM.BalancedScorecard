@@ -1,5 +1,6 @@
 ﻿using BalancedScorecard.Infrastructure.SqlServerDb.Model;
 using BalancedScorecard.Kernel.Domain;
+using BalancedScorecard.Kernel.Events;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;

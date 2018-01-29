@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using BalancedScorecard.Kernel.Events;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace BalancedScorecard.Kernel.Domain

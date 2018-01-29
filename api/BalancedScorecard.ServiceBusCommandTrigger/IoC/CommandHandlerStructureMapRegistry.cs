@@ -1,10 +1,10 @@
-﻿using BalancedScorecard.Api.IoC;
-using BalancedScorecard.Application.CommandHandlers.Indicators;
+﻿using BalancedScorecard.Application.CommandHandlers.Indicators;
 using BalancedScorecard.Domain.Model.Indicators;
 using BalancedScorecard.Infrastructure.SqlServerDb.Abstractions;
 using BalancedScorecard.Infrastructure.SqlServerDb.Implementations;
 using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Kernel.Domain;
+using BalancedScorecard.Kernel.Events;
 using BalancedScorecard.Kernel.Validation;
 using StructureMap;
 
@@ -29,7 +29,7 @@ namespace BalancedScorecard.ServiceBusCommandTrigger.IoC
             });
 
             For<IValidationDependencyContainer>().Use<StructureMapMediator>();
-            For<IDomainEventDispatcherDependencyContainer>().Use<StructureMapMediator>();
+            For<IDomainEventDispatcher>().Use<AzureEventDispatcher>();
         }
     }
 }

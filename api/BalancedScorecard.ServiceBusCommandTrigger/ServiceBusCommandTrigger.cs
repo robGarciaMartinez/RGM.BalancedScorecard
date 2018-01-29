@@ -1,5 +1,4 @@
-﻿using BalancedScorecard.Api.IoC;
-using BalancedScorecard.Infrastructure.SqlServerDb.JsonConverters;
+﻿using BalancedScorecard.Infrastructure.SqlServerDb.JsonConverters;
 using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.ServiceBusCommandTrigger.IoC;
 using Microsoft.Azure.ServiceBus;
@@ -13,7 +12,6 @@ using System.Configuration;
 using System.Fabric;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace BalancedScorecard.ServiceBusCommandTrigger

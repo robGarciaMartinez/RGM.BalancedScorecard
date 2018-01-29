@@ -1,6 +1,6 @@
 ﻿namespace BalancedScorecard.Kernel.Events
 {
-    public interface IIntegrationEvent
+    public interface IDomainEvent
     {
     }
 }

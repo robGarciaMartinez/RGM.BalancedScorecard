@@ -1,8 +1,7 @@
-﻿using BalancedScorecard.Kernel.Commands;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BalancedScorecard.Api.Bus
+namespace BalancedScorecard.Kernel.Commands
 {
     public interface ICommandBus
     {

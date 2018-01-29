@@ -1,5 +1,5 @@
 ﻿using BalancedScorecard.Domain.Enums;
-using BalancedScorecard.Kernel.Domain;
+using BalancedScorecard.Kernel.Events;
 using System;
 
 namespace BalancedScorecard.Domain.Events.Indicators
