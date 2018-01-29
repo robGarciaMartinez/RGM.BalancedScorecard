@@ -38,8 +38,8 @@ namespace BalancedScorecard.ServiceBusCommandTrigger
         {
             yield return new ServiceInstanceListener(context => 
                 new ServiceBusQueueListener(
-                ConfigurationManager.AppSettings["Endpoint"],
-                ConfigurationManager.AppSettings["Queue"],
+                "Endpoint=sb://balancedscorecard.servicebus.windows.net/;SharedAccessKeyName=balancedscorecard-user;SharedAccessKey=UBQ5rVQnyevqYSzsWYl/TLYyeE4mG6r7Regsuwr4oBw=",
+                "indicators-queue",
                 ProcessMessage,
                 ProcessException));
         }

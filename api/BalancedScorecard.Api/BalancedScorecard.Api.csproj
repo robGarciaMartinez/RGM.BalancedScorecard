@@ -2,10 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
-    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
     <IsServiceFabricServiceProject>True</IsServiceFabricServiceProject>
-  </PropertyGroup>
-
+    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="wwwroot\" />

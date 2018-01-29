@@ -11,12 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="1.7.1" />
-    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BalancedScorecard.Domain\BalancedScorecard.Domain.csproj" />
   </ItemGroup>
 
