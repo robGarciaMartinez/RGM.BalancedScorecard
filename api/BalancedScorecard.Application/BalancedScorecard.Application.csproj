@@ -5,13 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DomainEventHandlers\**" />
-    <EmbeddedResource Remove="DomainEventHandlers\**" />
-    <None Remove="DomainEventHandlers\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BalancedScorecard.Domain\BalancedScorecard.Domain.csproj" />
+    <ProjectReference Include="..\BalancedScorecard.Query\BalancedScorecard.Query.csproj" />
   </ItemGroup>
 
   <ItemGroup>

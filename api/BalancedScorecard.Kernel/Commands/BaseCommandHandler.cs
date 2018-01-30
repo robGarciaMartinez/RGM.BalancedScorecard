@@ -18,7 +18,7 @@ namespace BalancedScorecard.Kernel.Commands
 
         public async Task Execute(TCommand command)
         {
-            if (command == null) throw new ArgumentNullException("Command can't be null");
+            if (command == null) throw new ArgumentNullException("Command is null");
 
             var validationResult = await _validator.Validate(command);
             if (validationResult.IsValid)
@@ -52,7 +52,7 @@ namespace BalancedScorecard.Kernel.Commands
 
         public async Task Execute(TCommand command)
         {
-            if (command == null) throw new ArgumentNullException("Command can't be null");
+            if (command == null) throw new ArgumentNullException("Command is null");
 
             var aggregateRoot = GetAggregateRoot(command);
             var validationResult = await _validator.Validate(aggregateRoot, command);

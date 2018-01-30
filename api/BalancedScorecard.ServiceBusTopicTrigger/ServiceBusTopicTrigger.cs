@@ -1,11 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Fabric;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using BalancedScorecard.Infrastructure.SqlServerDb.JsonConverters;
+using BalancedScorecard.Kernel.Commands;
+using BalancedScorecard.Kernel.Events;
+using BalancedScorecard.ServiceBusCommandTrigger.IoC;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Newtonsoft.Json;
+using StructureMap;
+using System;
+using System.Collections.Generic;
+using System.Fabric;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BalancedScorecard.ServiceBusTopicTrigger
 {
@@ -14,9 +21,14 @@ namespace BalancedScorecard.ServiceBusTopicTrigger
     /// </summary>
     internal sealed class ServiceBusTopicTrigger : StatelessService
     {
+        private readonly IContainer _container;
+
         public ServiceBusTopicTrigger(StatelessServiceContext context)
             : base(context)
-        { }
+        {
+            _container = new Container();
+            _container.Configure(conf => conf.AddRegistry<EventHandlerStructureMapRegistry>());
+        }
 
         /// <summary>
         /// Optional override to create listeners (e.g., TCP, HTTP) for this service replica to handle client or user requests.
@@ -24,28 +36,33 @@ namespace BalancedScorecard.ServiceBusTopicTrigger
         /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
-            return new ServiceInstanceListener[0];
+            yield return new ServiceInstanceListener(context =>
+                new ServiceBusTopicListener(
+                "Endpoint=sb://balancedscorecard.servicebus.windows.net/;SharedAccessKeyName=balancedscorecard-user;SharedAccessKey=UBQ5rVQnyevqYSzsWYl/TLYyeE4mG6r7Regsuwr4oBw=",
+                "indicators-topic",
+                ProcessMessage,
+                ProcessException));
         }
 
-        /// <summary>
-        /// This is the main entry point for your service instance.
-        /// </summary>
-        /// <param name="cancellationToken">Canceled when Service Fabric needs to shut down this service instance.</param>
-        protected override async Task RunAsync(CancellationToken cancellationToken)
+        private Task ProcessMessage(Message message)
         {
-            // TODO: Replace the following sample code with your own logic 
-            //       or remove this RunAsync override if it's not needed in your service.
+            if (message == null) throw new ArgumentNullException("Message is null");
 
-            long iterations = 0;
+            var domainEventType = Type.GetType(message.ContentType);
+            var domainEvent = JsonConvert.DeserializeObject(Encoding.Default.GetString(message.Body), domainEventType, new IndicatorMeasureConverter());
+            var domainEventHandlerType = typeof(IDomainEventHandler<>).MakeGenericType(domainEventType);
+            var domainEventHandler = _container.GetInstance(domainEventHandlerType);
 
-            while (true)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
+            if (domainEventHandler == null) throw new InvalidOperationException($"Missing DI configuration for {domainEventType.Name} handler");
 
-                ServiceEventSource.Current.ServiceMessage(this.Context, "Working-{0}", ++iterations);
+            return (Task)domainEventHandlerType.InvokeMember("Handle", BindingFlags.InvokeMethod, null, domainEventHandler, new[] { domainEvent });
+        }
 
-                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-            }
+        private Task ProcessException(ExceptionReceivedEventArgs args)
+        {
+            Console.WriteLine(args.Exception.ToString());
+
+            return Task.CompletedTask;
         }
     }
 }

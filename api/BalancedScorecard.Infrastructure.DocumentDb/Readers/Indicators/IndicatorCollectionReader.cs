@@ -3,7 +3,6 @@ using BalancedScorecard.Query.Readers.Indicators;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
-using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +13,7 @@ namespace BalancedScorecard.Infrastructure.DocumentDb.Readers
     {
         private const string IndicatorsCollection = "Indicators";
 
-        public IndicatorCollectionReader(IOptions<DocumentDbSettings> options): base(options)
+        public IndicatorCollectionReader(): base()
         {
         }
 

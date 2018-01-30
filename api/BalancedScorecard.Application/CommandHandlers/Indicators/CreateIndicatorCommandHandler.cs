@@ -24,7 +24,7 @@ namespace BalancedScorecard.Application.CommandHandlers.Indicators
 
         public async Task Execute(CreateIndicatorCommand command)
         {
-            if (command == null) throw new ArgumentNullException("Command can't be null");
+            if (command == null) throw new ArgumentNullException("Command is null");
 
             var validationResult = await _validator.Validate(command);
             if (!validationResult.IsValid)
