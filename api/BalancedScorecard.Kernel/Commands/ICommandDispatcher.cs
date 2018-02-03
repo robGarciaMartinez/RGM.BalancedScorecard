@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace BalancedScorecard.Kernel.Commands
 {
-    public interface ICommandBus
+    public interface ICommandDispatcher
     {
         Task Send(ICommand command);
 

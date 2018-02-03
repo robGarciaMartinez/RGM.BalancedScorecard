@@ -1,5 +1,5 @@
-﻿using BalancedScorecard.Api.Bus;
-using BalancedScorecard.Infrastructure.SqlServerDb.JsonConverters;
+﻿using BalancedScorecard.Infrastructure.SqlServerDb.JsonConverters;
+using BalancedScorecard.Kernel.Azure;
 using BalancedScorecard.Kernel.Commands;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,11 +37,10 @@ namespace BalancedScorecard.Api
                     builder.AllowAnyMethod();
                 }));
 
-
             services.AddOptions();
             services.Configure<AzureServiceBusSettings>(options => _configuration.GetSection(nameof(AzureServiceBusSettings)).Bind(options));
 
-            services.AddSingleton<ICommandBus, AzureCommandBus>();
+            services.AddSingleton<ICommandDispatcher, AzureCommandDispatcher>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

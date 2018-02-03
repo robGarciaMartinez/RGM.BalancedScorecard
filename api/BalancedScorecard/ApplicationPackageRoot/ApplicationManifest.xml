@@ -2,23 +2,30 @@
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="BalancedScorecardType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
     <Parameter Name="BalancedScorecard.ServiceBusTopicTrigger_InstanceCount" DefaultValue="-1" />
-    <Parameter Name="BalancedScorecard.ServiceBusCommandTrigger_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="BalancedScorecard.ServiceBusQueueTrigger_InstanceCount" DefaultValue="-1" />
     <Parameter Name="BalancedScorecard.Api_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="AspNetCoreEnvironment" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
        ServiceManifest.xml file. -->
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="BalancedScorecard.ServiceBusTopicTriggerPkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
+    <EnvironmentOverrides CodePackageRef="Code">
+      <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="[AspNetCoreEnvironment]" />
+    </EnvironmentOverrides>
   </ServiceManifestImport>
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="BalancedScorecard.ServiceBusCommandTriggerPkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
+    <ServiceManifestRef ServiceManifestName="BalancedScorecard.ServiceBusQueueTriggerPkg" ServiceManifestVersion="1.0.0" />
+    <EnvironmentOverrides CodePackageRef="Code">
+      <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="[AspNetCoreEnvironment]" />
+    </EnvironmentOverrides>
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="BalancedScorecard.ApiPkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
+    <EnvironmentOverrides CodePackageRef="Code">
+      <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="[AspNetCoreEnvironment]" />
+    </EnvironmentOverrides>
   </ServiceManifestImport>
   <DefaultServices>
     <!-- The section below creates instances of service types, when an instance of this 
@@ -31,8 +38,8 @@
         <SingletonPartition />
       </StatelessService>
     </Service>
-    <Service Name="BalancedScorecard.ServiceBusCommandTrigger" ServicePackageActivationMode="ExclusiveProcess">
-      <StatelessService ServiceTypeName="BalancedScorecard.ServiceBusCommandTriggerType" InstanceCount="[BalancedScorecard.ServiceBusCommandTrigger_InstanceCount]">
+    <Service Name="BalancedScorecard.ServiceBusQueueTrigger" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="BalancedScorecard.ServiceBusQueueTriggerType" InstanceCount="[BalancedScorecard.ServiceBusQueueTrigger_InstanceCount]">
         <SingletonPartition />
       </StatelessService>
     </Service>

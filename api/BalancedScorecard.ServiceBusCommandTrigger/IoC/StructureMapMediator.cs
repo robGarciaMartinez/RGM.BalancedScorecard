@@ -4,7 +4,7 @@ using BalancedScorecard.Kernel.Validation;
 using StructureMap;
 using System.Collections.Generic;
 
-namespace BalancedScorecard.ServiceBusCommandTrigger.IoC
+namespace BalancedScorecard.ServiceBusQueueTrigger.IoC
 {
     public class StructureMapMediator :
         IValidationDependencyContainer

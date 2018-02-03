@@ -1,5 +1,4 @@
-﻿using BalancedScorecard.Api.Bus;
-using BalancedScorecard.Domain.Commands.Indicators;
+﻿using BalancedScorecard.Domain.Commands.Indicators;
 using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Query.Model;
 using Microsoft.AspNetCore.Cors;
@@ -13,10 +12,10 @@ namespace BalancedScorecard.Api.Controllers
     [EnableCors("Local")]
     public class IndicatorsController : Controller
     {
-        private readonly ICommandBus _commandBus;
+        private readonly ICommandDispatcher _commandBus;
 
         public IndicatorsController(
-            ICommandBus commandBus)
+            ICommandDispatcher commandBus)
         {
             _commandBus = commandBus;
         }

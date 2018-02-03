@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalancedScorecard.Query", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalancedScorecard.ServiceBusTopicTrigger", "BalancedScorecard.ServiceBusTopicTrigger\BalancedScorecard.ServiceBusTopicTrigger.csproj", "{1E7D6231-A78F-4343-8448-0D7EBC37BA4A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalancedScorecard.ServiceBusCommandTrigger", "BalancedScorecard.ServiceBusCommandTrigger\BalancedScorecard.ServiceBusCommandTrigger.csproj", "{897A3273-7F5B-4F4A-9760-E566F8D6A28D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalancedScorecard.ServiceBusQueueTrigger", "BalancedScorecard.ServiceBusCommandTrigger\BalancedScorecard.ServiceBusQueueTrigger.csproj", "{897A3273-7F5B-4F4A-9760-E566F8D6A28D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalancedScorecard.Infrastructure.DocumentDb", "BalancedScorecard.Infrastructure.DocumentDb\BalancedScorecard.Infrastructure.DocumentDb.csproj", "{DE414797-B770-446E-A3F6-9A63C5ED0E09}"
 EndProject

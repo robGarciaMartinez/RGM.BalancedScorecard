@@ -1,32 +1,42 @@
 ﻿using BalancedScorecard.Infrastructure.SqlServerDb.JsonConverters;
+using BalancedScorecard.Kernel.Azure;
 using BalancedScorecard.Kernel.Commands;
-using BalancedScorecard.ServiceBusCommandTrigger.IoC;
+using BalancedScorecard.ServiceBusQueueTrigger.IoC;
 using Microsoft.Azure.ServiceBus;
+using Microsoft.Extensions.Configuration;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Newtonsoft.Json;
 using StructureMap;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Fabric;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BalancedScorecard.ServiceBusCommandTrigger
+namespace BalancedScorecard.ServiceBusQueueTrigger
 {
     /// <summary>
     /// An instance of this class is created for each service instance by the Service Fabric runtime.
     /// </summary>
-    internal sealed class ServiceBusCommandTrigger : StatelessService
+    internal sealed class ServiceBusQueueTrigger : StatelessService
     {
         private readonly IContainer _container;
+        private readonly IConfiguration _configuration;
 
-        public ServiceBusCommandTrigger(StatelessServiceContext context)
+        public ServiceBusQueueTrigger(StatelessServiceContext context)
             : base(context)
         {
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            _configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .Build();
+
             _container = new Container();
+            _container.Configure(conf => conf.For<IConfiguration>().Use(_configuration));
             _container.Configure(conf => conf.AddRegistry<CommandHandlerStructureMapRegistry>());
         }
 
@@ -36,12 +46,15 @@ namespace BalancedScorecard.ServiceBusCommandTrigger
         /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
-            yield return new ServiceInstanceListener(context => 
-                new ServiceBusQueueListener(
-                "Endpoint=sb://balancedscorecard.servicebus.windows.net/;SharedAccessKeyName=balancedscorecard-user;SharedAccessKey=UBQ5rVQnyevqYSzsWYl/TLYyeE4mG6r7Regsuwr4oBw=",
-                "indicators-queue",
-                ProcessMessage,
-                ProcessException));
+            yield return new ServiceInstanceListener(serviceContext =>
+            {
+                var settings = new AzureServiceBusSettings();
+                _configuration.GetSection(nameof(AzureServiceBusSettings)).Bind(settings);
+                return new ServiceBusQueueListener(
+                    settings,
+                    ProcessMessage,
+                    ProcessException);
+            });
         }
 
         private Task ProcessMessage(Message message)

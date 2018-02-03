@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Fabric;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace BalancedScorecard.ServiceBusCommandTrigger
+namespace BalancedScorecard.ServiceBusQueueTrigger
 {
-    [EventSource(Name = "MyCompany-BalancedScorecard-BalancedScorecard.ServiceBusCommandTrigger")]
+    [EventSource(Name = "MyCompany-BalancedScorecard-BalancedScorecard.ServiceBusQueueTrigger")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();

@@ -1,29 +1,27 @@
-﻿using Microsoft.Azure.ServiceBus;
+﻿using BalancedScorecard.Kernel.Azure;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BalancedScorecard.ServiceBusCommandTrigger
+namespace BalancedScorecard.ServiceBusQueueTrigger
 {
     public class ServiceBusQueueListener : ICommunicationListener
     {
-        private readonly string _connectionString;
         private readonly QueueClient _queueClient;
         private readonly Func<Message, Task> _processMessage;
         private readonly Func<ExceptionReceivedEventArgs, Task> _processException;
 
         public ServiceBusQueueListener(
-            string connectionString, 
-            string queueName,
+            AzureServiceBusSettings options,
             Func<Message, Task> processMessage,
             Func<ExceptionReceivedEventArgs, Task> processException)
         {
-            _connectionString = connectionString;
             _queueClient = new QueueClient(
-                new ServiceBusConnectionStringBuilder(_connectionString)
+                new ServiceBusConnectionStringBuilder(options.Endpoint)
                 {
-                    EntityPath = queueName
+                    EntityPath = options.QueueName
                 });
 
             _processMessage = processMessage;
@@ -62,7 +60,7 @@ namespace BalancedScorecard.ServiceBusCommandTrigger
                     AutoComplete = false
                 });
 
-            return Task.FromResult(_connectionString);
+            return Task.FromResult(string.Empty);
         }
 
         private Task Stop()

@@ -4,7 +4,7 @@ using BalancedScorecard.Kernel.Events;
 using BalancedScorecard.Query.Model;
 using StructureMap;
 
-namespace BalancedScorecard.ServiceBusCommandTrigger.IoC
+namespace BalancedScorecard.ServiceBusQueueTrigger.IoC
 {
     public class EventHandlerStructureMapRegistry : Registry
     {

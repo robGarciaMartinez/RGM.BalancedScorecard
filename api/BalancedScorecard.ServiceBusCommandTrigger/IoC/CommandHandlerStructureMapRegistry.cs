@@ -8,7 +8,7 @@ using BalancedScorecard.Kernel.Events;
 using BalancedScorecard.Kernel.Validation;
 using StructureMap;
 
-namespace BalancedScorecard.ServiceBusCommandTrigger.IoC
+namespace BalancedScorecard.ServiceBusQueueTrigger.IoC
 {
     public class CommandHandlerStructureMapRegistry : Registry
     {

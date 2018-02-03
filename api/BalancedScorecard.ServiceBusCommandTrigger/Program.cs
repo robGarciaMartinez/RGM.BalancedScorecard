@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 
-namespace BalancedScorecard.ServiceBusCommandTrigger
+namespace BalancedScorecard.ServiceBusQueueTrigger
 {
     internal static class Program
     {
@@ -19,10 +19,10 @@ namespace BalancedScorecard.ServiceBusCommandTrigger
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
 
-                ServiceRuntime.RegisterServiceAsync("BalancedScorecard.ServiceBusCommandTriggerType",
-                    context => new ServiceBusCommandTrigger(context)).GetAwaiter().GetResult();
+                ServiceRuntime.RegisterServiceAsync("BalancedScorecard.ServiceBusQueueTriggerType",
+                    context => new ServiceBusQueueTrigger(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(ServiceBusCommandTrigger).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(ServiceBusQueueTrigger).Name);
 
                 // Prevents this host process from terminating so services keep running.
                 Thread.Sleep(Timeout.Infinite);

@@ -1,4 +1,4 @@
-﻿namespace BalancedScorecard.Api.Bus
+﻿namespace BalancedScorecard.Kernel.Azure
 {
     public class AzureServiceBusSettings
     {

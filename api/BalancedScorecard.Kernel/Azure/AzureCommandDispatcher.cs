@@ -9,13 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BalancedScorecard.Api.Bus
+namespace BalancedScorecard.Kernel.Azure
 {
-    public class AzureCommandBus : ICommandBus
+    public class AzureCommandDispatcher : ICommandDispatcher
     {
         private readonly IQueueClient _queueClient;
 
-        public AzureCommandBus(IOptions<AzureServiceBusSettings> options)
+        public AzureCommandDispatcher(IOptions<AzureServiceBusSettings> options)
         {
             if (options.Value == null) throw new ArgumentNullException("AzureServiceBusSettings are null");
 

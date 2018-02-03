@@ -2,7 +2,7 @@
 <Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="fabric:/BalancedScorecard" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
     <Parameter Name="BalancedScorecard.ServiceBusTopicTrigger_InstanceCount" Value="-1" />
-    <Parameter Name="BalancedScorecard.ServiceBusCommandTrigger_InstanceCount" Value="-1" />
+    <Parameter Name="BalancedScorecard.ServiceBusQueueTrigger_InstanceCount" Value="-1" />
     <Parameter Name="BalancedScorecard.Api_InstanceCount" Value="-1" />
   </Parameters>
 </Application>

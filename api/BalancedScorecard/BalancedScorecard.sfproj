@@ -30,7 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BalancedScorecard.Api\BalancedScorecard.Api.csproj" />
-    <ProjectReference Include="..\BalancedScorecard.ServiceBusCommandTrigger\BalancedScorecard.ServiceBusCommandTrigger.csproj" />
+    <ProjectReference Include="..\BalancedScorecard.ServiceBusCommandTrigger\BalancedScorecard.ServiceBusQueueTrigger.csproj" />
     <ProjectReference Include="..\BalancedScorecard.ServiceBusTopicTrigger\BalancedScorecard.ServiceBusTopicTrigger.csproj" />
   </ItemGroup>
   <ItemGroup>
