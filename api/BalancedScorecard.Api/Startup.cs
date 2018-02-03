@@ -1,6 +1,9 @@
-﻿using BalancedScorecard.Infrastructure.SqlServerDb.JsonConverters;
+﻿using BalancedScorecard.Infrastructure.DocumentDb;
+using BalancedScorecard.Infrastructure.DocumentDb.Readers;
+using BalancedScorecard.Infrastructure.SqlServerDb.JsonConverters;
 using BalancedScorecard.Kernel.Azure;
 using BalancedScorecard.Kernel.Commands;
+using BalancedScorecard.Query.Readers.Indicators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -39,8 +42,9 @@ namespace BalancedScorecard.Api
 
             services.AddOptions();
             services.Configure<AzureServiceBusSettings>(options => _configuration.GetSection(nameof(AzureServiceBusSettings)).Bind(options));
-
+            services.Configure<AzureDocumentDbSettings>(options => _configuration.GetSection(nameof(AzureDocumentDbSettings)).Bind(options));
             services.AddSingleton<ICommandDispatcher, AzureCommandDispatcher>();
+            services.AddScoped<IIndicatorCollectionReader, IndicatorCollectionReader>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BalancedScorecard.Infrastructure.DocumentDb\BalancedScorecard.Infrastructure.DocumentDb.csproj" />
     <ProjectReference Include="..\BalancedScorecard.Infrastructure.SqlServerDb\BalancedScorecard.Infrastructure.SqlServerDb.csproj" />
     <ProjectReference Include="..\BalancedScorecard.Kernel\BalancedScorecard.Kernel.csproj" />
     <ProjectReference Include="..\BalancedScorecard.Query\BalancedScorecard.Query.csproj" />

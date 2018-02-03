@@ -1,6 +1,7 @@
 ﻿using BalancedScorecard.Domain.Commands.Indicators;
 using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Query.Model;
+using BalancedScorecard.Query.Readers.Indicators;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,18 +14,20 @@ namespace BalancedScorecard.Api.Controllers
     public class IndicatorsController : Controller
     {
         private readonly ICommandDispatcher _commandBus;
+        private readonly IIndicatorCollectionReader _indicatorsReader;
 
         public IndicatorsController(
-            ICommandDispatcher commandBus)
+            ICommandDispatcher commandBus,
+            IIndicatorCollectionReader indicatorsReaders)
         {
             _commandBus = commandBus;
+            _indicatorsReader = indicatorsReaders;
         }
 
         [HttpGet("{indicatorId}", Name = "GetIndicator")]
         public Task<IndicatorViewModel> GetIndicator(Guid indicatorId)
         {
-            //return _reader.GetIndicatorViewModel(indicatorId);
-            return Task.FromResult(new IndicatorViewModel());
+            return _indicatorsReader.GetIndicatorViewModel(indicatorId);
         }
 
         [HttpPost]
