@@ -2,18 +2,24 @@
 using BalancedScorecard.Domain.Model.Indicators;
 using BalancedScorecard.Infrastructure.SqlServerDb.Abstractions;
 using BalancedScorecard.Infrastructure.SqlServerDb.Implementations;
+using BalancedScorecard.Kernel.Azure;
 using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Kernel.Domain;
 using BalancedScorecard.Kernel.Events;
 using BalancedScorecard.Kernel.Validation;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using StructureMap;
 
 namespace BalancedScorecard.ServiceBusQueueTrigger.IoC
 {
     public class CommandHandlerStructureMapRegistry : Registry
     {
-        public CommandHandlerStructureMapRegistry()
+        public CommandHandlerStructureMapRegistry(IConfiguration configuration)
         {
+            var settings = new AzureServiceBusSettings();
+            configuration.GetSection(nameof(AzureServiceBusSettings)).Bind(settings);
+
             Scan(scanner =>
             {
                 scanner.WithDefaultConventions();
@@ -28,8 +34,10 @@ namespace BalancedScorecard.ServiceBusQueueTrigger.IoC
                 scanner.ConnectImplementationsToTypesClosing(typeof(ISpecification<>));
             });
 
+            For<IConfiguration>().Use(configuration);
             For<IValidationDependencyContainer>().Use<StructureMapMediator>();
-            For<IDomainEventDispatcher>().Use<AzureEventDispatcher>();
+            For<IDomainEventDispatcher>().Use<AzureEventDispatcher>();          
+            For<IOptions<AzureServiceBusSettings>>().Use(Options.Create(settings));
         }
     }
 }

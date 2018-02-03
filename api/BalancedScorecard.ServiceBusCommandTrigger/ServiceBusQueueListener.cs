@@ -1,5 +1,6 @@
 ﻿using BalancedScorecard.Kernel.Azure;
 using Microsoft.Azure.ServiceBus;
+using Microsoft.Extensions.Options;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using System;
 using System.Threading;
@@ -14,14 +15,16 @@ namespace BalancedScorecard.ServiceBusQueueTrigger
         private readonly Func<ExceptionReceivedEventArgs, Task> _processException;
 
         public ServiceBusQueueListener(
-            AzureServiceBusSettings options,
+            IOptions<AzureServiceBusSettings> options,
             Func<Message, Task> processMessage,
             Func<ExceptionReceivedEventArgs, Task> processException)
         {
+            if (options.Value == null) throw new ArgumentNullException("AzureServiceBusSettings are null");
+
             _queueClient = new QueueClient(
-                new ServiceBusConnectionStringBuilder(options.Endpoint)
+                new ServiceBusConnectionStringBuilder(options.Value.Endpoint)
                 {
-                    EntityPath = options.QueueName
+                    EntityPath = options.Value.QueueName
                 });
 
             _processMessage = processMessage;

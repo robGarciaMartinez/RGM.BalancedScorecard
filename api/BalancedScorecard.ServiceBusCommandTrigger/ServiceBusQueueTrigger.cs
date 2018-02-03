@@ -4,6 +4,7 @@ using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.ServiceBusQueueTrigger.IoC;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Newtonsoft.Json;
@@ -23,21 +24,19 @@ namespace BalancedScorecard.ServiceBusQueueTrigger
     internal sealed class ServiceBusQueueTrigger : StatelessService
     {
         private readonly IContainer _container;
-        private readonly IConfiguration _configuration;
 
         public ServiceBusQueueTrigger(StatelessServiceContext context)
             : base(context)
         {
             var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            _configuration = new ConfigurationBuilder()
+            var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
 
             _container = new Container();
-            _container.Configure(conf => conf.For<IConfiguration>().Use(_configuration));
-            _container.Configure(conf => conf.AddRegistry<CommandHandlerStructureMapRegistry>());
+            _container.Configure(conf => conf.AddRegistry(new CommandHandlerStructureMapRegistry(configuration)));
         }
 
         /// <summary>
@@ -47,14 +46,10 @@ namespace BalancedScorecard.ServiceBusQueueTrigger
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
             yield return new ServiceInstanceListener(serviceContext =>
-            {
-                var settings = new AzureServiceBusSettings();
-                _configuration.GetSection(nameof(AzureServiceBusSettings)).Bind(settings);
-                return new ServiceBusQueueListener(
-                    settings,
+                new ServiceBusQueueListener(
+                    _container.GetInstance<IOptions<AzureServiceBusSettings>>(),
                     ProcessMessage,
-                    ProcessException);
-            });
+                    ProcessException));
         }
 
         private Task ProcessMessage(Message message)
