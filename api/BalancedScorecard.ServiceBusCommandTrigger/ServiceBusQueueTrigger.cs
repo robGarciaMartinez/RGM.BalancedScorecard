@@ -32,11 +32,9 @@ namespace BalancedScorecard.ServiceBusQueueTrigger
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables()
                 .Build();
 
-            _container = new Container();
-            _container.Configure(conf => conf.AddRegistry(new CommandHandlerStructureMapRegistry(configuration)));
+            _container = new Container(new CommandHandlerStructureMapRegistry(configuration));
         }
 
         /// <summary>

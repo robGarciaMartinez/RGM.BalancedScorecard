@@ -1,8 +1,11 @@
 ﻿using BalancedScorecard.Infrastructure.SqlServerDb.JsonConverters;
+using BalancedScorecard.Kernel.Azure;
 using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Kernel.Events;
 using BalancedScorecard.ServiceBusQueueTrigger.IoC;
 using Microsoft.Azure.ServiceBus;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Newtonsoft.Json;
@@ -26,8 +29,13 @@ namespace BalancedScorecard.ServiceBusTopicTrigger
         public ServiceBusTopicTrigger(StatelessServiceContext context)
             : base(context)
         {
-            _container = new Container();
-            _container.Configure(conf => conf.AddRegistry<EventHandlerStructureMapRegistry>());
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
+                .Build();
+
+            _container = new Container(new EventHandlerStructureMapRegistry(configuration));
         }
 
         /// <summary>
@@ -38,10 +46,9 @@ namespace BalancedScorecard.ServiceBusTopicTrigger
         {
             yield return new ServiceInstanceListener(context =>
                 new ServiceBusTopicListener(
-                "Endpoint=sb://balancedscorecard.servicebus.windows.net/;SharedAccessKeyName=balancedscorecard-user;SharedAccessKey=UBQ5rVQnyevqYSzsWYl/TLYyeE4mG6r7Regsuwr4oBw=",
-                "indicators-topic",
-                ProcessMessage,
-                ProcessException));
+                    _container.GetInstance<IOptions<AzureServiceBusSettings>>(),
+                    ProcessMessage,
+                    ProcessException));
         }
 
         private Task ProcessMessage(Message message)

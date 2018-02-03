@@ -10,23 +10,15 @@ namespace BalancedScorecard.Infrastructure.DocumentDb.Readers
     public class BaseCollectionReader
     {
         protected readonly IDocumentClient _documentClient;
-        protected readonly DocumentDbSettings _dbSettings;
+        protected readonly AzureDocumentDbSettings _dbSettings;
 
-        public BaseCollectionReader(/*IOptions<DocumentDbSettings> options*/)
+        public BaseCollectionReader(IOptions<AzureDocumentDbSettings> options)
         {
-            //if (options.Value == null) throw new ArgumentNullException("Document db settings can't be null");
+            if (options.Value == null) throw new ArgumentNullException("Document db settings can't be null");
 
-            //_dbSettings = options.Value;
-
-            _dbSettings = new DocumentDbSettings
-            {
-                EndpointUrl = "https://robertogarcia.documents.azure.com:443",
-                PrimaryKey = "Ai2UKiYMWnsomMZLhkJHmyLTrzr17bP3SkbLOGNKeQ5oKo42mMgRXGcODZnQNHwZ10t8J8U5nQ1BuNhLtoq52A==",
-                DatabaseName = "BalancedScorecard"
-            };
-
+            _dbSettings = options.Value;
             _documentClient = new DocumentClient(
-                new Uri(_dbSettings.EndpointUrl),
+                new Uri(_dbSettings.Endpoint),
                 _dbSettings.PrimaryKey,
                 new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
         }

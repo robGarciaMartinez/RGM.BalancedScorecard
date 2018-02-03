@@ -9,6 +9,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
     <PackageReference Include="Microsoft.ServiceFabric" Version="6.1.456" />
     <PackageReference Include="Microsoft.ServiceFabric.Data" Version="3.0.456" />
     <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.0.456" />
@@ -22,6 +25,16 @@
     <ProjectReference Include="..\BalancedScorecard.Infrastructure.SqlServerDb\BalancedScorecard.Infrastructure.SqlServerDb.csproj" />
     <ProjectReference Include="..\BalancedScorecard.Kernel\BalancedScorecard.Kernel.csproj" />
     <ProjectReference Include="..\BalancedScorecard.Query\BalancedScorecard.Query.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

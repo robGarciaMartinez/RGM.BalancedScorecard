@@ -1,4 +1,6 @@
-﻿using Microsoft.Azure.ServiceBus;
+﻿using BalancedScorecard.Kernel.Azure;
+using Microsoft.Azure.ServiceBus;
+using Microsoft.Extensions.Options;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using System;
 using System.Threading;
@@ -8,22 +10,21 @@ namespace BalancedScorecard.ServiceBusTopicTrigger
 {
     public class ServiceBusTopicListener : ICommunicationListener
     {
-        private readonly string _connectionString;
         private readonly SubscriptionClient _subscriptionClient;
         private readonly Func<Message, Task> _processMessage;
         private readonly Func<ExceptionReceivedEventArgs, Task> _processException;
 
         public ServiceBusTopicListener(
-            string connectionString, 
-            string topicName,
+            IOptions<AzureServiceBusSettings> options,
             Func<Message, Task> processMessage,
             Func<ExceptionReceivedEventArgs, Task> processException)
         {
-            _connectionString = connectionString;
+            if (options.Value == null) throw new ArgumentNullException("AzureServiceBusSettings are null");
+
             _subscriptionClient = new SubscriptionClient(
-                new ServiceBusConnectionStringBuilder(_connectionString)
+                new ServiceBusConnectionStringBuilder(options.Value.Endpoint)
                 {
-                    EntityPath = topicName,
+                    EntityPath = options.Value.TopicName,
                 }, "indicators-subscription");
 
             _processMessage = processMessage;
@@ -62,7 +63,7 @@ namespace BalancedScorecard.ServiceBusTopicTrigger
                     AutoComplete = false
                 });
 
-            return Task.FromResult(_connectionString);
+            return Task.FromResult(string.Empty);
         }
 
         private Task Stop()
