@@ -12,12 +12,14 @@ declare let jQuery: any;
 export class Sidebar implements OnInit {
   $el: any;
   config: any;
+  configFn: any;
   router: Router;
   location: Location;
 
   constructor(config: AppConfig, el: ElementRef, router: Router, location: Location) {
     this.$el = jQuery(el.nativeElement);
     this.config = config.getConfig();
+    this.configFn = config;
     this.router = router;
     this.location = location;
   }
@@ -36,7 +38,7 @@ export class Sidebar implements OnInit {
   }
 
   changeActiveNavigationItem(location): void {
-    let $newActiveLink = this.$el.find('a[href="#' + location.path() + '"]');
+    let $newActiveLink = this.$el.find('a[href="#' + location.path().split('?')[0] + '"]');
 
     // collapse .collapse only if new and old active links belong to different .collapse
     if (!$newActiveLink.is('.active > .collapse > li > a')) {
@@ -48,7 +50,7 @@ export class Sidebar implements OnInit {
       .parents('li').addClass('active');
 
     // uncollapse parent
-    $newActiveLink.closest('.collapse').addClass('in')
+    $newActiveLink.closest('.collapse').addClass('in').css('height', '')
       .siblings('a[data-toggle=collapse]').removeClass('collapsed');
   }
 
@@ -70,5 +72,9 @@ export class Sidebar implements OnInit {
         this.changeActiveNavigationItem(this.location);
       }
     });
+  }
+
+  logout() {
+    this.router.navigate(['/login']);
   }
 }

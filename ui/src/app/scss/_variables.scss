@@ -24,7 +24,8 @@ $font-size-index:         0.7rem;
 
 $small-font-size: 85% !default;
 
-$font-family-base: 'Open Sans', sans-serif;
+$font-family-base: 'Montserrat', sans-serif;
+$font-family-sans-serif: 'Montserrat', sans-serif;
 
 // Color system
 //
@@ -81,7 +82,7 @@ $headings-font-weight: $font-weight-thin !default;
 
 $addition-bg: #f8f8f8 !default;
 
-$body-bg: #eee !default;
+$body-bg: #f5f5f5 !default;
 $body-bg-light: lighten($body-bg, 3%);
 
 //== Components
@@ -105,9 +106,9 @@ $margin-large-horizontal:  1.25rem !default;
 $margin-small-vertical:    0.25rem !default;
 $margin-small-horizontal:  0.75rem !default;
 
-$border-radius:          .25rem !default;
-$border-radius-lg:       .3rem !default;
-$border-radius-sm:       .2rem !default;
+$border-radius:          .3rem !default;
+$border-radius-lg:       .35rem !default;
+$border-radius-sm:       .25rem !default;
 
 $nav-link-padding: 14px;
 
@@ -138,6 +139,8 @@ $badge-font-weight: 600;
 
 $widget-bg: #fff;
 $widget-title-color: #444;
+$widget-shadow: 0 0 10px darken($body-bg, 5%);
+
 
 $input-btn-line-height: 1.5;
 

@@ -67,6 +67,7 @@ app, .app {
   z-index: 1;
   height: $navbar-height;
   font-size: 13px;
+  box-shadow: $widget-shadow;
 
   @include media-breakpoint-down(sm) {
     font-size: $font-size-lg;
@@ -125,6 +126,7 @@ app, .app {
 }
 
 .content{
+  position: relative;
   min-height: 100%;
   padding: $content-padding-top $content-padding $content-padding;
   background-color: $body-bg;
@@ -132,6 +134,12 @@ app, .app {
   @include media-breakpoint-down(sm) {
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  .content-footer {
+    position: absolute;
+    bottom: 10px;
+    color: $text-muted;
   }
 }
 
@@ -165,10 +173,6 @@ app, .app {
 
 .sidebar-nav{
   padding: $padding-large-vertical 0;
-
-  @media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px){
-    font-size: $font-size-larger;
-  }
 
   li a{
     display: block;
@@ -284,6 +288,7 @@ app, .app {
     > li{
       > a{
         padding: 5px 0 5px 40px;
+        font-size: $font-size-base*0.95;
         &:hover{
           background-color: lighten($sidebar-item-hover-bg-color, 5%);
         }
@@ -530,6 +535,7 @@ app, .app {
 
 
 .chat-sidebar-contacts{
+  overflow-y: auto;
   padding: 1.5rem 0;
   left: -100%;
   @include transition(left .4s ease-in-out);
@@ -553,6 +559,8 @@ app, .app {
 }
 
 .chat-sidebar-chat{
+  display: flex;
+  flex-direction: column;
   right: -100%;
   background-color: $sidebar-bg-color;
 
@@ -574,8 +582,11 @@ app, .app {
   }
 
   .message-list{
+    flex: 1;
+    overflow-y: auto;
     list-style: none;
     padding-left: 0;
+    margin-bottom: 0;
     padding-top: $spacer/2;
   }
 
@@ -709,18 +720,9 @@ app, .app {
 }
 
 .chat-sidebar-footer{
-  position: absolute;
-  bottom: 0;
-  right: -100%;
   width: 100%;
-  margin-bottom: 0;
   padding: $padding-large-vertical;
   background-color: #3a3a3a;
-
-  @include transition(right .2s ease-in-out);
-  &.open{
-    right: 0;
-  }
 }
 
 .chat-notification{
@@ -833,6 +835,8 @@ app, .app {
   padding: $widget-padding-vertical $widget-padding-horizontal;
   background: $widget-bg-color;
   border-radius: $border-radius-sm;
+  box-shadow: $widget-shadow;
+
   > header{
     margin: (-$widget-padding-vertical) (-$widget-padding-horizontal);
     padding: $widget-padding-vertical $widget-padding-horizontal;
@@ -927,6 +931,10 @@ app, .app {
     td:last-child {
       padding-right: $widget-padding-horizontal;
     }
+  }
+
+  &.bg-transparent {
+    box-shadow: none;
   }
 }
 

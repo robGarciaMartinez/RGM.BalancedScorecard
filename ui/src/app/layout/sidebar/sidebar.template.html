@@ -1,7 +1,23 @@
 <div class="js-sidebar-content">
-  <header class="logo hidden-sm-down">
+  <header class="logo d-none d-md-block">
     <a href="index.html">{{config.name}}</a>
   </header>
+  <div class="sidebar-status d-md-none dropdown" dropdown [autoClose]="false" (isOpenChange)="toggleSidebarOverflow($event)" placement="bottom left">
+    <a [routerLink]="" class="dropdown-toggle" dropdownToggle>
+              <span class="thumb-sm avatar float-right">
+        <img class="rounded-circle" src="assets/img/people/a5.jpg" alt="...">
+              </span>
+      <!-- .circle is a pretty cool way to add a bit of beauty to raw data.
+           should be used with bg-* and text-* classes for colors -->
+              <span class="circle bg-warning fw-bold text-gray-dark">
+                  13
+              </span>
+      &nbsp;
+      Philip <strong>Smith</strong>
+      <b class="caret"></b>
+    </a>
+    <div notifications *dropdownMenu class="dropdown-menu dropdown-menu-left animated animated-fast fadeInUp"></div>
+  </div>
   <!-- main notification links are placed inside of .sidebar-nav -->
   <ul class="sidebar-nav">
     <li>
@@ -31,5 +47,56 @@
       </span>
       </a>
     </li>
+    <li *ngIf="configFn.isScreen('xs') || configFn.isScreen('sm')">
+      <a (click)="logout()">
+        <span class="icon">
+          <i class="fa fa-sign-out"></i>
+        </span>
+        Logout
+      </a>
+    </li>
   </ul>
+  <h5 class="sidebar-nav-title">Labels <a class="action-link" href="#"><i class="glyphicon glyphicon-plus"></i></a></h5>
+  <!-- some styled links in sidebar. ready to use as links to email folders, projects, groups, etc -->
+  <ul class="sidebar-labels">
+    <li>
+      <a href="#">
+        <!-- yep, .circle again -->
+        <i class="fa fa-circle text-warning mr-xs"></i>
+        <span class="label-name">My Recent</span>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <i class="fa fa-circle text-gray mr-xs"></i>
+        <span class="label-name">Starred</span>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <i class="fa fa-circle text-danger mr-xs"></i>
+        <span class="label-name">Background</span>
+      </a>
+    </li>
+  </ul>
+  <h5 class="sidebar-nav-title">Projects</h5>
+  <!-- A place for sidebar notifications & alerts -->
+  <div class="sidebar-alerts">
+    <div class="alert fade show">
+      <a href="#" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+      <span class="text-white fw-semi-bold">Sales Report</span> <br>
+      <div class="progress progress-xs mt-xs mb-0">
+        <div class="progress-bar progress-bar-gray-light" role="progressbar" style="width: 16%" aria-valuenow="16" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <small>Calculating x-axis bias... 65%</small>
+    </div>
+    <div class="alert fade show">
+      <a href="#" class="close" data-dismiss="alert" aria-hidden="true">&times;</a>
+      <span class="text-white fw-semi-bold">Personal Responsibility</span> <br>
+      <div class="progress progress-xs mt-xs mb-0">
+        <div class="progress-bar bg-danger" role="progressbar" style="width: 23%" aria-valuenow="23" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <small>Provide required notes</small>
+    </div>
+  </div>
 </div>
