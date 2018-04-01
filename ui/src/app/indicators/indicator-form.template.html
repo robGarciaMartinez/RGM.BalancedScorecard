@@ -1,32 +1,78 @@
-<form class="form-horizontal" [formGroup]="indicatorForm" (ngSubmit)="saveIndicator(indicatorForm.value)">
+<form class="form-horizontal" [formGroup]="indicatorForm" (ngSubmit)="saveIndicator(indicatorForm)">
     <fieldset>
         <legend><strong>General Data</strong></legend>
     
         <div class="row form-group">
             <label for="Name" class="col-md-2">Name</label>
-            <div class="col-md-4">
+            <div class="col-md-10">
                 <input class="form-control" type="text" id="Name" formControlName="name"/>
-                <span class="error" *ngIf="indicatorForm.controls.name.errors && indicatorForm.controls.name.touched">Name is required</span>
-            </div>
-
-            <label for="Code" class="col-md-2">Code</label>
-            <div class="col-md-4"> 
-                <input class="form-control" type="text" id="Code" formControlName="code"/>
-                <span class="error" *ngIf="indicatorForm.controls.code.errors && indicatorForm.controls.code.touched">Code is required</span>
-            </div>
+                <div *ngIf="hasErrors(indicatorForm.controls.name)">
+                    <span class="error" *ngIf="isTouched(indicatorForm.controls.name)">Name is required</span>
+                </div>
+            </div>    
         </div>
+
         <div class="row form-group">
             <label for="Description" class="col-md-2">Description</label>
             <div class="col-md-10"> 
-                <input class="form-control" type="text" id="Description" formControlName="description"/>
-                <span class="error" *ngIf="indicatorForm.controls.description.errors && indicatorForm.controls.description.touched">Description is required</span>
+                <textarea class="form-control" id="Description" formControlName="description"></textarea>
+                <div *ngIf="hasErrors(indicatorForm.controls.description)">
+                    <span class="error" *ngIf="isTouched(indicatorForm.controls.description)">Description is required</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <label for="Code" class="col-md-2">Code</label>
+            <div class="col-md-4"> 
+                <input class="form-control" type="text" id="Code" formControlName="code"/>
+                <div *ngIf="hasErrors(indicatorForm.controls.code)">
+                <span class="error" *ngIf="isTouched(indicatorForm.controls.code)">Code is required</span>
+                </div>
+            </div>
+
+            <label for="Unit" class="col-md-2">Unit</label>
+            <div class="col-md-4"> 
+                <input class="form-control" type="text" id="Unit" formControlName="unit"/>
+                <div *ngIf="hasErrors(indicatorForm.controls.unit)">
+                    <span class="error" *ngIf="isTouched(indicatorForm.controls.unit)">Unit is required</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <label for="PeriodicityType" class="col-md-2">Periodicity</label>
+            <div class="col-md-4"> 
+                <input class="form-control" type="text" id="PeriodicityType" formControlName="periodicityType"/>
+                <div *ngIf="hasErrors(indicatorForm.controls.periodicityType)">
+                    <span class="error" *ngIf="isTouched(indicatorForm.controls.periodicityType)">Periodicity is required</span>
+                </div>
+            </div>
+
+            <label for="ComparisonType" class="col-md-2">Comparison Type</label>
+            <div class="col-md-4"> 
+                <input class="form-control" type="text" id="ComparisonType" formControlName="comparisonType"/>
+                <div *ngIf="hasErrors(indicatorForm.controls.comparisonType)">
+                    <span class="error" *ngIf="isTouched(indicatorForm.controls.comparisonType)">Comparison Type is required</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <label for="IndicatorValueType" class="col-md-2">Value Type</label>
+            <div class="col-md-4"> 
+                <input class="form-control" type="text" id="IndicatorValueType" formControlName="indicatorValueType"/>
+                <div *ngIf="hasErrors(indicatorForm.controls.indicatorValueType)">
+                <span class="error" *ngIf="isTouched(indicatorForm.controls.indicatorValueType)">Value Type is required</span>
+                </div>
             </div>
         </div>
     </fieldset>
     <hr/>
+
     <div class="row form-actions">
         <div class="text-right col-md-12">
-            <button type="submit" class="btn btn-info btn-rounded" [disabled]="!indicatorForm.valid">Save</button>
+            <button type="submit" class="btn btn-info btn-rounded" [disabled]="">Save</button>
             <button type="button" class="btn btn-default btn-rounded">Cancel</button>
         </div> 
     </div>

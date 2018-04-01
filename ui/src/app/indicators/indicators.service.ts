@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Indicator } from 'src/app/indicators/indicator';
 import { Observable } from 'rxjs/Observable';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { Console } from '@angular/core/src/console';
 
 @Injectable()
 export class IndicatorsService {
@@ -10,11 +12,19 @@ export class IndicatorsService {
 
     getIndicator(code: string) : Observable<Indicator> {
         return this.httpClient.get<Indicator>(
-            'http://localhost:63530/api/indicators', 
-            { params: new HttpParams().set('code', code) });
+            process.env.API_URL + '/indicators/0');
     }
 
-    saveIndicator(indicator: Indicator) {
-        this.httpClient.post('http://localhost:63530/api/indicators', indicator).subscribe();
+    createIndicator(indicator: Indicator): string {
+        let location = '';
+        this.httpClient
+            .post(process.env.API_URL + '/indicators', indicator)
+            .map((response: Response) => 
+                response.headers.has('location') 
+                    ? location = response.headers.get('location') 
+                    : Observable.throw('Location header not present'))
+            .subscribe((error:ErrorObservable) => console.log(error.error.status));
+        
+        return location;
     }
 }

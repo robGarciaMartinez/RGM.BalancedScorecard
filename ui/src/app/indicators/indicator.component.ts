@@ -20,6 +20,6 @@ export class IndicatorComponent implements OnInit{
     }
 
     saveIndicator(indicator: Indicator) {
-        this.indicatorsService.saveIndicator(indicator);
+        this.indicatorsService.createIndicator(indicator);
     }
 }

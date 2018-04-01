@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 import { Indicator } from './indicator';
+import { AbstractControl } from '@angular/forms/src/model';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,19 +29,30 @@ export class IndicatorFormComponent {
     saveClicked = new EventEmitter<Indicator>();
     
     constructor(private fb: FormBuilder) {
-        this.indicatorForm = this.fb.group({
+        this.indicatorForm = this.buildForm(fb);
+    }
+
+    saveIndicator(indicatorForm: FormGroup) {
+        this.saveClicked.emit(<Indicator>indicatorForm.value);
+    }
+
+    buildForm(fb: FormBuilder) : FormGroup {
+        return this.fb.group({
             'name':[null, Validators.required],
+            'description':[null, Validators.required],
             'code':[null, Validators.required],
-            'description':[null, Validators.required]
+            'unit': [null, Validators.required],
+            'periodicityType': [null, Validators.required],
+            'comparisonType': [null, Validators.required],
+            'indicatorValueType': [null, Validators.required],
         });
     }
 
-    saveIndicator(form){
-        var indicator = new Indicator();
-        indicator.name = form.name;
-        indicator.code = form.code;
-        indicator.description = form.description;
+    hasErrors(control: AbstractControl) : boolean {
+        return control.errors != null;
+    }
 
-        this.saveClicked.emit(indicator);
+    isTouched(control: AbstractControl) : boolean {
+        return control.touched;
     }
 }

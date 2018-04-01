@@ -21,6 +21,7 @@ const PORT = process.env.PORT || 3000;
 const PUBLIC = process.env.PUBLIC_DEV || HOST + ':' + PORT;
 const AOT = process.env.BUILD_AOT || helpers.hasNpmFlag('aot');
 const HMR = helpers.hasProcessFlag('hot');
+const API_URL = '"http://localhost:8749/api"';
 const METADATA = {
   host: HOST,
   port: PORT,
@@ -108,7 +109,8 @@ module.exports = function (options) {
         'HMR': METADATA.HMR,
         'process.env.ENV': JSON.stringify(METADATA.ENV),
         'process.env.NODE_ENV': JSON.stringify(METADATA.ENV),
-        'process.env.HMR': METADATA.HMR
+        'process.env.HMR': METADATA.HMR,
+        'process.env.API_URL':API_URL
       }),
 
       // new DllBundlesPlugin({

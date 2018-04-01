@@ -25,9 +25,14 @@ namespace BalancedScorecard.Api.Controllers
         }
 
         [HttpGet("{indicatorId}", Name = "GetIndicator")]
-        public Task<IndicatorViewModel> GetIndicator(Guid indicatorId)
+        public Task<IndicatorViewModel> GetIndicator(Guid? indicatorId)
         {
-            return _indicatorsReader.GetIndicatorViewModel(indicatorId);
+            if (indicatorId.HasValue)
+            {
+                return _indicatorsReader.GetIndicatorViewModel(indicatorId.Value);
+            }
+
+            return Task.FromResult(new IndicatorViewModel());
         }
 
         [HttpPost]
@@ -43,7 +48,7 @@ namespace BalancedScorecard.Api.Controllers
 
         [HttpPut("{indicatorId}")]
         public async Task<IActionResult> UpdateIndicator(
-            [FromRoute]Guid indicatorId, 
+            [FromRoute] Guid indicatorId,
             [FromBody] UpdateIndicatorCommand command)
         {
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
