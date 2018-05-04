@@ -1,51 +1,57 @@
-import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, OnInit } from '@angular/core';
+import { FormsModule, FormControl, AbstractControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
-import { Indicator } from './indicator';
-import { AbstractControl } from '@angular/forms/src/model';
+import { Indicator, IndicatorFormReferenceData } from './indicator';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector:'indicator-form',
     templateUrl: './indicator-form.template.html'
 })
-export class IndicatorFormComponent {
+export class IndicatorFormComponent implements OnInit {
     indicatorForm: FormGroup;
+    indicator:Indicator;
+    indicatorReferenceData: IndicatorFormReferenceData;
+    attemptToSaveInvalidForm: boolean;
+
+    ngOnInit(){
+        this.indicatorForm = new FormGroup ({
+            name: new FormControl('', Validators.required),
+            description: new FormControl('', Validators.required),
+            code: new FormControl('', Validators.required),
+            unit: new FormControl('', Validators.required),
+            periodicityTypeId: new FormControl('', Validators.required),
+            comparisonTypeId: new FormControl('', Validators.required),
+            indicatorValueTypeId: new FormControl('', Validators.required)
+        });
+    }
 
     @Input() set model(value: Indicator) {
         if (value == null) {
             return;
         }
 
-        this.indicatorForm.patchValue({
-          'name': value.name,
-          'code': value.code,
-          'description': value.description
-        });
+        this.indicator = value;
+    }
+    @Input() set referenceData(value: IndicatorFormReferenceData) {
+        if (value == null) {
+            return;
+        }
+
+        this.indicatorReferenceData = value;
     }
 
     @Output()
     saveClicked = new EventEmitter<Indicator>();
-    
-    constructor(private fb: FormBuilder) {
-        this.indicatorForm = this.buildForm(fb);
-    }
 
     saveIndicator(indicatorForm: FormGroup) {
-        this.saveClicked.emit(<Indicator>indicatorForm.value);
-    }
-
-    buildForm(fb: FormBuilder) : FormGroup {
-        return this.fb.group({
-            'name':[null, Validators.required],
-            'description':[null, Validators.required],
-            'code':[null, Validators.required],
-            'unit': [null, Validators.required],
-            'periodicityType': [null, Validators.required],
-            'comparisonType': [null, Validators.required],
-            'indicatorValueType': [null, Validators.required],
-        });
+        if (indicatorForm.valid){
+            this.saveClicked.emit(<Indicator>indicatorForm.value);
+        }
+        else{
+            this.attemptToSaveInvalidForm = true;
+        }
     }
 
     hasErrors(control: AbstractControl) : boolean {
@@ -53,6 +59,6 @@ export class IndicatorFormComponent {
     }
 
     isTouched(control: AbstractControl) : boolean {
-        return control.touched;
+        return control.touched  || this.attemptToSaveInvalidForm;
     }
 }

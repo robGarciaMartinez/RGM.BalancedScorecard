@@ -1,4 +1,4 @@
-<form class="form-horizontal" [formGroup]="indicatorForm" (ngSubmit)="saveIndicator(indicatorForm)">
+<form novalidate class="form-horizontal" [formGroup]="indicatorForm" (ngSubmit)="saveIndicator(indicatorForm)">
     <fieldset>
         <legend><strong>General Data</strong></legend>
     
@@ -41,29 +41,38 @@
         </div>
 
         <div class="row form-group">
-            <label for="PeriodicityType" class="col-md-2">Periodicity</label>
+            <label for="PeriodicityTypeId" class="col-md-2">Periodicity</label>
             <div class="col-md-4"> 
-                <input class="form-control" type="text" id="PeriodicityType" formControlName="periodicityType"/>
-                <div *ngIf="hasErrors(indicatorForm.controls.periodicityType)">
-                    <span class="error" *ngIf="isTouched(indicatorForm.controls.periodicityType)">Periodicity is required</span>
-                </div>
+                    <select class="formControl" id="PeriodicityTypeId" formControlName="periodicityTypeId">
+                        <option value="">Select a periodicity</option>
+                        <option *ngFor="let pType of indicatorReferenceData.periodicityTypes" value="{{pType.id}}" [selected]="pType.id == indicator.periodicityTypeId">{{pType.name}}</option>
+                    </select>
+                    <div *ngIf="hasErrors(indicatorForm.controls.periodicityTypeId)">
+                        <span class="error" *ngIf="isTouched(indicatorForm.controls.periodicityTypeId)">Periodicity is required</span>
+                    </div>
             </div>
 
-            <label for="ComparisonType" class="col-md-2">Comparison Type</label>
+            <label for="ComparisonTypeId" class="col-md-2">Comparison Type</label>
             <div class="col-md-4"> 
-                <input class="form-control" type="text" id="ComparisonType" formControlName="comparisonType"/>
-                <div *ngIf="hasErrors(indicatorForm.controls.comparisonType)">
-                    <span class="error" *ngIf="isTouched(indicatorForm.controls.comparisonType)">Comparison Type is required</span>
+                <select class="formControl" id="ComparisonTypeId" formControlName="comparisonTypeId">
+                    <option value="">Select a comparison type</option>
+                    <option *ngFor="let cType of indicatorReferenceData.comparisonTypes" value="{{cType.id}}" [selected]="cType.id == indicator.comparisonTypeId">{{cType.name}}</option>
+                </select>
+                <div *ngIf="hasErrors(indicatorForm.controls.comparisonTypeId)">
+                    <span class="error" *ngIf="isTouched(indicatorForm.controls.comparisonTypeId)">Comparison Type is required</span>
                 </div>
             </div>
         </div>
 
         <div class="row form-group">
-            <label for="IndicatorValueType" class="col-md-2">Value Type</label>
+            <label for="IndicatorValueTypeId" class="col-md-2">Value Type</label>
             <div class="col-md-4"> 
-                <input class="form-control" type="text" id="IndicatorValueType" formControlName="indicatorValueType"/>
-                <div *ngIf="hasErrors(indicatorForm.controls.indicatorValueType)">
-                <span class="error" *ngIf="isTouched(indicatorForm.controls.indicatorValueType)">Value Type is required</span>
+                <select class="formControl" id="IndicatorValueTypeId" formControlName="indicatorValueTypeId">
+                    <option value="">Select a comparison type</option>
+                    <option *ngFor="let iType of indicatorReferenceData.indicatorValueTypes" value="{{iType.id}}" [selected]="iType.id == indicator.indicatorValueTypeId">{{iType.name}}</option>
+                </select>
+                <div *ngIf="hasErrors(indicatorForm.controls.indicatorValueTypeId)">
+                <span class="error" *ngIf="isTouched(indicatorForm.controls.indicatorValueTypeId)">Value Type is required</span>
                 </div>
             </div>
         </div>

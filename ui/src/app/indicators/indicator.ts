@@ -1,28 +1,21 @@
 export class Indicator {
+    id: string;
     name: string;
     description:string;
     code: string;
     unit: string;
-    periodicityType: number;
-    comparisonType: number;
-    indicatorValueType: number;
+    periodicityTypeId: number;
+    comparisonTypeId: number;
+    indicatorValueTypeId: number;
+}
 
-    constructor(
-        name: string, 
-        description: string,
-        code: string,
-        unit: string,
-        periodicityType: number,
-        comparisonType: number,
-        indicatorValueType: number
-    )
-    {
-        this.name = name;
-        this.description = description;
-        this.code = code;
-        this.unit = unit;
-        this.periodicityType = periodicityType;
-        this.comparisonType = comparisonType;
-        this.indicatorValueType = indicatorValueType;
-    }
+export class IndicatorFormReferenceData {
+    periodicityTypes: SelectList[];
+    comparisonTypes: SelectList[];
+    indicatorValueTypes: SelectList[];
+}
+
+export class SelectList{ 
+    id: number;
+    name: string
 }

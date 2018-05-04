@@ -26,7 +26,7 @@ module.exports = function (options) {
     port: PORT,
     ENV: ENV,
     HMR: helpers.hasProcessFlag('hot'),
-    PUBLIC: process.env.PUBLIC_DEV || HOST + ':' + PORT
+    PUBLIC: process.env.PUBLIC_DEV || HOST + ':' + PORT,
   });
 
   return webpackMerge(commonConfig({ env: ENV, metadata: METADATA  }), {

@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-10">
             <section class="widget" widget>
-                <indicator-form [model]="indicator$ | async" (saveClicked)="saveIndicator($event)"></indicator-form>
+                <indicator-form [model]="indicator$ | async" [referenceData]="indicatorReferenceData$ | async" (saveClicked)="saveIndicator($event)"></indicator-form>
             </section>
         </div>
     </div>
