@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BalancedScorecard.Domain\BalancedScorecard.Domain.csproj" />
+    <ProjectReference Include="..\BalancedScorecard.Infrastructure.DocumentDb\BalancedScorecard.Infrastructure.DocumentDb.csproj" />
     <ProjectReference Include="..\BalancedScorecard.Query\BalancedScorecard.Query.csproj" />
   </ItemGroup>
 

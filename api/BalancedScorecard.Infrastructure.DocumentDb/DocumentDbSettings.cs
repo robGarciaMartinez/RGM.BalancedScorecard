@@ -1,6 +1,6 @@
 ﻿namespace BalancedScorecard.Infrastructure.DocumentDb
 {
-    public class AzureDocumentDbSettings
+    public class DocumentDbSettings
     {
         public string Endpoint { get; set; }
 

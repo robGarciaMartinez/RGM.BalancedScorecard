@@ -1,9 +1,10 @@
 <h1 class="page-title">New Indicator</h1>
 <div class="widget-container">
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <section class="widget" widget>
-                <indicator-form [model]="indicator$ | async" [referenceData]="indicatorReferenceData$ | async" (saveClicked)="saveIndicator($event)"></indicator-form>
+                <indicator-form *ngIf="indicator$ | async" [model]="indicator$ | async" [referenceData]="indicatorReferenceData$ | async" 
+                (saveClicked)="saveIndicator($event)" (cancelled)="cancel($event)"></indicator-form>
             </section>
         </div>
     </div>

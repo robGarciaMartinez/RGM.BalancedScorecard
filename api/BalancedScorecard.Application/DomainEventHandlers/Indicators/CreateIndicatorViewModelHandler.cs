@@ -1,24 +1,35 @@
 ﻿using BalancedScorecard.Domain.Events.Indicators;
+using BalancedScorecard.Infrastructure.DocumentDb;
 using BalancedScorecard.Kernel.Events;
 using BalancedScorecard.Query.Model;
-using BalancedScorecard.Query.Readers.Indicators;
+using BalancedScorecard.Query.Model.Indicators;
+using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.Options;
+using System;
 using System.Threading.Tasks;
 
 namespace BalancedScorecard.Application.DomainEventHandlers.Indicators
 {
     public class CreateIndicatorViewModelHandler : IDomainEventHandler<IndicatorCreatedEvent>
     {
-        private readonly IIndicatorCollectionReader _reader;
+        private readonly IDocumentClient _documentDbClient;
+        private readonly DocumentDbSettings _documentDbSettings;
 
         public CreateIndicatorViewModelHandler(
-            IIndicatorCollectionReader reader)
+            IDocumentClient documentDbClient,
+            IOptions<DocumentDbSettings> documentDbOptions)
         {
-            _reader = reader;
+            _documentDbClient = documentDbClient;
+
+            if (documentDbOptions.Value == null) throw new ArgumentNullException("Document db settings can't be null");
+            _documentDbSettings = documentDbOptions.Value;
         }
 
         public Task Handle(IndicatorCreatedEvent domainEvent)
         {
-            return _reader.CreateIndicatorViewModel(
+            return _documentDbClient.CreateDocumentAsync(
+                UriFactory.CreateDocumentCollectionUri(_documentDbSettings.DatabaseName, Collections.Indicators),
                 new IndicatorViewModel
                 {
                     Id = domainEvent.IndicatorId,
@@ -29,9 +40,9 @@ namespace BalancedScorecard.Application.DomainEventHandlers.Indicators
                     Status = domainEvent.IndicatorStatus,
                     Cumulative = domainEvent.Cumulative,
                     FulfillmentRate = domainEvent.FulfillmentRate,
-                    IndicatorValueType = domainEvent.IndicatorValueType,
-                    ComparisonType = domainEvent.ComparisonType,
-                    PeriodicityType = domainEvent.PeriodicityType
+                    IndicatorValueTypeId = (int)domainEvent.IndicatorValueType,
+                    ComparisonTypeId = (int)domainEvent.ComparisonType,
+                    PeriodicityTypeId = (int)domainEvent.PeriodicityType
                 });
         }
     }

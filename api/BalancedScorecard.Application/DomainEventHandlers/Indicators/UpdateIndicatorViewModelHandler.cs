@@ -1,26 +1,52 @@
 ﻿using BalancedScorecard.Domain.Events.Indicators;
+using BalancedScorecard.Infrastructure.DocumentDb;
 using BalancedScorecard.Kernel.Events;
 using BalancedScorecard.Kernel.Exceptions;
-using BalancedScorecard.Query.Model;
-using BalancedScorecard.Query.Readers.Indicators;
+using BalancedScorecard.Query.Model.Indicators;
+using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Documents.Linq;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BalancedScorecard.Application.DomainEventHandlers.Indicators
 {
     public class UpdateIndicatorViewModelHandler : IDomainEventHandler<IndicatorMeasureCreatedEvent>
     {
-        private readonly IIndicatorCollectionReader _reader;
+        private readonly IDocumentClient _documentDbClient;
+        private readonly DocumentDbSettings _documentDbSettings;
 
         public UpdateIndicatorViewModelHandler(
-            IIndicatorCollectionReader reader)
+            IDocumentClient documentDbClient,
+            IOptions<DocumentDbSettings> documentDbOptions)
         {
-            _reader = reader;
+            _documentDbClient = documentDbClient;
+
+            if (documentDbOptions.Value == null) throw new ArgumentNullException("Document db settings can't be null");
+            _documentDbSettings = documentDbOptions.Value;
         }
 
         public async Task Handle(IndicatorMeasureCreatedEvent domainEvent)
         {
-            var viewModel = await _reader.GetIndicatorViewModel(domainEvent.IndicatorId);
+            IndicatorViewModel viewModel = null;
+            var query = _documentDbClient.CreateDocumentQuery<IndicatorViewModel>(
+                UriFactory.CreateDocumentCollectionUri(_documentDbSettings.DatabaseName, Collections.Indicators),
+                new SqlQuerySpec($"select * from Indicators where Indicators.id = '{domainEvent.IndicatorId.ToString().ToLower()}'"),
+                new FeedOptions { MaxItemCount = 1 })
+                .AsDocumentQuery();
+
+            while (query.HasMoreResults)
+            {
+                var response = await query.ExecuteNextAsync<IndicatorViewModel>();
+                if (response.Any())
+                {
+                    viewModel = response.Single();
+                }
+            }
+
             if (viewModel == null) throw new ItemNotFoundException("Viewmodel not found");
 
             viewModel.Status = domainEvent.IndicatorStatus;
@@ -38,7 +64,9 @@ namespace BalancedScorecard.Application.DomainEventHandlers.Indicators
                 RealValue = domainEvent.RealValue
             });
 
-            await _reader.ReplaceIndicatorViewModel(viewModel);
+            await _documentDbClient.ReplaceDocumentAsync(
+                UriFactory.CreateDocumentUri(_documentDbSettings.DatabaseName, Collections.Indicators, viewModel.Id.ToString()),
+                viewModel);
         }
     }
 }

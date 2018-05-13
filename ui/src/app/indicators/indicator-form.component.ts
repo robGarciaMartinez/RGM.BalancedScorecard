@@ -1,8 +1,10 @@
 import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule, FormControl, AbstractControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { Indicator, IndicatorFormReferenceData } from './indicator';
+
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,6 +16,9 @@ export class IndicatorFormComponent implements OnInit {
     indicator:Indicator;
     indicatorReferenceData: IndicatorFormReferenceData;
     attemptToSaveInvalidForm: boolean;
+
+    constructor(private router: Router){
+    }
 
     ngOnInit(){
         this.indicatorForm = new FormGroup ({
@@ -32,7 +37,11 @@ export class IndicatorFormComponent implements OnInit {
             return;
         }
 
-        this.indicator = value;
+        if (this.indicatorForm == null){
+            return;
+        }
+        
+        this.indicatorForm.patchValue(value);
     }
     @Input() set referenceData(value: IndicatorFormReferenceData) {
         if (value == null) {
@@ -42,8 +51,8 @@ export class IndicatorFormComponent implements OnInit {
         this.indicatorReferenceData = value;
     }
 
-    @Output()
-    saveClicked = new EventEmitter<Indicator>();
+    @Output() saveClicked = new EventEmitter<Indicator>();
+    @Output() cancelled = new EventEmitter<any>();
 
     saveIndicator(indicatorForm: FormGroup) {
         if (indicatorForm.valid){
@@ -52,6 +61,10 @@ export class IndicatorFormComponent implements OnInit {
         else{
             this.attemptToSaveInvalidForm = true;
         }
+    }
+
+    cancel() {
+        this.cancelled.emit(null);
     }
 
     hasErrors(control: AbstractControl) : boolean {

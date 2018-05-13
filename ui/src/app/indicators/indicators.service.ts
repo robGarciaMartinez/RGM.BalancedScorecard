@@ -74,7 +74,7 @@ export class IndicatorsService {
             indicatorValueTypes: iTypes
         };
 
-        return  new Observable<IndicatorFormReferenceData>(observer => {
+        return new Observable<IndicatorFormReferenceData>(observer => {
             observer.next(data);
             observer.complete();
         });

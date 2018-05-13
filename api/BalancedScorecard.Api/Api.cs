@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using StructureMap.AspNetCore;
 using System.Collections.Generic;
 using System.Fabric;
 using System.IO;
@@ -47,6 +48,7 @@ namespace BalancedScorecard.Api
                                     .UseStartup<Startup>()
                                     .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
                                     .UseUrls(url)
+                                    .UseStructureMap()  
                                     .Build();
                     }))
             };

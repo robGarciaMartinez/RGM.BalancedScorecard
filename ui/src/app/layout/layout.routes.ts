@@ -6,7 +6,7 @@ const routes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'dashboard', loadChildren: '../dashboard/dashboard.module#DashboardModule' },
     { path: 'another-page', loadChildren: '../another/another.module#AnotherModule' },
-	  { path: 'indicator', loadChildren: '../indicators/indicators.module#IndicatorsModule' }
+	  { path: 'indicators', loadChildren: '../indicators/indicators.module#IndicatorsModule' }
   ]}
 ];
 

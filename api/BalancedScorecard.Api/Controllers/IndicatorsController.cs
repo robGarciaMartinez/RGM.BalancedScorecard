@@ -1,7 +1,8 @@
 ﻿using BalancedScorecard.Domain.Commands.Indicators;
 using BalancedScorecard.Kernel.Commands;
-using BalancedScorecard.Query.Model;
-using BalancedScorecard.Query.Readers.Indicators;
+using BalancedScorecard.Kernel.Queries;
+using BalancedScorecard.Query.Filter.Indicators;
+using BalancedScorecard.Query.Model.Indicators;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,26 +14,23 @@ namespace BalancedScorecard.Api.Controllers
     [EnableCors("Local")]
     public class IndicatorsController : Controller
     {
-        private readonly ICommandDispatcher _commandBus;
-        private readonly IIndicatorCollectionReader _indicatorsReader;
+        private readonly ICommandDispatcher _commandDispatcher;
+        private readonly IQueryDispatcher _queryDispatcher;
 
         public IndicatorsController(
-            ICommandDispatcher commandBus,
-            IIndicatorCollectionReader indicatorsReaders)
+            ICommandDispatcher commandDispatcher,
+            IQueryDispatcher queryDispatcher)
         {
-            _commandBus = commandBus;
-            _indicatorsReader = indicatorsReaders;
+            _commandDispatcher = commandDispatcher;
+            _queryDispatcher = queryDispatcher;
         }
 
-        [HttpGet("{indicatorId}", Name = "GetIndicator")]
-        public Task<IndicatorViewModel> GetIndicator(Guid? indicatorId)
+        [HttpGet("{code}", Name = "GetIndicator")]
+        public Task<IndicatorViewModel> GetIndicator(string code)
         {
-            if (indicatorId.HasValue)
-            {
-                return _indicatorsReader.GetIndicatorViewModel(indicatorId.Value);
-            }
-
-            return Task.FromResult(new IndicatorViewModel());
+            return 
+                _queryDispatcher.Get<IndicatorViewModel, GetIndicatorViewModelFilter>(
+                    new GetIndicatorViewModelFilter(code));
         }
 
         [HttpPost]
@@ -42,7 +40,7 @@ namespace BalancedScorecard.Api.Controllers
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
             command.IndicatorId = Guid.NewGuid();
-            await _commandBus.Send(command);
+            await _commandDispatcher.Send(command);
             return new CreatedAtRouteResult("GetIndicator", new { indicatorId = command.IndicatorId }, null);
         }
 
@@ -54,7 +52,7 @@ namespace BalancedScorecard.Api.Controllers
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
             command.IndicatorId = indicatorId;
-            await _commandBus.Send(command);
+            await _commandDispatcher.Send(command);
             return new OkResult();
         }
 
@@ -67,7 +65,7 @@ namespace BalancedScorecard.Api.Controllers
 
             command.IndicatorId = indicatorId;
             command.IndicatorMeasureId = Guid.NewGuid();
-            await _commandBus.Send(command);
+            await _commandDispatcher.Send(command);
             return new OkResult();
         }
 
@@ -81,7 +79,7 @@ namespace BalancedScorecard.Api.Controllers
 
             command.IndicatorId = indicatorId;
             command.IndicatorMeasureId = indicatorMeasureId;
-            await _commandBus.Send(command);
+            await _commandDispatcher.Send(command);
             return new OkResult();
         }
     }

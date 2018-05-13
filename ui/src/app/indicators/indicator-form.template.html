@@ -45,7 +45,7 @@
             <div class="col-md-4"> 
                     <select class="formControl" id="PeriodicityTypeId" formControlName="periodicityTypeId">
                         <option value="">Select a periodicity</option>
-                        <option *ngFor="let pType of indicatorReferenceData.periodicityTypes" value="{{pType.id}}" [selected]="pType.id == indicator.periodicityTypeId">{{pType.name}}</option>
+                        <option *ngFor="let pType of indicatorReferenceData.periodicityTypes" value="{{pType.id}}">{{pType.name}}</option>
                     </select>
                     <div *ngIf="hasErrors(indicatorForm.controls.periodicityTypeId)">
                         <span class="error" *ngIf="isTouched(indicatorForm.controls.periodicityTypeId)">Periodicity is required</span>
@@ -56,7 +56,7 @@
             <div class="col-md-4"> 
                 <select class="formControl" id="ComparisonTypeId" formControlName="comparisonTypeId">
                     <option value="">Select a comparison type</option>
-                    <option *ngFor="let cType of indicatorReferenceData.comparisonTypes" value="{{cType.id}}" [selected]="cType.id == indicator.comparisonTypeId">{{cType.name}}</option>
+                    <option *ngFor="let cType of indicatorReferenceData.comparisonTypes" value="{{cType.id}}">{{cType.name}}</option>
                 </select>
                 <div *ngIf="hasErrors(indicatorForm.controls.comparisonTypeId)">
                     <span class="error" *ngIf="isTouched(indicatorForm.controls.comparisonTypeId)">Comparison Type is required</span>
@@ -69,7 +69,7 @@
             <div class="col-md-4"> 
                 <select class="formControl" id="IndicatorValueTypeId" formControlName="indicatorValueTypeId">
                     <option value="">Select a comparison type</option>
-                    <option *ngFor="let iType of indicatorReferenceData.indicatorValueTypes" value="{{iType.id}}" [selected]="iType.id == indicator.indicatorValueTypeId">{{iType.name}}</option>
+                    <option *ngFor="let iType of indicatorReferenceData.indicatorValueTypes" value="{{iType.id}}">{{iType.name}}</option>
                 </select>
                 <div *ngIf="hasErrors(indicatorForm.controls.indicatorValueTypeId)">
                 <span class="error" *ngIf="isTouched(indicatorForm.controls.indicatorValueTypeId)">Value Type is required</span>
@@ -81,8 +81,8 @@
 
     <div class="row form-actions">
         <div class="text-right col-md-12">
-            <button type="submit" class="btn btn-info btn-rounded" [disabled]="">Save</button>
-            <button type="button" class="btn btn-default btn-rounded">Cancel</button>
+            <button type="submit" class="btn btn-info btn-rounded">Save</button>
+            <button type="button" class="btn btn-default btn-rounded" (click)="cancel()">Cancel</button>
         </div> 
     </div>
 </form>

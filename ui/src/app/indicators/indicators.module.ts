@@ -7,25 +7,24 @@ import { RouterModule } from '@angular/router';
 import { IndicatorComponent } from './indicator.component';
 import { IndicatorFormComponent } from './indicator-form.component';
 import { IndicatorsService } from './indicators.service';
+import { ROUTES } from './indicator.routes';
+import { IndicatorListComponent } from './indicator-list.component';
 
-export const routes = [
-  { path: '', component: IndicatorComponent, pathMatch: 'full' }
-];
 
 @NgModule({
   declarations: [
     IndicatorComponent,
-    IndicatorFormComponent
+    IndicatorFormComponent,
+    IndicatorListComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forChild(routes),
+    ROUTES,
   ],
   providers: [IndicatorsService, HttpClientModule]
 })
 export class IndicatorsModule {
-  static routes = routes;
 }

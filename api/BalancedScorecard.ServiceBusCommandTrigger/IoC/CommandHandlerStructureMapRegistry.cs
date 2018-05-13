@@ -36,8 +36,8 @@ namespace BalancedScorecard.ServiceBusQueueTrigger.IoC
 
             For<IConfiguration>().Use(configuration);
             For<IValidationDependencyContainer>().Use<StructureMapMediator>();
-            For<IDomainEventDispatcher>().Use<AzureEventDispatcher>();          
             For<IOptions<AzureServiceBusSettings>>().Use(Options.Create(settings));
+            For<IDomainEventDispatcher>().Use<AzureEventDispatcher>();
         }
     }
 }
