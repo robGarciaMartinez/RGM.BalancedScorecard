@@ -10,5 +10,7 @@ namespace BalancedScorecard.Kernel.Queries
         Task<TViewModel> Get<TViewModel, TFilter>(TFilter filter) where TViewModel : IViewModel where TFilter : IFilter;
 
         Task<List<TViewModel>> GetList<TViewModel>() where TViewModel : IViewModel;
+
+        Task<List<TViewModel>> GetList<TViewModel, TFilter>(TFilter filter) where TViewModel : IViewModel where TFilter : IFilter;
     }
 }

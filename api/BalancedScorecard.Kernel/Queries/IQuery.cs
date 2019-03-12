@@ -19,4 +19,11 @@ namespace BalancedScorecard.Kernel.Queries
     {
         Task<TViewModel> Execute(TFilter filter);
     }
+
+    public interface ICollectionQuery<TViewModel, TFilter>
+        where TViewModel : IViewModel
+        where TFilter : IFilter
+    {
+        Task<List<TViewModel>> Execute(TFilter filter);
+    }
 }

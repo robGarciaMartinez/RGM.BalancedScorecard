@@ -69,7 +69,8 @@ namespace BalancedScorecard.Api
                     documentDbSettings.PrimaryKey,
                     new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() }));
 
-            registry.For<IQuery<IndicatorViewModel, GetIndicatorViewModelFilter>>().Use<GetIndicatorViewModelQuery>();
+            registry.For<IQuery<IndicatorViewModel, GetIndicatorFilter>>().Use<GetIndicatorQuery>();
+            registry.For<ICollectionQuery<IndicatorViewModel, GetIndicatorsFilter>>().Use<GetIndicatorsQuery>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

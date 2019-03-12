@@ -17,9 +17,7 @@ namespace BalancedScorecard.Api.IoC
             throw new System.NotImplementedException();
         }
 
-        public IQuery<TViewModel, TFilter> GetFilteredQuery<TViewModel, TFilter>()
-            where TViewModel : IViewModel
-            where TFilter : IFilter
+        public IQuery<TViewModel, TFilter> GetFilteredQuery<TViewModel, TFilter>() where TViewModel : IViewModel where TFilter : IFilter
         {
             return _container.GetInstance<IQuery<TViewModel, TFilter>>();
         }
@@ -27,6 +25,11 @@ namespace BalancedScorecard.Api.IoC
         public IQuery<TViewModel> GetQuery<TViewModel>() where TViewModel : IViewModel
         {
             throw new System.NotImplementedException();
+        }
+
+        public ICollectionQuery<TViewModel, TFilter> GetCollectionFilteredQuery<TViewModel, TFilter>() where TViewModel : IViewModel where TFilter : IFilter
+        {
+            return _container.GetInstance<ICollectionQuery<TViewModel, TFilter>>();
         }
     }
 }

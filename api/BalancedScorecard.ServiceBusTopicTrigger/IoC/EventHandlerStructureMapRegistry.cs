@@ -2,7 +2,6 @@
 using BalancedScorecard.Infrastructure.DocumentDb;
 using BalancedScorecard.Kernel.Azure;
 using BalancedScorecard.Kernel.Events;
-using BalancedScorecard.Query.Model;
 using BalancedScorecard.Query.Model.Indicators;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
@@ -13,7 +12,7 @@ using Newtonsoft.Json.Serialization;
 using StructureMap;
 using System;
 
-namespace BalancedScorecard.ServiceBusQueueTrigger.IoC
+namespace BalancedScorecard.ServiceBusTopicTrigger.IoC
 {
     public class EventHandlerStructureMapRegistry : Registry
     {

@@ -2,9 +2,9 @@
 
 namespace BalancedScorecard.Query.Filter.Indicators
 {
-    public class GetIndicatorViewModelFilter : IFilter
+    public class GetIndicatorFilter : IFilter
     {
-        public GetIndicatorViewModelFilter(string code)
+        public GetIndicatorFilter(string code)
         {
             Code = code;
         }

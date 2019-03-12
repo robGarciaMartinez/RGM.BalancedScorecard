@@ -20,10 +20,10 @@
                                     AzureActiveDirectory="true"
                                     ServerCertThumbprint="0123456789012345678901234567890123456789" />
   -->
-  <ClusterConnectionParameters />
+  <ClusterConnectionParameters ConnectionEndpoint="balancedscorecard-dev.westeurope.cloudapp.azure.com:19000" X509Credential="true" ServerCertThumbprint="EDA66BFB164C273C7EAB7F76ED1EA3025F87B36F" FindType="FindByThumbprint" FindValue="EDA66BFB164C273C7EAB7F76ED1EA3025F87B36F" StoreLocation="" StoreName="" />
   <ApplicationParameterFile Path="..\ApplicationParameters\Cloud.xml" />
   <CopyPackageParameters CompressPackage="true" />
-  <UpgradeDeployment Mode="UnmonitoredAuto" Enabled="false">
+  <UpgradeDeployment Mode="UnmonitoredAuto" Enabled="true">
     <Parameters UpgradeReplicaSetCheckTimeoutSec="1" Force="True" />
   </UpgradeDeployment>
 </PublishProfile>

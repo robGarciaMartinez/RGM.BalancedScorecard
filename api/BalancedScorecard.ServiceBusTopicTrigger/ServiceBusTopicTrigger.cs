@@ -1,8 +1,7 @@
 ﻿using BalancedScorecard.Infrastructure.SqlServerDb.JsonConverters;
 using BalancedScorecard.Kernel.Azure;
-using BalancedScorecard.Kernel.Commands;
 using BalancedScorecard.Kernel.Events;
-using BalancedScorecard.ServiceBusQueueTrigger.IoC;
+using BalancedScorecard.ServiceBusTopicTrigger.IoC;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;

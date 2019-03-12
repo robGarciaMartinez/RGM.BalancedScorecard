@@ -18,9 +18,7 @@ namespace BalancedScorecard.Kernel.Queries
             return query.Execute();
         }
 
-        public Task<TViewModel> Get<TViewModel, TFilter>(TFilter filter)
-            where TViewModel : IViewModel
-            where TFilter : IFilter
+        public Task<TViewModel> Get<TViewModel, TFilter>(TFilter filter) where TViewModel : IViewModel where TFilter : IFilter
         {
             var query = _dependencyContainer.GetFilteredQuery<TViewModel, TFilter>();
             return query.Execute(filter);
@@ -30,6 +28,12 @@ namespace BalancedScorecard.Kernel.Queries
         {
             var query = _dependencyContainer.GetCollectionQuery<TViewModel>();
             return query.Execute();
+        }
+
+        public Task<List<TViewModel>> GetList<TViewModel, TFilter>(TFilter filter) where TViewModel : IViewModel where TFilter : IFilter
+        {
+            var query = _dependencyContainer.GetCollectionFilteredQuery<TViewModel, TFilter>();
+            return query.Execute(filter);
         }
     }
 }

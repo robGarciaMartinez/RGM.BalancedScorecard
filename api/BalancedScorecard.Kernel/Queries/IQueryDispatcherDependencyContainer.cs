@@ -7,5 +7,7 @@
         ICollectionQuery<TViewModel> GetCollectionQuery<TViewModel>() where TViewModel : IViewModel;
 
         IQuery<TViewModel, TFilter> GetFilteredQuery<TViewModel, TFilter>() where TViewModel : IViewModel where TFilter : IFilter;
+
+        ICollectionQuery<TViewModel, TFilter> GetCollectionFilteredQuery<TViewModel, TFilter>() where TViewModel : IViewModel where TFilter : IFilter;
     }
 }

@@ -160,15 +160,15 @@ namespace BalancedScorecard.Domain.Model.Indicators
                 Measures = new List<IndicatorMeasure>();
             }
 
-            var indicatorMeasureId = Guid.NewGuid();
-            Measures.Add(new IndicatorMeasure(indicatorMeasureId, date, realValue, objectiveValue, notes));
+            var indicatorMeasure = new IndicatorMeasure(Guid.NewGuid(), date, realValue, objectiveValue, notes);
+            Measures.Add(indicatorMeasure);
             Status = CalculateStatus();
 
             AddEvent(
                 new IndicatorMeasureCreatedEvent
                 {
                     IndicatorId = Id,
-                    IndicatorMeasureId = indicatorMeasureId,
+                    IndicatorMeasureId = indicatorMeasure.Id,
                     Date = date,
                     RealValue = realValue,
                     ObjectiveValue = objectiveValue,
